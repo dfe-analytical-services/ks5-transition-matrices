@@ -17,12 +17,10 @@ install:
   - Rscript -e "renv::restore()"
 
 deploy:
-  provider: releases
-  api_key: "$GITHUB_AUTH"
-  file_glob: true
-  file: outputs/*
+  provider: script
+  script: 
+  - R -f deploy.R
   skip_cleanup: true
   on: 
     branch: master
     repo: dfe-analytical-services/ks5-transition-matrices
-    

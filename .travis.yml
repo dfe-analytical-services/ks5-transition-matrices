@@ -1,0 +1,28 @@
+language: r
+r: 
+  - 4.0.2
+  
+sudo: required
+
+branches:
+  only:
+  - master
+
+cache:
+  directories:
+  - $HOME/.local/share/renv
+  - $TRAVIS_BUILD_DIR/renv/library
+
+install:
+  - Rscript -e "renv::restore()"
+
+deploy:
+  provider: releases
+  api_key: "$GITHUB_AUTH"
+  file_glob: true
+  file: outputs/*
+  skip_cleanup: true
+  on: 
+    branch: master
+    repo: dfe-analytical-services/ks5-transition-matrices
+    

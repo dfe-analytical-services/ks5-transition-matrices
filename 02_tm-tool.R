@@ -10,6 +10,7 @@ library(purrr)
 library(DT)
 library(tidyr)
 library(stringr)
+library(rsconnect)
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Read in the Data from 01_data-processing ---- 
@@ -248,7 +249,7 @@ raw_stud_numbers <- stud_numbers %>%
 
 raw_stud_percentages <- stud_percentages %>%
   pivot_longer(-c(QUAL_ID, PRIOR_BAND, ROW_ID, SUBLEVNO, SUBJ, ASIZE), names_to = "GRADE", values_to = "COUNT") %>%
-  mutate(COUNT = as.numeric(gsub("%", "", COUNT))) %>%
+  mutate(COUNT = gsub("%", "", COUNT)) %>%  
   drop_na("COUNT") %>%
   select(SUBLEVNO, SUBJ, ASIZE, PRIOR_BAND, GRADE, COUNT)
 

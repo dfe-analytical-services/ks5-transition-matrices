@@ -9,6 +9,13 @@
     ]
   },
   "Packages": {
+    "BH": {
+      "Package": "BH",
+      "Version": "1.72.0-3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8f9ce74c6417d61f0782cbae5fd2b7b0"
+    },
     "DT": {
       "Package": "DT",
       "Version": "0.16",
@@ -50,6 +57,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "125dc7a0ed375eb68c0ce533b48d291f"
+    },
+    "askpass": {
+      "Package": "askpass",
+      "Version": "1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e8a22846fff485f0be3770c2da758713"
     },
     "assertthat": {
       "Package": "assertthat",
@@ -120,6 +134,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ae55f5d7c02f0ab43c58dd050694f2b4"
+    },
+    "curl": {
+      "Package": "curl",
+      "Version": "4.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2b7d10581cc730804e9ed178c8374bd6"
     },
     "desc": {
       "Package": "desc",
@@ -310,6 +331,20 @@
       "Repository": "CRAN",
       "Hash": "662f52871983ff3e3ef042c62de126df"
     },
+    "openssl": {
+      "Package": "openssl",
+      "Version": "1.4.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a399e4773075fc2375b71f45fca186c4"
+    },
+    "packrat": {
+      "Package": "packrat",
+      "Version": "0.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2ebd34a38f4248281096cc723535b66d"
+    },
     "pillar": {
       "Package": "pillar",
       "Version": "1.4.6",
@@ -401,6 +436,13 @@
       "Repository": "CRAN",
       "Hash": "f6a407ae5dd21f6f80a6708bbb6eb3ae"
     },
+    "rsconnect": {
+      "Package": "rsconnect",
+      "Version": "0.8.16",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3924a1c20ce2479e89a08b0ca4c936c6"
+    },
     "rstudioapi": {
       "Package": "rstudioapi",
       "Version": "0.11",
@@ -422,6 +464,13 @@
       "Repository": "CRAN",
       "Hash": "ee4ed72d7a5047d9e73cf922ad66e9c9"
     },
+    "shinydashboard": {
+      "Package": "shinydashboard",
+      "Version": "0.7.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "133639dc106955eee4ffb8ec73edac37"
+    },
     "sourcetools": {
       "Package": "sourcetools",
       "Version": "0.1.7",
@@ -442,6 +491,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "0759e6b6c0957edb1311028a49a35e76"
+    },
+    "sys": {
+      "Package": "sys",
+      "Version": "3.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b227d13e29222b4574486cfcbde077fa"
     },
     "testthat": {
       "Package": "testthat",

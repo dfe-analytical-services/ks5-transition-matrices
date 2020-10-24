@@ -18,6 +18,7 @@ jobs:
           if (!require('renv')) install.packages('renv')
           renv::restore()
       - name: Push to shiny.io
+        shell: Rscript {0}
         run: |
           Rscript -e "rsconnect::setAccountInfo(name='department-for-education, token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
           Rscript -e "rsconnect::deployApp(appName = 'appname')"

@@ -4,10 +4,6 @@ on:
 
 name: deploy-shiny
 
-run: |
-          Rscript -e "rsconnect::setAccountInfo(name='username', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
-          Rscript -e "rsconnect::deployApp(appName = 'appname')" 
-          
 jobs:
   deploy-shiny:
     runs-on: macOS-latest
@@ -21,5 +17,7 @@ jobs:
       - name: shinyapps credentials
         with:
           rsconnect_secret: ${{ secrets.RSCONNECT }}
-        run: Rscript -e 'rsconnect::setAccountInfo(name="myusername", token="tokengoeshere", secret="$rsconnect_secret")'
+        run: |
+          Rscript -e "rsconnect::setAccountInfo(name='username', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
+          Rscript -e "rsconnect::deployApp(appName = 'appname')" 
         shell: Rscript {0}

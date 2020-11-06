@@ -17,13 +17,13 @@ library(rsconnect)
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-stud_numbers <- readRDS('all_student_numbers.rds')
-stud_percentages <- readRDS('all_student_percentages.rds')
-lookup <- readRDS('lookup.rds')
-grades <- readRDS('grades.rds')
-grades_qrd <- readRDS('grades_qrd.rds') 
+stud_numbers <- readRDS('data/all_student_numbers.rds')
+stud_percentages <- readRDS('data/all_student_percentages.rds')
+lookup <- readRDS('data/lookup.rds')
+grades <- readRDS('data/grades.rds')
+grades_qrd <- readRDS('data/grades_qrd.rds') 
 
-quals_with_multi_grades <- readRDS('mult_grade_structure.rds')
+quals_with_multi_grades <- readRDS('data/mult_grade_structure.rds')
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

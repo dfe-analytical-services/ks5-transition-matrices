@@ -17,13 +17,13 @@ library(rsconnect)
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-stud_numbers <- readRDS('data/all_student_numbers.rds')
-stud_percentages <- readRDS('data/all_student_percentages.rds')
-lookup <- readRDS('data/lookup.rds')
-grades <- readRDS('data/grades.rds')
-grades_qrd <- readRDS('data/grades_qrd.rds') 
+stud_numbers <- readRDS('all_student_numbers.rds')
+stud_percentages <- readRDS('all_student_percentages.rds')
+lookup <- readRDS('lookup.rds')
+grades <- readRDS('grades.rds')
+grades_qrd <- readRDS('grades_qrd.rds') 
 
-quals_with_multi_grades <- readRDS('data/mult_grade_structure.rds')
+quals_with_multi_grades <- readRDS('mult_grade_structure.rds')
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -222,8 +222,8 @@ lookup_selection_example <- lookup %>%
 
 
 example_data <- number_select_qrd_1(lookup_selection_example$SUBLEVNO, lookup_selection_example$SUBJ, lookup_selection_example$size_lookup) %>%
-    rename('Prior Band' = PRIOR_BAND) %>%
-    .[!sapply(., function (x) all(is.na(x) | x == ""))]
+  rename('Prior Band' = PRIOR_BAND) %>%
+  .[!sapply(., function (x) all(is.na(x) | x == ""))]
 
 
 # extract the value for example
@@ -249,7 +249,7 @@ raw_stud_numbers <- stud_numbers %>%
 
 raw_stud_percentages <- stud_percentages %>%
   pivot_longer(-c(QUAL_ID, PRIOR_BAND, ROW_ID, SUBLEVNO, SUBJ, ASIZE), names_to = "GRADE", values_to = "COUNT") %>%
-  mutate(COUNT = gsub("%", "", COUNT)) %>%  
+  mutate(COUNT = as.numeric(gsub("%", "", COUNT))) %>%
   drop_na("COUNT") %>%
   select(SUBLEVNO, SUBJ, ASIZE, PRIOR_BAND, GRADE, COUNT)
 

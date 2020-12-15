@@ -137,7 +137,7 @@ server = shinyServer(function(input, output, session) {
   
   
   # -----------------------------------------------------------------------------------------------------------------------------
-  # ---- Creating the percentage plots... doesn't depend on grading structure so just use percentage_select_qrd_1 ----
+  # ---- Creating the percentage plots -- doesn't depend on grading structure so just use percentage_select_qrd_1 ----
   # -----------------------------------------------------------------------------------------------------------------------------
   
   # The below code removes columns that have an NA value. The purrr functions were taken from this website:

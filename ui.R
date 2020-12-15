@@ -4,7 +4,12 @@
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-#source('02_tm-tool.R')
+library(shiny)
+library(shinydashboard)
+library(stringr)
+#library(formattable)
+
+source('02_tm-tool.R')
 
 ui = shinyUI(
   dashboardPage(
@@ -151,3 +156,5 @@ ui = shinyUI(
     )
   )
 )
+
+

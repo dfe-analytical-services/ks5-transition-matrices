@@ -4,10 +4,3 @@
 .Ruserdata
 01_data-processing.R
 qrd_grades.R
-EES_TM_ancillary_file.R
-EES_TM_tidy_data.R
-tm_numbers_tidy.csv
-tm_numbers_tidy.meta.csv
-tm_percentages_tidy.csv
-tm_percentages_tidy.meta.csv
-tm_numbers_percentages_2020U.csv

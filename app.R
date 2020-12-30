@@ -1,4 +1,4 @@
-#source("./global.R")
+source("global.R")
 source("server.R")
 source("ui.R")
 

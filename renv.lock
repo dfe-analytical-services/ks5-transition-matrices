@@ -107,13 +107,6 @@
       "Repository": "CRAN",
       "Hash": "0b316487b21d21f99ebf98abe179b1ea"
     },
-    "clipr": {
-      "Package": "clipr",
-      "Version": "0.7.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "ebaa97ac99cc2daf04e77eecc7b781d7"
-    },
     "colorspace": {
       "Package": "colorspace",
       "Version": "1.4-1",
@@ -254,13 +247,6 @@
       "Repository": "CRAN",
       "Hash": "ac5c6baf7822ce8732b343f14c072c4d"
     },
-    "hms": {
-      "Package": "hms",
-      "Version": "0.5.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "726671f634529d470545f9fd1a9d1869"
-    },
     "htmltools": {
       "Package": "htmltools",
       "Version": "0.5.0",
@@ -298,10 +284,10 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.7.1",
+      "Version": "1.7.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "1ec84e070b88b37ed169f19def40d47c"
+      "Hash": "98138e0994d41508c7a6b84a0600cfcb"
     },
     "labeling": {
       "Package": "labeling",
@@ -340,10 +326,10 @@
     },
     "magrittr": {
       "Package": "magrittr",
-      "Version": "1.5",
+      "Version": "2.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "1bb58822a20301cee84a41678e25d9b7"
+      "Hash": "41287f1ac7d28a92f0a286ed507928d3"
     },
     "mgcv": {
       "Package": "mgcv",
@@ -485,13 +471,6 @@
       "Repository": "CRAN",
       "Hash": "97def703420c8ab10d8f0e6c72101e02"
     },
-    "readr": {
-      "Package": "readr",
-      "Version": "1.4.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "2639976851f71f330264a9c9c3d43a61"
-    },
     "rematch": {
       "Package": "rematch",
       "Version": "1.0.1",
@@ -522,10 +501,10 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "0.4.8",
+      "Version": "0.4.10",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "843a6af51414bce7f8a8e372f11d6cd0"
+      "Hash": "599df23c40a4fce9c7b4764f28c37857"
     },
     "rprojroot": {
       "Package": "rprojroot",
@@ -561,6 +540,12 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ee4ed72d7a5047d9e73cf922ad66e9c9"
+    },
+    "shinya11y": {
+      "Package": "shinya11y",
+      "Version": "0.0.0.9000",
+      "Source": "unknown",
+      "Hash": "58f5c7f71862bd08e28382e300f5971b"
     },
     "shinydashboard": {
       "Package": "shinydashboard",

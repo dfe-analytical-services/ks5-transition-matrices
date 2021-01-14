@@ -4,42 +4,89 @@
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
+
 library(shiny)
 library(shinydashboard)
 library(stringr)
+library(shinya11y)
+library(shinyGovstyle)
 #library(formattable)
 
 source('02_tm-tool.R')
 
-ui = shinyUI(
+ui <- fluidPage(
+  
+  ## comment this out to remove the accessibility testing 
+  # use_tota11y(),
+  
+  
+  
   dashboardPage(
+    
+    # shinyGovstyle::header("Justice", "Prototype"),
+    # gov_layout(size = "full",
+    #            tags$br(),
+    #            tags$br(),
+    #            tags$br(),
+    #            tags$br(),
+    #            tags$br()
+    # ),
+    # footer(TRUE),
+    
     dashboardHeader(title = '16-18 Transition Matrices',
-                    titleWidth = 350
-    ),
+                    titleWidth = 350),
     
     dashboardSidebar(
-      width =350,
+      width = 350,
       
       sidebarMenu(
         menuItem('Information', icon = icon('info'), tabName = 'info'),
-        menuItem('Number of Pupils', icon = icon('hashtag'), tabName = 'number'),
-        menuItem('Percentage of Pupils', icon = icon('percent'), tabName = 'percent')
+        menuItem(
+          'Number of Pupils',
+          icon = icon('hashtag'),
+          tabName = 'number'
+        ),
+        menuItem(
+          'Percentage of Pupils',
+          icon = icon('percent'),
+          tabName = 'percent'
+        )
       ),
       br(),
       br(),
-      (h4(HTML('&nbsp;'),('Transition matrices options:'))),
-      (h5(HTML('&nbsp;'),('1. Select a Qualification'))),
-      selectInput('qual_select',
-                  label = NULL,
-                  list(Qualifications = sort(unique(lookup$`Qualification name`))),
-                  selected = 'Applied GCE AS level'),
-      (h5(HTML('&nbsp;'),('2. Select a Subject'))),
+      (h4(
+        HTML('&nbsp;'), ('Transition matrices options:')
+      )),
+      (h5(HTML('&nbsp;'), ('1. Select a Qualification')
+      )),
+      selectInput(
+        'qual_select',
+        label = NULL,
+        list(Qualifications = sort(unique(
+          lookup$`Qualification name`
+        ))),
+        selected = 'Applied GCE AS level'
+      ),
+      
+      
+      # (h5(HTML('&nbsp;'), ('1. Select a Qualification')
+      # )),
+      # shinyGovstyle::select_Input(
+      #   inputId = "qual_select",
+      #   label = NULL,
+      #   select_text = sort(unique(lookup$`Qualification name`)),
+      #   select_value = sort(unique(lookup$`Qualification name`))),
+      
+      
+      (h5(HTML('&nbsp;'), ('2. Select a Subject'))),
       selectInput('subj_select',
                   label = NULL,
-                  list(Subjects = sort(unique(lookup$`Subject name`)))),
-      (h5(HTML('&nbsp;'),('3. Select a Size'))),
-      selectInput('size_select', 
-                  label = NULL, 
+                  list(Subjects = sort(
+                    unique(lookup$`Subject name`)
+                  ))),
+      (h5(HTML('&nbsp;'), ('3. Select a Size'))),
+      selectInput('size_select',
+                  label = NULL,
                   list(Sizes = sort(lookup$ASIZE))),
       
       br(),
@@ -59,22 +106,25 @@ ui = shinyUI(
     ),
     
     dashboardBody(
-      ##    tags$head( 
+      ##    tags$head(
       ##      tags$style(HTML(".main-sidebar { font-size: 20px; }")) #change the font size to 20
       ##    ),
       
-      tags$style(type="text/css",
-                 ".shiny-output-error { visibility: hidden; }",
-                 ".shiny-output-error:before { visibility: hidden; }"
+      tags$style(
+        type = "text/css",
+        ".shiny-output-error { visibility: hidden; }",
+        ".shiny-output-error:before { visibility: hidden; }"
       ),
       tabItems(
-        
         # Info tab
-        tabItem('info',
-                br(),
-                h2('Information'),
-                br(),
-                tags$style(HTML("
+        tabItem(
+          'info',
+          br(),
+          h2('Information'),
+          br(),
+          tags$style(
+            HTML(
+              "
 
                     .box.box-solid.box-primary>.box-header {
                     color:#fff;
@@ -89,72 +139,90 @@ ui = shinyUI(
                     background:#ffffff
                     }
 
-                    ")),
-                
-                fluidRow(
-                  box(width = 12, status = "primary", solidHeader = TRUE, 
-                      'Transition matrices are a useful tool to help visualise the 
-                      progression of pupils aged 16-18 from key stage 4 (KS4) to key 
+                    "
+            )
+          ),
+          
+          fluidRow(
+            box(
+              width = 12,
+              status = "primary",
+              solidHeader = TRUE,
+              'Transition matrices are a useful tool to help visualise the
+                      progression of pupils aged 16-18 from key stage 4 (KS4) to key
                       stage 5 (KS5).',
-                      br(),
-                      br(),
-                      'To use the transition matrices please select a qualification, subject and subject size from the dropdown boxes
+              br(),
+              br(),
+              'To use the transition matrices please select a qualification, subject and subject size from the dropdown boxes
                       found in the left panel. Use the Number of Pupils, and Percentage of Pupils tabs on the left to view
-                      the respective tables. A graphical representaion of the percentage data can also be viewed within the 
+                      the respective tables. A graphical representaion of the percentage data can also be viewed within the
                       Percentage of Pupils tab, and an additional dropdown box is available to select the required prior
-                      attainment band. The tabular data from each table can be downloaded in csv format using the download 
+                      attainment band. The tabular data from each table can be downloaded in csv format using the download
                       button on each page.'
-                  )
-                ),
-                br(),
-                fluidRow(
-                  box(width = 12, title = 'Example', status = "primary", solidHeader = TRUE,
-                      'Below is an example transition matrix. It shows the 
-                      national attainment of GCE A level mathematics students at 
+            )
+          ),
+          br(),
+          fluidRow(
+            box(
+              width = 12,
+              title = 'Example',
+              status = "primary",
+              solidHeader = TRUE,
+              'Below is an example transition matrix. It shows the
+                      national attainment of GCE A level mathematics students at
                       KS5 based on their average KS4 attainment.',
-                      br(),
-                      
-                      paste0('The highlighted cell shows the number of students with an average prior
-                      attainment between 5 and 6 at KS4 who achieved a C in GCE A level 
-                      mathematics was ', example_value, '.'),
-                      br(),
-                      br(),
-                      DT::dataTableOutput('example_table'),
-                      br()
-                  )
-                ),
-                br()
+              br(),
+              
+              paste0(
+                'The highlighted cell shows the number of students with an average prior
+                      attainment between 5 and 6 at KS4 who achieved a C in GCE A level
+                      mathematics was ',
+                example_value,
+                '.'
+              ),
+              br(),
+              br(),
+              DT::dataTableOutput('example_table'),
+              br()
+            )
+          ),
+          br()
         ),
         
         # Number tab
-        tabItem('number',
-                br(),
-                h2('Number of students per KS4 attainment band for selected KS5 options'),
-                DT::dataTableOutput('number_table'),
-                br(),
-                downloadButton('tm_data_download_tab_1', 'Download'),
-                br()
+        tabItem(
+          'number',
+          br(),
+          h2(
+            'Number of students per KS4 attainment band for selected KS5 options'
+          ),
+          DT::dataTableOutput('number_table'),
+          br(),
+          downloadButton('tm_data_download_tab_1', 'Download'),
+          br()
         ),
         
         # Percentage tab
-        tabItem('percent',
-                br(),
-                h2('Percentage of students per KS4 attainment band for selected KS5 options'),
-                br(),
-                dataTableOutput('percentage_table'),
-                ##    formattableOutput('percentage_table'),
-                br(),
-                plotOutput('percentage_chart', height = '15cm'),
-                selectInput('chart_band', 
-                            label = 'Select a KS4 prior attainment band to display in the plot', 
-                            list(bands = sort(grade_boundaries))),
-                br(),
-                downloadButton('tm_data_download_tab_2', 'Download'),
-                br()
+        tabItem(
+          'percent',
+          br(),
+          h2(
+            'Percentage of students per KS4 attainment band for selected KS5 options'
+          ),
+          br(),
+          dataTableOutput('percentage_table'),
+          ##    formattableOutput('percentage_table'),
+          br(),
+          plotOutput('percentage_chart', height = '15cm'),
+          selectInput('chart_band',
+                      label = 'Select a KS4 prior attainment band to display in the plot',
+                      list(bands = sort(grade_boundaries))),
+          br(),
+          downloadButton('tm_data_download_tab_2', 'Download'),
+          br()
         )
       )
     )
   )
 )
-
 

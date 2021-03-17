@@ -1,10 +1,104 @@
 {
   "input": {
+    "chart_band": "<1",
+    "qual_select": "Applied GCE AS level",
     "sidebarCollapsed": false,
-    "sidebarItemExpanded": null
+    "sidebarItemExpanded": null,
+    "size_select": "",
+    "subj_select": "Accounting/Finance"
   },
   "output": {
+    "example_table": {
+      "x": {
+        "filter": "none",
+        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>E<\/th>\n      <th>D<\/th>\n      <th>C<\/th>\n      <th>B<\/th>\n      <th>A<\/th>\n      <th>*<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "options": {
+          "columnDefs": [
+            {
+              "className": "dt-center",
+              "targets": "_all"
+            },
+            {
+              "orderable": false,
+              "targets": 0
+            }
+          ],
+          "bFilter": false,
+          "bPaginate": false,
+          "scrollX": true,
+          "order": [
 
+          ],
+          "autoWidth": false,
+          "orderClasses": false,
+          "rowCallback": "function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 5).node()).css({'background-color':value == \"5-&lt;6\" ? \"#D4CEDE\" : null});\n}",
+          "ajax": {
+            "type": "POST",
+            "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = true;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
+          },
+          "serverSide": true,
+          "processing": true
+        },
+        "selection": {
+          "mode": "multiple",
+          "selected": null,
+          "target": "row",
+          "selectable": null
+        }
+      },
+      "evals": [
+        "options.rowCallback",
+        "options.ajax.data"
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "dt-core",
+          "version": "1.10.20",
+          "src": {
+            "href": "dt-core-1.10.20"
+          },
+          "meta": null,
+          "script": "js/jquery.dataTables.min.js",
+          "stylesheet": [
+            "css/jquery.dataTables.min.css",
+            "css/jquery.dataTables.extra.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "3.5.1",
+          "src": {
+            "href": "jquery-3.5.1"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.1.1",
+          "src": {
+            "href": "crosstalk-1.1.1"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    }
   },
   "export": {
 

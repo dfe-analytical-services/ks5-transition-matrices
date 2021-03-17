@@ -16,13 +16,13 @@ library(stringr)
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-stud_numbers <- readRDS('all_student_numbers.rds')
-stud_percentages <- readRDS('all_student_percentages.rds')
-lookup <- readRDS('lookup.rds')
-# grades <- readRDS('grades.rds')
-grades_qrd <- readRDS('grades_qrd.rds') 
+stud_numbers <- readRDS('./outputs/all_student_numbers.rds')
+stud_percentages <- readRDS('./outputs/all_student_percentages.rds')
+lookup <- readRDS('./outputs/lookup.rds')
+# grades <- readRDS('./outputs/grades.rds')
+grades_qrd <- readRDS('./outputs/grades_qrd.rds') 
 
-quals_with_multi_grades <- readRDS('mult_grade_structure.rds')
+quals_with_multi_grades <- readRDS('./outputs/mult_grade_structure.rds')
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

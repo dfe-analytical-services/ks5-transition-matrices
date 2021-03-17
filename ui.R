@@ -12,7 +12,7 @@ library(shinya11y)
 library(shinyGovstyle)
 #library(formattable)
 
-source('02_tm-tool.R')
+source('.R/02_tm-tool.R')
 
 ui <- fluidPage(
   

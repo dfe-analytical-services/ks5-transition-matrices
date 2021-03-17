@@ -19,7 +19,7 @@ library(stringr)
 stud_numbers <- readRDS('all_student_numbers.rds')
 stud_percentages <- readRDS('all_student_percentages.rds')
 lookup <- readRDS('lookup.rds')
-grades <- readRDS('grades.rds')
+# grades <- readRDS('grades.rds')
 grades_qrd <- readRDS('grades_qrd.rds') 
 
 quals_with_multi_grades <- readRDS('mult_grade_structure.rds')

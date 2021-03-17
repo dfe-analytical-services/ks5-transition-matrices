@@ -579,14 +579,26 @@
     "shinyGovstyle": {
       "Package": "shinyGovstyle",
       "Version": "0.0.5",
-      "Source": "unknown",
-      "Hash": "ede44948c4718184312332e08c620e78"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "shinyGovstyle",
+      "RemoteUsername": "moj-analytical-services",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "a7d58bb2cf45a945cf8ea0f1909c545d15b1b9c7",
+      "Hash": "72c240bd0ee6866e11e347d71e9774ff"
     },
     "shinya11y": {
       "Package": "shinya11y",
       "Version": "0.0.0.9000",
-      "Source": "unknown",
-      "Hash": "58f5c7f71862bd08e28382e300f5971b"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "shinya11y",
+      "RemoteUsername": "ewenme",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "4f17db8f0c06e7332258e6c499e3c4af36fd4a17",
+      "Hash": "47f65be2621e54a257619a1397cf7903"
     },
     "shinydashboard": {
       "Package": "shinydashboard",

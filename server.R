@@ -129,13 +129,13 @@ server = shinyServer(function(input, output, session) {
   # Create a reactive table for numbers table
   # the function on the last line removes columns that are empty
   numbers_data <- reactive({
-    number_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
+    number_select_qrd(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
       rename('Prior Band' = PRIOR_BAND)
   })
   
   # Create a reactive table for percentage table
   percentage_data <- reactive({
-    percentage_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
+    percentage_select_qrd(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
       mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
       rename('Prior Band' = PRIOR_BAND)
   })
@@ -145,50 +145,13 @@ server = shinyServer(function(input, output, session) {
   
   
   
-
-  
-  
   # -----------------------------------------------------------------------------------------------------------------------------
-  # ---- Creating re-active tables from lookup selections... depending on grading structures ----
-  # -----------------------------------------------------------------------------------------------------------------------------
-  
-  # Create a reactive table for numbers table
-  # the function on the last line removes columns that are empty
-  # numbers_data <- reactive({
-  #   if(user_selection()$SUBLEVNO %in% quals_with_multi_grades){
-  #   number_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
-  #     rename('Prior Band' = PRIOR_BAND)
-  #   #    .[!sapply(., function (x) all(is.na(x) | x == ""))]
-  #   }
-  #   else{
-  #     number_select_qrd_1(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
-  #       rename('Prior Band' = PRIOR_BAND)
-  #   }
-  # })
-  # 
-  # # Create a reactive table for percentage table
-  # percentage_data <- reactive({
-  #   if(user_selection()$SUBLEVNO %in% quals_with_multi_grades){
-  #   percentage_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
-  #     mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
-  #     rename('Prior Band' = PRIOR_BAND)
-  #   }
-  #   else{
-  #     percentage_select_qrd_1(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
-  #       mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
-  #       rename('Prior Band' = PRIOR_BAND)
-  #   }
-  # })
-  
-  
-  # -----------------------------------------------------------------------------------------------------------------------------
-  # ---- Creating output tables ----
+  # ---- OUTPUTTING THE TABLES FOR THE APP ----
   # -----------------------------------------------------------------------------------------------------------------------------
   # Create the output number table
   output$number_table <- DT::renderDataTable({
     datatable(
-      numbers_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
-                                     ))
+      numbers_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
   })
   
   # Create the output percentages table
@@ -207,14 +170,14 @@ server = shinyServer(function(input, output, session) {
   
   
   # -----------------------------------------------------------------------------------------------------------------------------
-  # ---- Creating the percentage plots -- doesn't depend on grading structure so just use percentage_select_qrd_1 ----
+  # ---- PERCENTAGE PLOT ----
   # -----------------------------------------------------------------------------------------------------------------------------
   
   # The below code removes columns that have an NA value. The purrr functions were taken from this website:
   # https://community.rstudio.com/t/drop-all-na-columns-from-a-dataframe/5844
   
   output$percentage_chart = renderPlot({
-    per_data = percentage_select_qrd_1(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>% 
+    per_data = percentage_select_qrd(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>% 
       filter(PRIOR_BAND == input$chart_band) %>%
       
       # Now we have our selected row data it needs cleaning up because these values are characters
@@ -268,7 +231,7 @@ server = shinyServer(function(input, output, session) {
   # ---- Download Button ----
   # -----------------------------------------------------------------------------------------------------------------------------
   
-  # Necessary to fix the download button 
+
   output$tm_data_download_tab_1 <- downloadHandler(
     filename = "number_data.csv",
     content = function(file) {

@@ -7,75 +7,145 @@ library(shiny)
 
 server = shinyServer(function(input, output, session) {
   
-    # -----------------------------------------------------------------------------------------------------------------------------
-  # ---- Updates to drop down boxes ----
-  # -----------------------------------------------------------------------------------------------------------------------------
-  # The below code alters the options in the subject select drop down by only showing the corresponding subjects available
-  # to the qualification that a user selects in the qualification select drop down
-  # qualifications with only one subject, and subjects with multiple sizes require special formatting
-  observe({
-    qual_chosen = input$qual_select
-    
-    updateSelectInput(session, inputId = 'subj_select',
-                      label = NULL, 
-                      if (qual_chosen %in% c('Extended Project (Diploma)', 'Applied GCE AS level Double Award',
-                                             'OCR Cambridge Technical Extended Diploma at Level 3', 
-                                             'International Baccalaureate',
-                                             'OCR Cambridge Technical Introductory Diploma at Level 3'))
-                      {choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
-                        select(`Subject name`) %>% as.character()
-                      }
-                      else{
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
-                          select(`Subject name`) %>% arrange(`Subject name`)
-                      })
-  })
-  
-  observe({
-    qual_chosen = input$qual_select
-    
-    updateSelectInput(session, inputId = 'size_select',
-                      label = NULL, 
-                      if (qual_chosen == 'Other General Qualification at Level 3' & input$subj_select %in% 
-                          c('Medical Science', 'Social Science')) {
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
-                          filter(`Subject name` == input$subj_select) %>% select(ASIZE) 
-                      }
-                      else if (qual_chosen == 'VRQ Level 3' & input$subj_select %in% 
-                               c('Applied Sciences', 'Social Science', 'Applied Business',
-                                 'Finance / Accounting (General)', 'Nutrition / Diet',
-                                 'Medical Science')) {
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
-                          filter(`Subject name` == input$subj_select) %>% select(ASIZE) 
-                      }
-                      else{
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
-                          filter(`Subject name` == input$subj_select) %>% select(ASIZE) %>% as.character()
-                      })
-  })
-  
-  
-  observe({
-    updateSelectInput(session, inputId = 'chart_band',
-                      label = NULL, 
-                      choices = prior_band_chart())
-  })
   
   # -----------------------------------------------------------------------------------------------------------------------------
-  # ---- Creating re-active lookups from drop down selections ----
+  # ---- BUILDING A REACTIVE LOOKUP FROM THE USER SELECTION FROM DROPDOWNS ----
   # -----------------------------------------------------------------------------------------------------------------------------
-  ## Try and streamline the original code using reactive tables to prevent repetition
-  lookup_selection <- reactive({
+  ## the user selection reactive table will also be a lookup table, 
+  ## it shows how the names the user selected correspond to the SUBLEVNOs, SUBJ, and size_lookup
+  
+  user_selection <- reactive({
     lookup %>% filter(`Qualification name` == input$qual_select & `Subject name` == input$subj_select & ASIZE == input$size_select) %>%
       distinct()
   })
   
+  
+  
+  
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- Updates to drop down boxes - SUBJECT CHOICES ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # The below code alters the options in the subject select drop down by only showing the subjects available for the chosen qualification
+  # qualifications with only one subject, and subjects with multiple sizes require special formatting
+  
+  
+  subject_choices = reactive({
+    ## single subjects
+    if(input$qual_select %in% c('Extended Project (Diploma)', 'Applied GCE AS level Double Award',
+                                'OCR Cambridge Technical Extended Diploma at Level 3',
+                                'International Baccalaureate',
+                                'OCR Cambridge Technical Introductory Diploma at Level 3')){
+      lookup %>% filter(`Qualification name` == input$qual_select) %>%
+        select(`Subject name`) %>% 
+        distinct() %>% 
+        unlist(use.names = FALSE)
+    }
+
+    else{
+      lookup %>% filter(`Qualification name` == input$qual_select) %>%
+        select(`Subject name`) %>% 
+        distinct() %>% 
+        arrange(`Subject name`) %>% 
+        unlist(use.names = FALSE)
+    }
+  })
+
+
+  observe({
+    updateSelectInput(session, "subj_select",
+                      choices = subject_choices()
+    )})
+  
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- Updates to drop down boxes - SIZE CHOICES ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+
+  size_choices = reactive({
+    if(input$qual_select == 'Other General Qualification at Level 3' & 
+       input$subj_select %in% c('Medical Science', 'Social Science')){
+      lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+        filter(`Subject name` == input$subj_select) %>% 
+        select(ASIZE) %>% 
+        distinct() %>%
+        arrange(ASIZE) %>%
+        unlist(use.names = FALSE)
+    }
+    
+    else if (input$qual_select == 'VRQ Level 3' & 
+             input$subj_select %in% c('Applied Sciences', 'Social Science', 'Applied Business',
+                                      'Finance / Accounting (General)', 'Nutrition / Diet', 'Medical Science')){
+      lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+        filter(`Subject name` == input$subj_select) %>% 
+        select(ASIZE) %>% 
+        distinct() %>%
+        arrange(ASIZE) %>%
+        unlist(use.names = FALSE)
+    }
+    
+    ## single sizes
+    else{
+      lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+        filter(`Subject name` == input$subj_select) %>% 
+        select(ASIZE) %>%
+        unlist(use.names = FALSE)
+    }
+  })
+  
+  
+  observe({
+    updateSelectInput(session, "size_select",
+                      choices = size_choices()
+    )})
+  
+  
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- Updates to drop down boxes - PRIOR BAND CHOICES ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+  
   prior_band_chart <- reactive({
-    stud_percentages %>% subset(SUBLEVNO == lookup_selection()$SUBLEVNO & 
-                                  SUBJ == lookup_selection()$SUBJ & 
-                                  ASIZE == lookup_selection()$size_lookup) %>% 
+    stud_percentages %>% 
+      subset(SUBLEVNO == user_selection()$SUBLEVNO & 
+               SUBJ == user_selection()$SUBJ & 
+               ASIZE == user_selection()$size_lookup) %>% 
       pull(PRIOR_BAND)
   })
+  
+  observe({
+    updateSelectInput(session, inputId = 'chart_band',
+                      choices = prior_band_chart())
+  })
+  
+
+  
+  
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- REACTIVE TABLES FOR THE TABLES DISPLAYED IN APPS ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+  
+  # Create a reactive table for numbers table
+  # the function on the last line removes columns that are empty
+  numbers_data <- reactive({
+    number_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
+      rename('Prior Band' = PRIOR_BAND)
+  })
+  
+  # Create a reactive table for percentage table
+  percentage_data <- reactive({
+    percentage_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
+      mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
+      rename('Prior Band' = PRIOR_BAND)
+  })
+  
+  
+  
+  
+  
+  
+
   
   
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -84,31 +154,31 @@ server = shinyServer(function(input, output, session) {
   
   # Create a reactive table for numbers table
   # the function on the last line removes columns that are empty
-  numbers_data <- reactive({
-    if(lookup_selection()$SUBLEVNO %in% quals_with_multi_grades){
-    number_select_qrd_2(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>%
-      rename('Prior Band' = PRIOR_BAND)
-    #    .[!sapply(., function (x) all(is.na(x) | x == ""))]
-    }
-    else{
-      number_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>%
-        rename('Prior Band' = PRIOR_BAND)
-    }
-  })
-  
-  # Create a reactive table for percentage table
-  percentage_data <- reactive({
-    if(lookup_selection()$SUBLEVNO %in% quals_with_multi_grades){
-    percentage_select_qrd_2(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup)  %>%
-      mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
-      rename('Prior Band' = PRIOR_BAND)
-    }
-    else{
-      percentage_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup)  %>%
-        mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
-        rename('Prior Band' = PRIOR_BAND)
-    }
-  })
+  # numbers_data <- reactive({
+  #   if(user_selection()$SUBLEVNO %in% quals_with_multi_grades){
+  #   number_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
+  #     rename('Prior Band' = PRIOR_BAND)
+  #   #    .[!sapply(., function (x) all(is.na(x) | x == ""))]
+  #   }
+  #   else{
+  #     number_select_qrd_1(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>%
+  #       rename('Prior Band' = PRIOR_BAND)
+  #   }
+  # })
+  # 
+  # # Create a reactive table for percentage table
+  # percentage_data <- reactive({
+  #   if(user_selection()$SUBLEVNO %in% quals_with_multi_grades){
+  #   percentage_select_qrd_2(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
+  #     mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
+  #     rename('Prior Band' = PRIOR_BAND)
+  #   }
+  #   else{
+  #     percentage_select_qrd_1(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup)  %>%
+  #       mutate_all(list(~str_replace(., 'NA%', ''))) %>% 
+  #       rename('Prior Band' = PRIOR_BAND)
+  #   }
+  # })
   
   
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -144,7 +214,7 @@ server = shinyServer(function(input, output, session) {
   # https://community.rstudio.com/t/drop-all-na-columns-from-a-dataframe/5844
   
   output$percentage_chart = renderPlot({
-    per_data = percentage_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>% 
+    per_data = percentage_select_qrd_1(user_selection()$SUBLEVNO, user_selection()$SUBJ, user_selection()$size_lookup) %>% 
       filter(PRIOR_BAND == input$chart_band) %>%
       
       # Now we have our selected row data it needs cleaning up because these values are characters

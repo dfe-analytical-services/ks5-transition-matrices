@@ -8,8 +8,7 @@
 library(shiny)
 library(shinydashboard)
 library(stringr)
-library(shinya11y)
-library(shinyGovstyle)
+#library(shinya11y)
 #library(formattable)
 
 source('.R/02_tm-tool.R')
@@ -41,30 +40,20 @@ ui <- fluidPage(
       
       sidebarMenu(
         menuItem('Information', icon = icon('info'), tabName = 'info'),
-        menuItem(
-          'Number of Pupils',
-          icon = icon('hashtag'),
-          tabName = 'number'
-        ),
-        menuItem(
-          'Percentage of Pupils',
-          icon = icon('percent'),
-          tabName = 'percent'
-        )
+        menuItem('Number of Pupils', icon = icon('hashtag'),tabName = 'number'),
+        menuItem('Percentage of Pupils', icon = icon('percent'), tabName = 'percent')
       ),
+      
       br(),
       br(),
-      (h4(
-        HTML('&nbsp;'), ('Transition matrices options:')
-      )),
-      (h5(HTML('&nbsp;'), ('1. Select a Qualification')
-      )),
+      
+      (h4(HTML('&nbsp;'), ('Transition matrices options:'))),
+      (h5(HTML('&nbsp;'), ('1. Select a Qualification'))),
+      
       selectInput(
-        'qual_select',
+        inputId = 'qual_select',
         label = NULL,
-        list(Qualifications = sort(unique(
-          lookup$`Qualification name`
-        ))),
+        choices = list(Qualifications = sort(unique(lookup$`Qualification name`))),
         selected = 'Applied GCE AS level'
       ),
       
@@ -79,46 +68,42 @@ ui <- fluidPage(
       
       
       (h5(HTML('&nbsp;'), ('2. Select a Subject'))),
-      selectInput('subj_select',
-                  label = NULL,
-                  list(Subjects = sort(
-                    unique(lookup$`Subject name`)
-                  ))),
+      
+      selectInput(
+        inputId = 'subj_select',
+        label = NULL,
+        choices = ""),
+      
       (h5(HTML('&nbsp;'), ('3. Select a Size'))),
-      selectInput('size_select',
-                  label = NULL,
-                  list(Sizes = sort(lookup$ASIZE))),
+      
+      selectInput(
+        inputId = 'size_select',
+        label = NULL,
+        choices = ""),
       
       br(),
       br(),
       br(),
+      
       downloadButton('tm_data_download_numbers', 'Download Raw Number Data'),
       br(),
       br(),
       downloadButton('tm_data_download_percentage', 'Download Raw Percentage Data')
-      
-      # sidebarMenu(
-      #   br(),
-      #   div(style='display:inline; font-size: 30px',menuItem('Number of Pupils', icon = icon('hashtag'), tabName = 'number')),
-      #   br(),
-      #   div(style='display:inline; font-size: 30px',menuItem('Percentage of Pupils', icon = icon('percent'), tabName = 'percent'))
-      # )
     ),
     
+    
     dashboardBody(
-      ##    tags$head(
-      ##      tags$style(HTML(".main-sidebar { font-size: 20px; }")) #change the font size to 20
-      ##    ),
       
       tags$style(
         type = "text/css",
         ".shiny-output-error { visibility: hidden; }",
         ".shiny-output-error:before { visibility: hidden; }"
       ),
+      
       tabItems(
+        
         # Info tab
-        tabItem(
-          'info',
+        tabItem('info',
           br(),
           h2('Information'),
           br(),
@@ -173,13 +158,10 @@ ui <- fluidPage(
                       KS5 based on their average KS4 attainment.',
               br(),
               
-              paste0(
-                'The highlighted cell shows the number of students with an average prior
+              paste0('The highlighted cell shows the number of students with an average prior
                       attainment between 5 and 6 at KS4 who achieved a C in GCE A level
-                      mathematics was ',
-                example_value,
-                '.'
-              ),
+                      mathematics was ', example_value, '.'),
+              
               br(),
               br(),
               DT::dataTableOutput('example_table'),
@@ -190,33 +172,34 @@ ui <- fluidPage(
         ),
         
         # Number tab
-        tabItem(
-          'number',
+        tabItem('number',
           br(),
-          h2(
-            'Number of students per KS4 attainment band for selected KS5 options'
-          ),
+          h2('Number of students per KS4 attainment band for selected KS5 options'),
+          br(),
+          
           DT::dataTableOutput('number_table'),
+          
           br(),
           downloadButton('tm_data_download_tab_1', 'Download'),
           br()
         ),
         
         # Percentage tab
-        tabItem(
-          'percent',
+        tabItem('percent',
           br(),
-          h2(
-            'Percentage of students per KS4 attainment band for selected KS5 options'
-          ),
+          h2('Percentage of students per KS4 attainment band for selected KS5 options'),
           br(),
+          
           dataTableOutput('percentage_table'),
-          ##    formattableOutput('percentage_table'),
+        
           br(),
+          
           plotOutput('percentage_chart', height = '15cm'),
-          selectInput('chart_band',
-                      label = 'Select a KS4 prior attainment band to display in the plot',
-                      list(bands = sort(grade_boundaries))),
+          selectInput(
+            inputId = 'chart_band',
+            label = 'Select a KS4 prior attainment band to display in the plot',
+            choices = ""),
+          
           br(),
           downloadButton('tm_data_download_tab_2', 'Download'),
           br()

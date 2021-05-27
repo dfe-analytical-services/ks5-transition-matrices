@@ -25,11 +25,7 @@ grades_qrd <- readRDS('./outputs/grades_qrd.rds')
 quals_with_multi_grades <- readRDS('./outputs/mult_grade_structure.rds')
 
 
-# -----------------------------------------------------------------------------------------------------------------------------
-# ---- Prior Grade boundaries ----
-# -----------------------------------------------------------------------------------------------------------------------------
 
-grade_boundaries = c("<1", "1-<2", "2-<3", "3-<4", "4-<5", "5-<6", "6-<7", "7-<8", "8-<9", "9>=")
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -42,6 +38,8 @@ stud_numbers <- stud_numbers %>%
 
 stud_percentages <- stud_percentages %>% 
   arrange(QUAL_ID, PRIOR_BAND)
+
+
 
 # Also need to make sure that all grades have a column in these tables - even if its just filled with NAs
 # Grades which do not have a column in the student exams data

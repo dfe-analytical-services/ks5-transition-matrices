@@ -2,6 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-.R/01_data-processing.R
-.R/qrd_grades.R
-.R/accessibility_testing.R
+R/01_data-processing.R
+R/qrd_grades.R
+R/accessibility_testing.R

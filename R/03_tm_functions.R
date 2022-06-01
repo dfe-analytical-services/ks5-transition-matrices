@@ -7,13 +7,19 @@
 
 
 
+# -----------------------------------------------------------------------------------------------------------------------------
+# ---- Prior Grade boundaries ----
+# -----------------------------------------------------------------------------------------------------------------------------
+
+grade_boundaries = c("<1", "1-<2", "2-<3", "3-<4", "4-<5", "5-<6", "6-<7", "7-<8", "8-<9", "9>=")
+
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Edits to the student exams data to make it useable in the functions below ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-# How to ensure that the ROW_ID column is correctly arranged. 
+# arrange to ensure that the ROW_ID column is in correct order. 
 stud_numbers <- stud_numbers %>% 
   arrange(QUAL_ID, PRIOR_BAND)
 
@@ -22,14 +28,14 @@ stud_percentages <- stud_percentages %>%
 
 
 
-# Also need to make sure that all grades have a column in these tables - even if its just filled with NAs
-# Grades which do not have a column in the student exams data
+# also need to make sure that all grades have a column in these tables - even if its just filled with NAs
+# list of all possible grades in the student exams data (built from the QRD)
 grade_list_qrd <- unique(grades_qrd$GRADE) 
 
 #column_list_exams <- names(stud_numbers)
 
 
-# Function which adds missing columns to the table
+# function which adds missing columns to the table
 add_missing_cols <- function(data, cname) {
   add <-cname[!cname %in% names(data)]
   
@@ -51,13 +57,13 @@ stud_percentages <- add_missing_cols(stud_percentages, grade_list_qrd)
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
-# ---- Numbers Table from QRD filtering grades on SUBLEVNO & SUBJ ----
+# ---- Numbers Table from QRD filtering grades on SUBLEVNO ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Returns a table from the Student Numbers CSV
-number_select_qrd = function(qual, subj, size){
+number_select_qrd_1 = function(qual, subj, size){
   filter_selection = paste0(qual, subj, size)
-  qual_grades = filter(grades_qrd, SUBLEVNO == qual & SUBJ == subj)
+  qual_grades = filter(grades_qrd, SUBLEVNO == qual)
   
   # Grades already sorted so just need to extract list of grades
   grade_list = qual_grades$GRADE
@@ -70,13 +76,52 @@ number_select_qrd = function(qual, subj, size){
 }
 
 # -----------------------------------------------------------------------------------------------------------------------------
-# ---- Percentages Table from QRD filtering grades on SUBLEVNO & SUBJ ----
+# ---- Percentages Table from QRD filtering grades on SUBLEVNO ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Returns a table from the Student Percentages CSV
-percentage_select_qrd = function(qual, subj, size){
+percentage_select_qrd_1 = function(qual, subj, size){
   filter_selection = paste0(qual, subj, size)
-  qual_grades = filter(grades_qrd, SUBLEVNO == qual & SUBJ == subj)
+  qual_grades = filter(grades_qrd, SUBLEVNO == qual)
+  
+  # Grades already sorted so just need to extract list of grades
+  grade_list = qual_grades$GRADE
+  
+  table = stud_percentages %>% 
+    filter(QUAL_ID == filter_selection) %>%  
+    select(PRIOR_BAND, grade_list)
+  
+  return(table)
+}
+
+
+# -----------------------------------------------------------------------------------------------------------------------------
+# ---- Numbers Table from QRD filtering grades on SUBLEVNO & SUBJ & ASIZE ----
+# -----------------------------------------------------------------------------------------------------------------------------
+
+# Returns a table from the Student Numbers CSV
+number_select_qrd_2 = function(qual, subj, size){
+  filter_selection = paste0(qual, subj, size)
+  qual_grades = filter(grades_qrd, SUBLEVNO == qual & SUBJ == subj & ASIZE_nodecimal == size)
+  
+  # Grades already sorted so just need to extract list of grades
+  grade_list = qual_grades$GRADE
+  
+  table = stud_numbers %>% 
+    filter(QUAL_ID == filter_selection) %>%  
+    select(PRIOR_BAND, grade_list) 
+  
+  return(table)
+}
+
+# -----------------------------------------------------------------------------------------------------------------------------
+# ---- Percentages Table from QRD filtering grades on SUBLEVNO & SUBJ & ASIZE ----
+# -----------------------------------------------------------------------------------------------------------------------------
+
+# Returns a table from the Student Percentages CSV
+percentage_select_qrd_2 = function(qual, subj, size){
+  filter_selection = paste0(qual, subj, size)
+  qual_grades = filter(grades_qrd, SUBLEVNO == qual & SUBJ == subj & ASIZE_nodecimal == size)
   
   # Grades already sorted so just need to extract list of grades
   grade_list = qual_grades$GRADE
@@ -90,61 +135,7 @@ percentage_select_qrd = function(qual, subj, size){
 
 
 
-# -----------------------------------------------------------------------------------------------------------------------------
-# ---- Numbers Table - for use with grades produced in 01_data-processing
-# if using this remember to update server.R - one update for numbers, two for percentages ----
-# -----------------------------------------------------------------------------------------------------------------------------
 
-# Returns a table from the Student Numbers CSV
-# number_select = function(qual, subj, size){
-#   filter_selection = paste0(qual, subj, size)
-#   qual_grades = filter(grades, SUBLEVNO == qual)
-#   
-#   # Would like to sort numeric and character grades differently so that all grades go from low - high
-#   which_char_grades =  which(is.na(suppressWarnings(as.numeric(qual_grades$GRADE))))
-#   character_grades = qual_grades$GRADE[which_char_grades]
-#   number_grades = qual_grades$GRADE[-which_char_grades]
-#   
-#   sort_char_grades = sort(character_grades, decreasing = TRUE)
-#   sort_num_grades = sort(number_grades)
-#   
-#   comb_grades = append(sort_char_grades, sort_num_grades)
-#   #print(comb_grades)
-#   
-#   table = stud_numbers %>% 
-#     filter(QUAL_ID == filter_selection) %>%  
-#     select(PRIOR_BAND, comb_grades) 
-#   
-#   return(table)
-# }
-
-# -----------------------------------------------------------------------------------------------------------------------------
-# ---- Percentages Table - for use with grades produced in 01_data-processing
-# if using this remember to update server.R - one update for numbers, two for percentages ----
-# -----------------------------------------------------------------------------------------------------------------------------
-
-# Returns a table from the Student Percentages CSV
-# percentage_select = function(qual, subj, size){
-#   filter_selection = paste0(qual, subj, size)
-#   qual_grades = filter(grades, SUBLEVNO == qual)
-#   
-#   # Would like to sort numeric and character grades differently so that all grades go from low - high
-#   which_char_grades =  which(is.na(suppressWarnings(as.numeric(qual_grades$GRADE))))
-#   character_grades = qual_grades$GRADE[which_char_grades]
-#   number_grades = qual_grades$GRADE[-which_char_grades]
-#   
-#   sort_char_grades = sort(character_grades, decreasing = TRUE)
-#   sort_num_grades = sort(number_grades)
-#   
-#   comb_grades = append(sort_char_grades, sort_num_grades)
-#   #print(comb_grades)
-#   
-#   table = stud_percentages %>% 
-#     filter(QUAL_ID == filter_selection) %>%  
-#     select(PRIOR_BAND, comb_grades)
-#   
-#   return(table)
-# }
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Example Table ----
@@ -152,12 +143,12 @@ percentage_select_qrd = function(qual, subj, size){
 
 # Create a fixed table for example table
 
-user_selection_example <- lookup %>% 
-  filter(`Qualification name` == 'GCE A level' & `Subject name` == 'Mathematics' & ASIZE == 1) %>%
+user_selection_example <- lookup %>%
+  filter(`Qualification name` == 'GCE A level' & `Subject name` == 'Mathematics' & SIZE == 1) %>%
   distinct()
 
 
-example_data <- number_select_qrd(user_selection_example$SUBLEVNO, user_selection_example$SUBJ, user_selection_example$size_lookup) %>%
+example_data <- number_select_qrd_1(user_selection_example$SUBLEVNO, user_selection_example$SUBJ, user_selection_example$size_lookup) %>%
     rename('Prior Band' = PRIOR_BAND) %>%
     .[!sapply(., function (x) all(is.na(x) | x == ""))]
 

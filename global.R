@@ -1,13 +1,7 @@
-# Sys.unsetenv("http_proxy")
-# Sys.unsetenv("https_proxy")
-
 
 library(shiny)
 library(shinydashboard)
-library(stringr)
-library(shiny)
 library(shinytest)
-# Other Package Imports ----
 library(dplyr)
 library(ggplot2)
 library(purrr)
@@ -22,7 +16,8 @@ library(stringr)
 
 stud_numbers <- readRDS('./outputs/all_student_numbers.rds')
 stud_percentages <- readRDS('./outputs/all_student_percentages.rds')
-lookup <- readRDS('./outputs/lookup.rds')
-grades_qrd <- readRDS('./outputs/grades_qrd.rds') 
 
+lookup <- readRDS('./outputs/lookup.rds')
+
+grades_qrd <- readRDS('./outputs/grades_qrd.rds') 
 quals_with_multi_grades <- readRDS('./outputs/mult_grade_structure.rds')

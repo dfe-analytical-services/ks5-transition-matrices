@@ -4,30 +4,32 @@
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-#library(shiny)
-#library(shinydashboard)
-#library(stringr)
-#library(formattable)
+ui = shinyUI(fluidPage(
+  
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "dfe_shiny_gov_style.css")),
 
-#source('./R/03_tm_functions.R')
-
-ui = shinyUI(
+  
+  title = "16-18 Transition Matrices",
+  
   dashboardPage(
+
     dashboardHeader(title = '16-18 Transition Matrices',
-                    titleWidth = 350
-    ),
+                    titleWidth = 350),
+    
     
     dashboardSidebar(
       width =350,
       
       sidebarMenu(
         menuItem('Information', icon = icon('info'), tabName = 'info'),
-        menuItem('Number of Pupils', icon = icon('hashtag'), tabName = 'number'),
-        menuItem('Percentage of Pupils', icon = icon('percent'), tabName = 'percent')
+        menuItem('Transition Matrices', icon = icon('table'), tabName = 'tm')
       ),
       br(),
       br(),
-      (h4(HTML('&nbsp;'),('Transition matrices options:'))),
+      helpText("Choose a qualification, subject and size to view the transition matrices."),
+      br(),
+      # (h4(HTML('&nbsp;'),('Transition matrices options:'))),
       (h5(HTML('&nbsp;'),('1. Select a Qualification'))),
       selectInput('qual_select',
                   label = NULL,
@@ -41,27 +43,18 @@ ui = shinyUI(
       selectInput('size_select', 
                   label = NULL, 
                   list(Sizes = sort(lookup$SIZE))),
-      
-      br(),
+      radioButtons(inputId="format", 
+                   label="4. Select format of data: ", 
+                   choices=c("Numbers data", "Percentage data")),
       br(),
       br(),
       downloadButton('tm_data_download_numbers', 'Download Raw Number Data'),
       br(),
       br(),
       downloadButton('tm_data_download_percentage', 'Download Raw Percentage Data')
-      
-      # sidebarMenu(
-      #   br(),
-      #   div(style='display:inline; font-size: 30px',menuItem('Number of Pupils', icon = icon('hashtag'), tabName = 'number')),
-      #   br(),
-      #   div(style='display:inline; font-size: 30px',menuItem('Percentage of Pupils', icon = icon('percent'), tabName = 'percent'))
-      # )
     ),
     
     dashboardBody(
-      ##    tags$head( 
-      ##      tags$style(HTML(".main-sidebar { font-size: 20px; }")) #change the font size to 20
-      ##    ),
       
       tags$style(type="text/css",
                  ".shiny-output-error { visibility: hidden; }",
@@ -74,23 +67,7 @@ ui = shinyUI(
                 br(),
                 h2('Information'),
                 br(),
-                tags$style(HTML("
-
-                    .box.box-solid.box-primary>.box-header {
-                    color:#fff;
-                    background:#407291
-                    }
-
-                    .box.box-solid.box-primary{
-                    border-bottom-color:#407291;
-                    border-left-color:#407291;
-                    border-right-color:#407291;
-                    border-top-color:#407291;
-                    background:#ffffff
-                    }
-
-                    ")),
-                
+               
                 fluidRow(
                   box(width = 12, status = "primary", solidHeader = TRUE, 
                       'Transition matrices are a useful tool to help visualise the 
@@ -126,34 +103,26 @@ ui = shinyUI(
                 br()
         ),
         
-        # Number tab
-        tabItem('number',
+        # TM tab
+        tabItem('tm',
                 br(),
                 h2('Number of students per KS4 attainment band for selected KS5 options'),
-                DT::dataTableOutput('number_table'),
+                DT::dataTableOutput('tm_table'),
                 br(),
-                downloadButton('tm_data_download_tab_1', 'Download'),
-                br()
-        ),
-        
-        # Percentage tab
-        tabItem('percent',
+                downloadButton('tm_data_download_filtered', 'Download'),
                 br(),
-                h2('Percentage of students per KS4 attainment band for selected KS5 options'),
                 br(),
-                dataTableOutput('percentage_table'),
                 br(),
                 plotOutput('percentage_chart', height = '15cm'),
-                selectInput('chart_band',
-                            label = 'Select a KS4 prior attainment band to display in the plot',
-                            list(bands = sort(grade_boundaries))),
                 br(),
-                downloadButton('tm_data_download_tab_2', 'Download'),
-                br()
+                uiOutput("chart_band_appear")
+                
         )
+        
+        
       )
     )
   )
-)
+))
 
 

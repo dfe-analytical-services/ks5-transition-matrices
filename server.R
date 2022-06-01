@@ -13,43 +13,46 @@ server = shinyServer(function(input, output, session) {
   # The below code alters the options in the subject select drop down by only showing the corresponding subjects available
   # to the qualification that a user selects in the qualification select drop down
   # qualifications with only one subject, and subjects with multiple sizes require special formatting
+  
+  # we need to identify which qualifications have only 1 subject option
+  # use this output to update the list below
+  single_subj <-  lookup %>% group_by(SUBLEVNO) %>% filter(n()==1) 
+  single_subj
+  
   observe({
-    qual_chosen = input$qual_select
-    
     updateSelectInput(session, inputId = 'subj_select',
                       label = NULL, 
-                      if (qual_chosen %in% c('Extended Project (Diploma)', 'Pre-U Short Course Subject',
+                      if (input$qual_select %in% c('Extended Project (Diploma)', 'Pre-U Short Course Subject',
                                              'International Baccalaureate', 'OCR Cambridge Technical Introductory Diploma at Level 3',
                                              'Other General Qualification at Level 2'))
-                      {choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
+                      {choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                         select(`Subject name`) %>% as.character()
                       }
                       else{
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
+                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           select(`Subject name`) %>% arrange(`Subject name`)
                       })
   })
   
   
-  # we need to identify which qualifications have only 1 subject option
-  # use this output to update the list above
-  single_subj <-  lookup %>% group_by(SUBLEVNO) %>% filter(n()==1) 
-  single_subj
+
   
   
-  
+  # we need to identify which subjects have multiple sizes
+  # use this output to update the list below
+  ind_size <- duplicated(lookup[,2:4])
+  multiple_sizes <- lookup[ind_size,]
+  multiple_sizes
   
   observe({
-    qual_chosen = input$qual_select
-    
     updateSelectInput(session, inputId = 'size_select',
                       label = NULL, 
-                      if (qual_chosen == 'VRQ Level 2' & input$subj_select %in% 
+                      if (input$qual_select == 'VRQ Level 2' & input$subj_select %in% 
                           c('Hairdressing Services', 'Accounting', 'Beauty Therapy')) {
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
+                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
                       }
-                      else if (qual_chosen == 'VRQ Level 3' & input$subj_select %in% 
+                      else if (input$qual_select == 'VRQ Level 3' & input$subj_select %in% 
                                c('Agriculture (General)', 'Animal Husbandry: Specific Animals', 'Applied Business',
                                  'Applied Sciences', 'Building / Construction Operations (General / Combined)',
                                  'Childcare Skills', 'Computing and IT Advanced Technician', 'Engineering Studies',
@@ -57,43 +60,66 @@ server = shinyServer(function(input, output, session) {
                                  'Health Studies', 'Horses / Ponies Keeping', 'Medical Science', 'Music performance: Group',
                                  'Nutrition / Diet', 'Social Science', 'Speech & Drama', 'Theatrical Makeup'
                                  )) {
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
+                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
                       }
-                      else if (qual_chosen == 'BTEC National Extended Certificate L3 - Band F - P-D*' & 
+                      else if (input$qual_select == 'BTEC National Extended Certificate L3 - Band F - P-D*' & 
                                input$subj_select == 'Multimedia'
                                ) {
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
+                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
                       }
                       else{
-                        choices = lookup %>% filter(`Qualification name` == qual_chosen) %>% 
+                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) %>% as.character()
                       })
   })
   
   
-  # we need to identify which subjects have multiple sizes
-  # use this output to update the list above
-  ind_size <- duplicated(lookup[,2:4])
-  multiple_sizes <- lookup[ind_size,]
-  multiple_sizes
+
   
   
+  # only want the prior band drop down box to appear if the percentage data checkbox has been selected
   
+  output$chart_band_appear <- 
+    renderUI({
+      req(input$format == 'Percentage data')
+      selectInput('chart_band',
+                  label = 'Select a KS4 prior attainment band to display in the plot',
+                  list(bands = sort(grade_boundaries)))
+    })
+  
+      
+   
+
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- Updating the prior band drop down box so that only applicable options appear ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+      
+  
+  lookup_characters <- lookup %>%
+    mutate(across(c(SUBLEVNO, SUBJ, SIZE), ~as.character(.x)))
   
   prior_band_chart <- reactive({
-    stud_percentages %>% subset(SUBLEVNO == lookup_selection()$SUBLEVNO &
-                                  SUBJ == lookup_selection()$SUBJ &
-                                  ASIZE == lookup_selection()$size_lookup) %>%
+    req(input$qual_select)
+    stud_percentages %>%
+      left_join(lookup_characters, by = c("SUBLEVNO", "SUBJ", "ASIZE" = "SIZE")) %>%
+      subset(`Qualification name` == input$qual_select &
+               `Subject name` == input$subj_select &
+               ASIZE == input$size_select) %>%
       pull(PRIOR_BAND)
   })
+
+
+  observe({
+    updateSelectInput(session, inputId = 'chart_band',
+                      label = NULL,
+                      choices = prior_band_chart())
+  })
+
+
   
-  # observe({
-  #   updateSelectInput(session, inputId = 'chart_band',
-  #                     label = NULL,
-  #                     choices = prior_band_chart())
-  # })
   
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating re-active lookups from drop down selections ----
@@ -105,7 +131,6 @@ server = shinyServer(function(input, output, session) {
   })
   
 
-  
   
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating re-active tables from lookup selections... depending on grading structures ----
@@ -144,18 +169,18 @@ server = shinyServer(function(input, output, session) {
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating output tables ----
   # -----------------------------------------------------------------------------------------------------------------------------
-  # Create the output number table
-  output$number_table <- DT::renderDataTable({
-    datatable(
-      numbers_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
-                                     ))
-  })
-
-  # Create the output percentages table
-  output$percentage_table <- DT::renderDataTable({
-    datatable(
-      percentage_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
-  })
+  # # Create the output number table
+  # output$number_table <- DT::renderDataTable({
+  #   datatable(
+  #     numbers_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
+  #                                    ))
+  # })
+  # 
+  # # Create the output percentages table
+  # output$percentage_table <- DT::renderDataTable({
+  #   datatable(
+  #     percentage_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
+  # })
 
   # Create example table
   output$example_table <- DT::renderDataTable({datatable(
@@ -166,6 +191,25 @@ server = shinyServer(function(input, output, session) {
   })
   
   
+  
+ tm_table_data <- reactive(if(input$format == "Numbers data"){
+   numbers_data()
+  }
+  else{
+    percentage_data()}
+  )
+
+  
+  output$tm_table <- DT::renderDataTable({
+    datatable(
+      tm_table_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
+  })
+  
+  
+
+    
+  
+  
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating the percentage plots... doesn't depend on grading structure so just use percentage_select_qrd_1 ----
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -173,11 +217,13 @@ server = shinyServer(function(input, output, session) {
   # The below code removes columns that have an NA value. The purrr functions were taken from this website:
   # https://community.rstudio.com/t/drop-all-na-columns-from-a-dataframe/5844
 
-  output$percentage_chart = renderPlot({
-    req(c(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup, input$chart_band))
-    per_data = percentage_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>%
-      filter(PRIOR_BAND == input$chart_band) %>%
+  
 
+  
+  percentage_chart_data <- reactive({
+    percentage_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>%
+      filter(PRIOR_BAND == input$chart_band) %>%
+      
       # Now we have our selected row data it needs cleaning up because these values are characters
       # First we'll turn it into a list
       map(~.x) %>%
@@ -190,17 +236,16 @@ server = shinyServer(function(input, output, session) {
       # Next we need to remove all NA's
       discard(~all(is.na(.x))) %>%
       # Map the list back into a tibble
-      map_df(~.x)
-
-    # The minus one in the below select means that it will select all columns EXCEPT the first
-
-
-    # print(reshape2::melt(per_data))
-    # per_data <- subset(per_data, select=-c(PRIOR_BAND))
+      map_df(~.x) %>%
+      reshape2::melt() 
+  })
 
 
-    per_data <- reshape2::melt(per_data)
-    ggplot(per_data, aes(x = variable, y = value)) +
+
+
+  output$percentage_chart = renderPlot({
+    req(input$format == 'Percentage data')
+    ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
       geom_bar(stat = 'identity', fill = '#407291', colour='black') +
       xlab('Grades') +
       scale_y_continuous(name = paste('Percentage within', input$chart_band, 'band achieving grade', sep = " "),
@@ -221,8 +266,12 @@ server = shinyServer(function(input, output, session) {
   },
   bg = 'transparent'
   )
+  
 
   
+  
+  
+
   
   
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -230,17 +279,17 @@ server = shinyServer(function(input, output, session) {
   # -----------------------------------------------------------------------------------------------------------------------------
   
   # Necessary to fix the download button 
-  output$tm_data_download_tab_1 <- downloadHandler(
+  output$tm_data_download_filtered <- downloadHandler(
     filename = "number_data.csv",
     content = function(file) {
-      write.csv(numbers_data(), file, row.names = FALSE)
+      write.csv(tm_table_data(), file, row.names = FALSE)
     })  
   
-    output$tm_data_download_tab_2 <- downloadHandler(
-    filename = "percentage_data.csv",
-    content = function(file) {
-      write.csv(percentage_data(), file, row.names = FALSE)
-    })  
+    # output$tm_data_download_tab_2 <- downloadHandler(
+    # filename = "percentage_data.csv",
+    # content = function(file) {
+    #   write.csv(percentage_data(), file, row.names = FALSE)
+    # })  
   
   output$tm_data_download_numbers <- downloadHandler(
     filename = "all_number_data.csv",

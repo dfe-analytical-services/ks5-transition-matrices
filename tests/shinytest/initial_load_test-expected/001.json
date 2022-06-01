@@ -1,11 +1,11 @@
 {
   "input": {
     "chart_band": "<1",
-    "qual_select": "Applied GCE AS level",
+    "qual_select": "GCE A level",
     "sidebarCollapsed": false,
     "sidebarItemExpanded": null,
     "size_select": "",
-    "subj_select": "Accounting/Finance"
+    "subj_select": "Accounting"
   },
   "output": {
     "example_table": {
@@ -73,9 +73,9 @@
         },
         {
           "name": "jquery",
-          "version": "3.5.1",
+          "version": "1.11.3",
           "src": {
-            "href": "jquery-3.5.1"
+            "href": "jquery-1.11.3"
           },
           "meta": null,
           "script": "jquery.min.js",
@@ -86,9 +86,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.1.1",
+          "version": "1.1.0.1",
           "src": {
-            "href": "crosstalk-1.1.1"
+            "href": "crosstalk-1.1.0.1"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

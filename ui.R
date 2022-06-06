@@ -14,7 +14,7 @@ ui = shinyUI(fluidPage(
   
   dashboardPage(
 
-    dashboardHeader(title = '16-18 Transition Matrices',
+    dashboardHeader(title = "16-18 Transition Matrices",
                     titleWidth = 350),
     
     
@@ -22,25 +22,26 @@ ui = shinyUI(fluidPage(
       width =350,
       
       sidebarMenu(
-        menuItem('Information', icon = icon('info'), tabName = 'info'),
-        menuItem('Transition Matrices', icon = icon('table'), tabName = 'tm')
+        menuItem("Information", icon = icon("info"), tabName = "info"),
+        menuItem("Transition Matrices", icon = icon("table"), tabName = "tm"),
+        menuItem("Accessibility", icon = icon("user"), tabName = "accessibility")
       ),
       br(),
       br(),
-      helpText("Choose a qualification, subject and size to view the transition matrices."),
+      helpText("Choose a qualification, subject and size to view the transition matrices.",
+               style = "margin: 5px 5px 5px 10px; "),
       br(),
-      # (h4(HTML('&nbsp;'),('Transition matrices options:'))),
-      (h5(HTML('&nbsp;'),('1. Select a Qualification'))),
-      selectInput('qual_select',
+      (h5(HTML("&nbsp;"),("1. Select a Qualification"))),
+      selectInput("qual_select",
                   label = NULL,
                   list(Qualifications = sort(unique(lookup$`Qualification name`))),
-                  selected = 'GCE A level'),
-      (h5(HTML('&nbsp;'),('2. Select a Subject'))),
-      selectInput('subj_select',
+                  selected = "GCE A level"),
+      (h5(HTML("&nbsp;"),("2. Select a Subject"))),
+      selectInput("subj_select",
                   label = NULL,
                   list(Subjects = sort(unique(lookup$`Subject name`)))),
-      (h5(HTML('&nbsp;'),('3. Select a Size'))),
-      selectInput('size_select', 
+      (h5(HTML("&nbsp;"),("3. Select a Size"))),
+      selectInput("size_select", 
                   label = NULL, 
                   list(Sizes = sort(lookup$SIZE))),
       radioButtons(inputId="format", 
@@ -48,10 +49,14 @@ ui = shinyUI(fluidPage(
                    choices=c("Numbers data", "Percentage data")),
       br(),
       br(),
-      downloadButton('tm_data_download_numbers', 'Download Raw Number Data'),
+      downloadButton(outputId = "tm_data_download_numbers",
+                     label = "Download (all student numbers data)",
+                     style = "color: black; border-color: #fff; padding: 5px 14px 5px 14px; margin: 5px 5px 5px 10px; "),
       br(),
       br(),
-      downloadButton('tm_data_download_percentage', 'Download Raw Percentage Data')
+      downloadButton(outputId = "tm_data_download_percentage", 
+                     label = "Download (all student percentage data)",
+                     style = "color: black; border-color: #fff; padding: 5px 14px 5px 14px; margin: 5px 5px 5px 10px; ")
     ),
     
     dashboardBody(
@@ -63,63 +68,67 @@ ui = shinyUI(fluidPage(
       tabItems(
         
         # Info tab
-        tabItem('info',
+        tabItem("info",
                 br(),
-                h2('Information'),
+                h2("Information"),
                 br(),
-               
-                fluidRow(
-                  box(width = 12, status = "primary", solidHeader = TRUE, 
-                      'Transition matrices are a useful tool to help visualise the 
+                
+                "Transition matrices are a useful tool to help visualise the 
                       progression of pupils aged 16-18 from key stage 4 (KS4) to key 
-                      stage 5 (KS5).',
-                      br(),
-                      br(),
-                      'To use the transition matrices please select a qualification, subject and subject size from the dropdown boxes
-                      found in the left panel. Use the Number of Pupils, and Percentage of Pupils tabs on the left to view
-                      the respective tables. A graphical representaion of the percentage data can also be viewed within the 
-                      Percentage of Pupils tab, and an additional dropdown box is available to select the required prior
-                      attainment band. The tabular data from each table can be downloaded in csv format using the download 
-                      button on each page.'
-                  )
-                ),
+                      stage 5 (KS5).",
                 br(),
-                fluidRow(
-                  box(width = 12, title = 'Example', status = "primary", solidHeader = TRUE,
-                      'Below is an example transition matrix. It shows the 
-                      national attainment of GCE A level mathematics students at 
-                      KS5 based on their average KS4 attainment.',
-                      br(),
-                      
-                      paste0('The highlighted cell shows the number of students with an average prior
+                br(),
+                "To use the transition matrices please select a qualification, subject and subject size from the dropdown boxes
+                found in the left panel. Use the 'Numbers data' and 'Percentage Data' options, also on the left, to switch the 
+                table view between number of students and percentage of students.",
+                br(),
+                "A graphical representaion of the percentage data can also be viewed when the 'Percentage Data' option has been selected,
+                and an additional dropdown box is available to select the required KS4 prior attainment band.", 
+                br(),
+                "All underlying data can be downloaded in csv format using the download buttons on the left panel.
+                Smaller filtered tables, built within the dashboard, can also be downloaded in csv format using the download button on the
+                Transition Matrices page.",
+                br(),
+                br(),
+                br(),
+                h3("Transition Matrices Example"),
+                "Below is an example transition matrix. It shows the national attainment of GCE A level mathematics students at 
+                KS5 based on their average KS4 attainment.",
+                br(),
+                br(),
+                paste0("The highlighted cell shows the number of students with an average prior
                       attainment between 5 and 6 at KS4 who achieved a C in GCE A level
-                      mathematics was ', example_value, '.'),
-                      br(),
-                      br(),
-                      DT::dataTableOutput('example_table'),
-                      br()
-                  )
-                ),
+                      mathematics was ", example_value, "."),
+                br(),
+                br(),
+                DT::dataTableOutput("example_table"),
+                br(),
                 br()
         ),
         
         # TM tab
-        tabItem('tm',
+        tabItem("tm",
                 br(),
-                h2('Number of students per KS4 attainment band for selected KS5 options'),
-                DT::dataTableOutput('tm_table'),
+                h2("16-18 Transition Matrices for academic year 2020/2021"),
+                uiOutput("tm_title"),
+            #    h2("Number of students per KS4 attainment band for selected KS5 options"),
+                DT::dataTableOutput("tm_table"),
                 br(),
-                downloadButton('tm_data_download_filtered', 'Download'),
+                downloadButton("tm_data_download_filtered", "Download"),
                 br(),
                 br(),
                 br(),
-                plotOutput('percentage_chart', height = '15cm'),
+                plotOutput("percentage_chart", height = "15cm"),
                 br(),
                 uiOutput("chart_band_appear")
-                
+        ),
+        
+        
+        # accessibility tab
+        tabItem("accessibility",
+                br(),
+                accessibility_statement()
         )
-        
-        
       )
     )
   )

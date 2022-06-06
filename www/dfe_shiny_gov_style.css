@@ -50,6 +50,15 @@ body {
   color: #fff;
 }
 
+
+.download_box{
+    height:40px;
+    width:57px;
+    color:black;
+    padding-top: 3px ;
+}
+
+
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     font-family: "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     font-weight: bold;

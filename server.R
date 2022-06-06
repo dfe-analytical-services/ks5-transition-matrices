@@ -20,11 +20,11 @@ server = shinyServer(function(input, output, session) {
   single_subj
   
   observe({
-    updateSelectInput(session, inputId = 'subj_select',
+    updateSelectInput(session, inputId = "subj_select",
                       label = NULL, 
-                      if (input$qual_select %in% c('Extended Project (Diploma)', 'Pre-U Short Course Subject',
-                                             'International Baccalaureate', 'OCR Cambridge Technical Introductory Diploma at Level 3',
-                                             'Other General Qualification at Level 2'))
+                      if (input$qual_select %in% c("Extended Project (Diploma)", "Pre-U Short Course Subject",
+                                             "International Baccalaureate", "OCR Cambridge Technical Introductory Diploma at Level 3",
+                                             "Other General Qualification at Level 2"))
                       {choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                         select(`Subject name`) %>% as.character()
                       }
@@ -45,26 +45,26 @@ server = shinyServer(function(input, output, session) {
   multiple_sizes
   
   observe({
-    updateSelectInput(session, inputId = 'size_select',
+    updateSelectInput(session, inputId = "size_select",
                       label = NULL, 
-                      if (input$qual_select == 'VRQ Level 2' & input$subj_select %in% 
-                          c('Hairdressing Services', 'Accounting', 'Beauty Therapy')) {
+                      if (input$qual_select == "VRQ Level 2" & input$subj_select %in% 
+                          c("Hairdressing Services", "Accounting", "Beauty Therapy")) {
                         choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
                       }
-                      else if (input$qual_select == 'VRQ Level 3' & input$subj_select %in% 
-                               c('Agriculture (General)', 'Animal Husbandry: Specific Animals', 'Applied Business',
-                                 'Applied Sciences', 'Building / Construction Operations (General / Combined)',
-                                 'Childcare Skills', 'Computing and IT Advanced Technician', 'Engineering Studies',
-                                 'Environmental Management', 'Finance / Accounting (General)', 'Food Preparation (General)', 
-                                 'Health Studies', 'Horses / Ponies Keeping', 'Medical Science', 'Music performance: Group',
-                                 'Nutrition / Diet', 'Social Science', 'Speech & Drama', 'Theatrical Makeup'
+                      else if (input$qual_select == "VRQ Level 3" & input$subj_select %in% 
+                               c("Agriculture (General)", "Animal Husbandry: Specific Animals", "Applied Business",
+                                 "Applied Sciences", "Building / Construction Operations (General / Combined)",
+                                 "Childcare Skills", "Computing and IT Advanced Technician", "Engineering Studies",
+                                 "Environmental Management", "Finance / Accounting (General)", "Food Preparation (General)", 
+                                 "Health Studies", "Horses / Ponies Keeping", "Medical Science", "Music performance: Group",
+                                 "Nutrition / Diet", "Social Science", "Speech & Drama", "Theatrical Makeup"
                                  )) {
                         choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
                       }
-                      else if (input$qual_select == 'BTEC National Extended Certificate L3 - Band F - P-D*' & 
-                               input$subj_select == 'Multimedia'
+                      else if (input$qual_select == "BTEC National Extended Certificate L3 - Band F - P-D*" & 
+                               input$subj_select == "Multimedia"
                                ) {
                         choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
@@ -83,14 +83,35 @@ server = shinyServer(function(input, output, session) {
   
   output$chart_band_appear <- 
     renderUI({
-      req(input$format == 'Percentage data')
-      selectInput('chart_band',
-                  label = tags$span(style="color: black;", 'Select a KS4 prior attainment band to display in the plot'),
+      req(input$format == "Percentage data")
+      selectInput("chart_band",
+                  label = tags$span(style="color: black;", "Select a KS4 prior attainment band to display in the plot"),
                   list(bands = sort(grade_boundaries)))
     })
   
       
    
+  
+  
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- TM page title ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+  
+  
+  output$tm_title <- renderUI({
+    if (input$format == "Numbers data") {
+      tags$b(paste0("Number of students per KS4 attainment band for selected KS5 options."),
+      style = "font-size: 24px;"
+      )
+    } else {
+      tags$b(paste0("Percentage of students per KS4 attainment band for selected KS5 options."),
+      )
+    }
+  })
+  
+  
+  
 
   
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -113,7 +134,7 @@ server = shinyServer(function(input, output, session) {
 
 
   observe({
-    updateSelectInput(session, inputId = 'chart_band',
+    updateSelectInput(session, inputId = "chart_band",
                       label = NULL,
                       choices = prior_band_chart())
   })
@@ -142,11 +163,11 @@ server = shinyServer(function(input, output, session) {
     req(c(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup))
     if(lookup_selection()$SUBLEVNO %in% quals_with_multi_grades){
     number_select_qrd_2(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>%
-      rename('Prior Band' = PRIOR_BAND)
+      rename("Prior Band" = PRIOR_BAND)
     }
     else{
       number_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup) %>%
-        rename('Prior Band' = PRIOR_BAND)
+        rename("Prior Band" = PRIOR_BAND)
     }
   })
 
@@ -155,13 +176,13 @@ server = shinyServer(function(input, output, session) {
     req(c(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup))
     if(lookup_selection()$SUBLEVNO %in% quals_with_multi_grades){
     percentage_select_qrd_2(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup)  %>%
-      mutate_all(list(~str_replace(., 'NA%', ''))) %>%
-      rename('Prior Band' = PRIOR_BAND)
+      mutate_all(list(~str_replace(., "NA%", ""))) %>%
+      rename("Prior Band" = PRIOR_BAND)
     }
     else{
       percentage_select_qrd_1(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$size_lookup)  %>%
-        mutate_all(list(~str_replace(., 'NA%', ''))) %>%
-        rename('Prior Band' = PRIOR_BAND)
+        mutate_all(list(~str_replace(., "NA%", ""))) %>%
+        rename("Prior Band" = PRIOR_BAND)
     }
   })
 
@@ -172,10 +193,9 @@ server = shinyServer(function(input, output, session) {
 
   # Create example table
   output$example_table <- DT::renderDataTable({datatable(
-    example_data, options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE)) %>%
-      formatStyle('C', 'Prior Band',
-                  backgroundColor = styleEqual('5-<6', '#D4CEDE')
-      )
+    example_data, options = list(columnDefs = list(list(className = "dt-center", targets = "_all")), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE)) %>%
+      formatStyle("C", "Prior Band",
+                  backgroundColor = styleEqual("5-<6", "#D4CEDE"))
   })
   
   
@@ -184,13 +204,13 @@ server = shinyServer(function(input, output, session) {
    numbers_data()
   }
   else{
-    percentage_data()}
-  )
+    percentage_data()
+  })
 
   
   output$tm_table <- DT::renderDataTable({
-    datatable(
-      tm_table_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
+    datatable(tm_table_data(), 
+              options = list(columnDefs = list(list(className = "dt-center", targets = "_all")), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
   })
   
   
@@ -217,10 +237,10 @@ server = shinyServer(function(input, output, session) {
       map(~.x) %>%
       # Next we need to remove the % signs from the percentages
       # Then we'll set all 'x' and 'NA' to NA which, along with all numbers, will be converted to numeric using line below
-      lapply(., function(x)gsub('[%]', '', x)) %>%
-      na_if(., 'x') %>%
-      na_if(., 'NA') %>%
-      lapply(., function(x) if(all(grepl('^[0-9.]+$', x))) as.numeric(x) else x) %>%
+      lapply(., function(x)gsub("[%]", "", x)) %>%
+      na_if(., "x") %>%
+      na_if(., "NA") %>%
+      lapply(., function(x) if(all(grepl("^[0-9.]+$", x))) as.numeric(x) else x) %>%
       # Next we need to remove all NA's
       discard(~all(is.na(.x))) %>%
       # Map the list back into a tibble
@@ -232,11 +252,11 @@ server = shinyServer(function(input, output, session) {
 
 
   output$percentage_chart = renderPlot({
-    req(input$format == 'Percentage data')
+    req(input$format == "Percentage data")
     ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
-      geom_bar(stat = 'identity', fill = '#407291', colour='black') +
-      xlab('Grades') +
-      scale_y_continuous(name = paste('Percentage within', input$chart_band, 'band achieving grade', sep = " "),
+      geom_bar(stat = "identity", fill = "#407291", colour="black") +
+      xlab("Grades") +
+      scale_y_continuous(name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
                          expand = c(0, 0)) + theme(
                            # set size and spacing of axis tick labels
                            axis.text.x=element_text(size=15, vjust=0.5),
@@ -247,12 +267,12 @@ server = shinyServer(function(input, output, session) {
                            # sorting out the background colour, grid lines, and axis lines
                            panel.grid.major = element_blank(),
                            panel.grid.minor = element_blank(),
-                           panel.background = element_rect(fill = 'transparent'),
-                           plot.background = element_rect(fill = 'transparent', color = NA),
-                           axis.line = element_line(colour = 'black')
+                           panel.background = element_rect(fill = "transparent"),
+                           plot.background = element_rect(fill = "transparent", color = NA),
+                           axis.line = element_line(colour = "black")
                          )
   },
-  bg = 'transparent'
+  bg = "transparent"
   )
   
 
@@ -268,7 +288,7 @@ server = shinyServer(function(input, output, session) {
   
   # Necessary to fix the download button 
   output$tm_data_download_filtered <- downloadHandler(
-    filename = "number_data.csv",
+    filename = "KS5_tm_data_filtered.csv",
     content = function(file) {
       write.csv(tm_table_data(), file, row.names = FALSE)
     })  

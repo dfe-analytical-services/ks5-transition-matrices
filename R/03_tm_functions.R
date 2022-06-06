@@ -145,19 +145,19 @@ percentage_select_qrd_2 = function(qual, subj, size){
 # Create a fixed table for example table
 
 user_selection_example <- lookup %>%
-  filter(`Qualification name` == 'GCE A level' & `Subject name` == 'Mathematics' & SIZE == 1) %>%
+  filter(`Qualification name` == "GCE A level" & `Subject name` == "Mathematics" & SIZE == 1) %>%
   distinct()
 
 
 example_data <- number_select_qrd_1(user_selection_example$SUBLEVNO, user_selection_example$SUBJ, user_selection_example$size_lookup) %>%
-    rename('Prior Band' = PRIOR_BAND) %>%
+    rename("Prior Band" = PRIOR_BAND) %>%
     .[!sapply(., function (x) all(is.na(x) | x == ""))]
 
 
 # extract the value for example
 example_value <- example_data %>%
-  filter(`Prior Band` == '5-<6') %>%
-  pull('C')
+  filter(`Prior Band` == "5-<6") %>%
+  pull("C")
 
 
 

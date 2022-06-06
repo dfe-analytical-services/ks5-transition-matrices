@@ -85,7 +85,7 @@ server = shinyServer(function(input, output, session) {
     renderUI({
       req(input$format == 'Percentage data')
       selectInput('chart_band',
-                  label = 'Select a KS4 prior attainment band to display in the plot',
+                  label = tags$span(style="color: black;", 'Select a KS4 prior attainment band to display in the plot'),
                   list(bands = sort(grade_boundaries)))
     })
   
@@ -169,18 +169,6 @@ server = shinyServer(function(input, output, session) {
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating output tables ----
   # -----------------------------------------------------------------------------------------------------------------------------
-  # # Create the output number table
-  # output$number_table <- DT::renderDataTable({
-  #   datatable(
-  #     numbers_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
-  #                                    ))
-  # })
-  # 
-  # # Create the output percentages table
-  # output$percentage_table <- DT::renderDataTable({
-  #   datatable(
-  #     percentage_data(), options = list(columnDefs = list(list(className = 'dt-center', targets = '_all')), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
-  # })
 
   # Create example table
   output$example_table <- DT::renderDataTable({datatable(
@@ -284,12 +272,6 @@ server = shinyServer(function(input, output, session) {
     content = function(file) {
       write.csv(tm_table_data(), file, row.names = FALSE)
     })  
-  
-    # output$tm_data_download_tab_2 <- downloadHandler(
-    # filename = "percentage_data.csv",
-    # content = function(file) {
-    #   write.csv(percentage_data(), file, row.names = FALSE)
-    # })  
   
   output$tm_data_download_numbers <- downloadHandler(
     filename = "all_number_data.csv",

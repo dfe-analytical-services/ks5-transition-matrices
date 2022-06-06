@@ -10,9 +10,10 @@ ui = shinyUI(fluidPage(
     tags$link(rel = "stylesheet", type = "text/css", href = "dfe_shiny_gov_style.css")),
 
   
-  title = "16-18 Transition Matrices",
+ # title = "16-18 Transition Matrices",
   
   dashboardPage(
+
 
     dashboardHeader(title = "16-18 Transition Matrices",
                     titleWidth = 350),
@@ -31,18 +32,15 @@ ui = shinyUI(fluidPage(
       helpText("Choose a qualification, subject and size to view the transition matrices.",
                style = "margin: 5px 5px 5px 10px; "),
       br(),
-      (h5(HTML("&nbsp;"),("1. Select a Qualification"))),
       selectInput("qual_select",
-                  label = NULL,
+                  label = "1. Select a Qualification",
                   list(Qualifications = sort(unique(lookup$`Qualification name`))),
                   selected = "GCE A level"),
-      (h5(HTML("&nbsp;"),("2. Select a Subject"))),
       selectInput("subj_select",
-                  label = NULL,
+                  label = "2. Select a Subject",
                   list(Subjects = sort(unique(lookup$`Subject name`)))),
-      (h5(HTML("&nbsp;"),("3. Select a Size"))),
       selectInput("size_select", 
-                  label = NULL, 
+                  label = "3. Select a Size", 
                   list(Sizes = sort(lookup$SIZE))),
       radioButtons(inputId="format", 
                    label="4. Select format of data: ", 
@@ -65,6 +63,11 @@ ui = shinyUI(fluidPage(
                  ".shiny-output-error { visibility: hidden; }",
                  ".shiny-output-error:before { visibility: hidden; }"
       ),
+      
+      tags$head(tags$style(HTML(".skin-blue .main-header .logo {background-color: #0b0c0c;}"))),
+      
+      
+      
       tabItems(
         
         # Info tab

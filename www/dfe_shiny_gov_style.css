@@ -3,6 +3,7 @@
     background-color: #0b0c0c;
 }
 
+
 .navbar-default {
     background-color: #0b0c0c;
     border-color: #0b0c0c;
@@ -50,13 +51,6 @@ body {
   color: #fff;
 }
 
-
-.download_box{
-    height:40px;
-    width:57px;
-    color:black;
-    padding-top: 3px ;
-}
 
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {

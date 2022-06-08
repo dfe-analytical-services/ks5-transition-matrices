@@ -3,8 +3,12 @@
 # Dictates what will be shown within the app and where to find the data to fill it
 # -----------------------------------------------------------------------------------------------------------------------------
 
+# library(shinya11y)
+
 
 ui = shinyUI(fluidPage(
+  
+  # use_tota11y(),
   
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "dfe_shiny_gov_style.css")),
@@ -73,7 +77,7 @@ ui = shinyUI(fluidPage(
         # Info tab
         tabItem("info",
                 br(),
-                h2("Information"),
+                h1("Information"),
                 br(),
                 
                 "Transition matrices are a useful tool to help visualise the 
@@ -94,7 +98,7 @@ ui = shinyUI(fluidPage(
                 br(),
                 br(),
                 br(),
-                h3("Transition Matrices Example"),
+                h2("Transition Matrices Example"),
                 "Below is an example transition matrix. It shows the national attainment of GCE A level mathematics students at 
                 KS5 based on their average KS4 attainment.",
                 br(),
@@ -112,7 +116,7 @@ ui = shinyUI(fluidPage(
         # TM tab
         tabItem("tm",
                 br(),
-                h2("16-18 Transition Matrices for academic year 2020/2021"),
+                h1("16-18 Transition Matrices for academic year 2020/2021"),
                 uiOutput("tm_title"),
             #    h2("Number of students per KS4 attainment band for selected KS5 options"),
                 DT::dataTableOutput("tm_table"),

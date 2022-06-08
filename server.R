@@ -210,7 +210,9 @@ server = shinyServer(function(input, output, session) {
   
   output$tm_table <- DT::renderDataTable({
     datatable(tm_table_data(), 
-              options = list(columnDefs = list(list(className = "dt-center", targets = "_all")), bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE))
+              options = list(columnDefs = list(list(className = "dt-center", targets = "_all")), 
+                             bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE),
+              rownames = FALSE)
   })
   
   

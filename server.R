@@ -8,6 +8,14 @@ library(shiny)
 server = shinyServer(function(input, output, session) {
   
   # -----------------------------------------------------------------------------------------------------------------------------
+  # ---- Call loading screen ----
+  # -----------------------------------------------------------------------------------------------------------------------------
+  
+  hide(id = "loading-content", anim = TRUE, animType = "fade")
+  show("app-content")
+  
+  
+  # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Updates to drop down boxes ----
   # -----------------------------------------------------------------------------------------------------------------------------
   # The below code alters the options in the subject select drop down by only showing the corresponding subjects available

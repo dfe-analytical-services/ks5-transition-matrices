@@ -13,5 +13,12 @@ app$snapshot()
 
 
 
+# app$snapshot(items = list(
+#   input = c("format"),
+#   output = c("percentage_chart")
+# ))
 
 
+
+
+# shinytest::testApp()

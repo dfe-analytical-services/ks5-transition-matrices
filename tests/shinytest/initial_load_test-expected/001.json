@@ -1,29 +1,16 @@
 {
   "input": {
-    "example_table_cell_clicked": {
-
-    },
-    "example_table_cells_selected": [
-
-    ],
-    "example_table_columns_selected": null,
-    "example_table_rows_all": null,
-    "example_table_rows_current": null,
-    "example_table_rows_selected": null,
-    "example_table_search": "",
-    "example_table_state": null,
-    "format": "Numbers data",
+    "chart_band": "<1",
     "qual_select": "GCE A level",
     "sidebarCollapsed": false,
     "sidebarItemExpanded": null,
-    "size_select": "numeric(0)",
-    "subj_select": "Accounting/Finance"
+    "size_select": "",
+    "subj_select": "Accounting"
   },
   "output": {
     "example_table": {
       "x": {
         "filter": "none",
-        "vertical": false,
         "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>E<\/th>\n      <th>D<\/th>\n      <th>C<\/th>\n      <th>B<\/th>\n      <th>A<\/th>\n      <th>*<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
         "options": {
           "columnDefs": [
@@ -44,7 +31,7 @@
           ],
           "autoWidth": false,
           "orderClasses": false,
-          "rowCallback": "function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 5).node()).css({'background-color':value == \"5-&lt;6\" ? \"#D4CEDE\" : null});\n}",
+          "rowCallback": "function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 5).node()).css({'background-color':value == \"5-&lt;6\" ? \"#D4CEDE\" : null});\n}",
           "ajax": {
             "type": "POST",
             "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = true;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
@@ -68,23 +55,10 @@
       ],
       "deps": [
         {
-          "name": "jquery",
-          "version": "3.6.0",
-          "src": {
-            "href": "jquery-3.6.0"
-          },
-          "meta": null,
-          "script": "jquery-3.6.0.min.js",
-          "stylesheet": null,
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        },
-        {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.10.20",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.10.20"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -98,14 +72,27 @@
           "all_files": false
         },
         {
-          "name": "crosstalk",
-          "version": "1.2.0",
+          "name": "jquery",
+          "version": "1.11.3",
           "src": {
-            "href": "crosstalk-1.2.0"
+            "href": "jquery-1.11.3"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.1.0.1",
+          "src": {
+            "href": "crosstalk-1.1.0.1"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
-          "stylesheet": "css/crosstalk.min.css",
+          "stylesheet": "css/crosstalk.css",
           "head": null,
           "attachment": null,
           "all_files": true

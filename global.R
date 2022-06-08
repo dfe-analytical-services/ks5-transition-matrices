@@ -29,16 +29,16 @@ quals_with_multi_grades <- readRDS("./outputs/mult_grade_structure.rds")
 # ---- Set up app loading screen ---- 
 # -----------------------------------------------------------------------------------------------------------------------------
 
-appLoadingCSS <- "
-#loading-content {
-  position: absolute;
-  background: #000000;
-  opacity: 0.9;
-  z-index: 100;
-  left: 0;
-  right: 0;
-  height: 100%;
-  text-align: center;
-  color: #FFFFFF;
-}
-"
+# appLoadingCSS <- "
+# #loading-content {
+#   position: absolute;
+#   background: #000000;
+#   opacity: 0.9;
+#   z-index: 100;
+#   left: 0;
+#   right: 0;
+#   height: 100%;
+#   text-align: center;
+#   color: #FFFFFF;
+# }
+# "

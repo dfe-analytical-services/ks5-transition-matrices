@@ -22,9 +22,7 @@ server = shinyServer(function(input, output, session) {
   observe({
     updateSelectInput(session, inputId = "subj_select",
                       label = NULL, 
-                      if (input$qual_select %in% c("Extended Project (Diploma)", "Pre-U Short Course Subject",
-                                             "International Baccalaureate", "OCR Cambridge Technical Introductory Diploma at Level 3",
-                                             "Other General Qualification at Level 2"))
+                      if (input$qual_select %in% single_subj$`Qualification name`)
                       {choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                         select(`Subject name`) %>% as.character()
                       }
@@ -41,31 +39,48 @@ server = shinyServer(function(input, output, session) {
   # we need to identify which subjects have multiple sizes
   # use this output to update the list below
   ind_size <- duplicated(lookup[,2:4])
-  multiple_sizes <- lookup[ind_size,]
+  multiple_sizes <- lookup[ind_size,] %>%
+    mutate(qual_subj_combined = paste0(`Qualification name`, " - ", `Subject name`))
   multiple_sizes
+  
+  # observe({
+  #   updateSelectInput(session, inputId = "size_select",
+  #                     label = NULL, 
+  #                     if (input$qual_select == "VRQ Level 2" & input$subj_select %in% 
+  #                         c("Hairdressing Services", "Accounting", "Beauty Therapy")) {
+  #                       choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+  #                         filter(`Subject name` == input$subj_select) %>% select(SIZE) 
+  #                     }
+  #                     else if (input$qual_select == "VRQ Level 3" & input$subj_select %in% 
+  #                              c("Agriculture (General)", "Animal Husbandry: Specific Animals", "Applied Business",
+  #                                "Applied Sciences", "Building / Construction Operations (General / Combined)",
+  #                                "Childcare Skills", "Computing and IT Advanced Technician", "Engineering Studies",
+  #                                "Environmental Management", "Finance / Accounting (General)", "Food Preparation (General)", 
+  #                                "Health Studies", "Horses / Ponies Keeping", "Medical Science", "Music performance: Group",
+  #                                "Nutrition / Diet", "Social Science", "Speech & Drama", "Theatrical Makeup"
+  #                                )) {
+  #                       choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+  #                         filter(`Subject name` == input$subj_select) %>% select(SIZE) 
+  #                     }
+  #                     else if (input$qual_select == "BTEC National Extended Certificate L3 - Band F - P-D*" & 
+  #                              input$subj_select == "Multimedia"
+  #                              ) {
+  #                       choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+  #                         filter(`Subject name` == input$subj_select) %>% select(SIZE) 
+  #                     }
+  #                     else{
+  #                       choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
+  #                         filter(`Subject name` == input$subj_select) %>% select(SIZE) %>% as.character()
+  #                     })
+  # })
+  
+
+  
   
   observe({
     updateSelectInput(session, inputId = "size_select",
                       label = NULL, 
-                      if (input$qual_select == "VRQ Level 2" & input$subj_select %in% 
-                          c("Hairdressing Services", "Accounting", "Beauty Therapy")) {
-                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
-                          filter(`Subject name` == input$subj_select) %>% select(SIZE) 
-                      }
-                      else if (input$qual_select == "VRQ Level 3" & input$subj_select %in% 
-                               c("Agriculture (General)", "Animal Husbandry: Specific Animals", "Applied Business",
-                                 "Applied Sciences", "Building / Construction Operations (General / Combined)",
-                                 "Childcare Skills", "Computing and IT Advanced Technician", "Engineering Studies",
-                                 "Environmental Management", "Finance / Accounting (General)", "Food Preparation (General)", 
-                                 "Health Studies", "Horses / Ponies Keeping", "Medical Science", "Music performance: Group",
-                                 "Nutrition / Diet", "Social Science", "Speech & Drama", "Theatrical Makeup"
-                                 )) {
-                        choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
-                          filter(`Subject name` == input$subj_select) %>% select(SIZE) 
-                      }
-                      else if (input$qual_select == "BTEC National Extended Certificate L3 - Band F - P-D*" & 
-                               input$subj_select == "Multimedia"
-                               ) {
+                      if (paste0(input$qual_select, " - ", input$subj_select) %in% multiple_sizes$qual_subj_combined) {
                         choices = lookup %>% filter(`Qualification name` == input$qual_select) %>% 
                           filter(`Subject name` == input$subj_select) %>% select(SIZE) 
                       }
@@ -76,7 +91,10 @@ server = shinyServer(function(input, output, session) {
   })
   
   
-
+  
+  
+  
+  
   
   
   # only want the prior band drop down box to appear if the percentage data checkbox has been selected
@@ -125,10 +143,10 @@ server = shinyServer(function(input, output, session) {
   prior_band_chart <- reactive({
     req(input$qual_select)
     stud_percentages %>%
-      left_join(lookup_characters, by = c("SUBLEVNO", "SUBJ", "ASIZE" = "SIZE")) %>%
+      left_join(lookup_characters, by = c("SUBLEVNO", "SUBJ", "ASIZE" = "size_lookup")) %>%
       subset(`Qualification name` == input$qual_select &
                `Subject name` == input$subj_select &
-               ASIZE == input$size_select) %>%
+               SIZE == input$size_select) %>%
       pull(PRIOR_BAND)
   })
 
@@ -141,6 +159,7 @@ server = shinyServer(function(input, output, session) {
 
 
   
+
   
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating re-active lookups from drop down selections ----

@@ -49,9 +49,9 @@ server <- function(input, output, session) {
   # qualifications with only one subject, and subjects with multiple sizes require special formatting
   
   # we need to identify which qualifications have only 1 subject option
-  # use this output to update the list below
+  # use this output to update the qualification drop down box below
   single_subj <-  qual_lookup %>% group_by(SUBLEVNO) %>% filter(n()==1) 
-  single_subj
+  # single_subj
   
   observe({
     updateSelectInput(session, inputId = "subj_select",
@@ -73,13 +73,13 @@ server <- function(input, output, session) {
   
   
   # we need to identify which subjects have multiple sizes
-  # use this output to update the list below
+  # use this output to update the size select drop down box below
   multiple_sizes <- qual_lookup %>%
     group_by(Qual_Description, SUBLEVNO, Subject, SUBJ) %>%
     count() %>%
     filter(n > 1) %>%
     mutate(qual_subj_combined = paste0(Qual_Description, " - ", Subject))
-  multiple_sizes
+  # multiple_sizes
   
 
  
@@ -106,13 +106,13 @@ server <- function(input, output, session) {
   
   
   # we need to identify which subject and sizes have multiple grade structures
-  # use this output to update the list below
+  # use this output to update the grade select drop down box below
   multiple_gradestructures <- qual_lookup %>%
     group_by(Qual_Description, SUBLEVNO, Subject, SUBJ, SIZE) %>%
     count() %>%
     filter(n > 1) %>%
     mutate(qual_subj_size_combined = paste0(Qual_Description, " - ", Subject, " - ", SIZE))
-  multiple_gradestructures
+  # multiple_gradestructures
   
 
   
@@ -150,9 +150,11 @@ server <- function(input, output, session) {
     
   
   
+  
     lookup_characters <- qual_lookup %>%
       mutate(across(c(SUBLEVNO, SUBJ, SIZE, ASIZE, GSIZE, gradeStructure), ~as.character(.x)))
     
+    # use this output to update the prior band drop down box below
     prior_band_chart <- reactive({
       req(input$qual_select)
       stud_percentages %>%
@@ -165,8 +167,6 @@ server <- function(input, output, session) {
         pull(PRIOR_BAND)
     })
     
-    
-
     
     observe({
       updateSelectInput(session, inputId = "chart_band",
@@ -260,7 +260,7 @@ server <- function(input, output, session) {
   
   
   
-  percentage_chart_data <- reactive({
+  percentage_chart_data <- eventReactive(input$chart_band, {
     percentage_select_function(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
       filter(PRIOR_BAND == input$chart_band) %>%
       

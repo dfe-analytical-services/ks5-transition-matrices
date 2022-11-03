@@ -2,7 +2,4 @@
 .Rhistory
 .RData
 .Ruserdata
-R/01_data-processing.R
-R/02_qrd_grades.R
-R/04_accessibility_testing.R
 background_scripts/

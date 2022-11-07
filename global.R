@@ -55,18 +55,20 @@ tidy_code_function <- function() {
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Returns a table from the Student Numbers CSV
-number_select_function = function(qual, subj, size, grade_structure){
-  filter_selection = paste0(qual, subj, size, grade_structure)
-  qual_grades = filter(grade_lookup, 
-                       SUBLEVNO == qual & SUBJ == subj & SIZE == size & gradeStructure == grade_structure)
-  
+number_select_function <- function(qual, subj, size, grade_structure) {
+  filter_selection <- paste0(qual, subj, size, grade_structure)
+  qual_grades <- filter(
+    grade_lookup,
+    SUBLEVNO == qual & SUBJ == subj & SIZE == size & gradeStructure == grade_structure
+  )
+
   # Grades already sorted so just need to extract list of grades
-  grade_list = qual_grades$GRADE
-  
-  table = stud_numbers %>% 
-    filter(QUAL_ID == filter_selection) %>%  
-    select(PRIOR_BAND, grade_list) 
-  
+  grade_list <- qual_grades$GRADE
+
+  table <- stud_numbers %>%
+    filter(QUAL_ID == filter_selection) %>%
+    select(PRIOR_BAND, grade_list)
+
   return(table)
 }
 
@@ -75,17 +77,17 @@ number_select_function = function(qual, subj, size, grade_structure){
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Returns a table from the Student Percentages CSV
-percentage_select_function = function(qual, subj, size, grade_structure){
-  filter_selection = paste0(qual, subj, size, grade_structure)
-  qual_grades = filter(grade_lookup, SUBLEVNO == qual & SUBJ == subj & SIZE == size & gradeStructure == grade_structure)
-  
+percentage_select_function <- function(qual, subj, size, grade_structure) {
+  filter_selection <- paste0(qual, subj, size, grade_structure)
+  qual_grades <- filter(grade_lookup, SUBLEVNO == qual & SUBJ == subj & SIZE == size & gradeStructure == grade_structure)
+
   # Grades already sorted so just need to extract list of grades
-  grade_list = qual_grades$GRADE
-  
-  table = stud_percentages %>% 
-    filter(QUAL_ID == filter_selection) %>%  
+  grade_list <- qual_grades$GRADE
+
+  table <- stud_percentages %>%
+    filter(QUAL_ID == filter_selection) %>%
     select(PRIOR_BAND, grade_list)
-  
+
   return(table)
 }
 
@@ -136,7 +138,7 @@ appLoadingCSS <- "
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
-# ---- Read in the Data from 01_data-processing ---- 
+# ---- Read in the Data from 01_data-processing ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -155,7 +157,7 @@ grade_lookup <- readRDS("data/grade_lookup.rds")
 # ---- Prior Grade boundaries ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-grade_boundaries = c("<1", "1-<2", "2-<3", "3-<4", "4-<5", "5-<6", "6-<7", "7-<8", "8-<9", "9>=")
+grade_boundaries <- c("<1", "1-<2", "2-<3", "3-<4", "4-<5", "5-<6", "6-<7", "7-<8", "8-<9", "9>=")
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -168,10 +170,12 @@ user_selection_example <- qual_lookup %>%
   distinct()
 
 
-example_data <- number_select_function(user_selection_example$SUBLEVNO, user_selection_example$SUBJ, 
-                                    user_selection_example$SIZE, user_selection_example$gradeStructure) %>%
+example_data <- number_select_function(
+  user_selection_example$SUBLEVNO, user_selection_example$SUBJ,
+  user_selection_example$SIZE, user_selection_example$gradeStructure
+) %>%
   rename("Prior Band" = PRIOR_BAND) %>%
-  .[!sapply(., function (x) all(is.na(x) | x == ""))]
+  .[!sapply(., function(x) all(is.na(x) | x == ""))]
 
 
 # extract the value for example
@@ -190,11 +194,3 @@ site_primary <- "https://https://department-for-education.shinyapps.io/ks5-trans
 sites_list <- c(site_primary) # We can add further mirrors where necessary. Each one can generally handle about 2,500 users simultaneously
 ees_pub_name <- "A level and other 16 to 18 results" # Update this with your parent publication name (e.g. the EES publication)
 ees_publication <- "https://explore-education-statistics.service.gov.uk/find-statistics/a-level-and-other-16-to-18-results/" # Update with parent publication link
-
-
-
-
-
-
-
-

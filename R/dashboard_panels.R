@@ -31,6 +31,10 @@ homepage_panel <- function() {
                       progression of pupils aged 16-18 from key stage 4 (KS4) to key 
                       stage 5 (KS5)."),
                   p(actionLink("link_to_app_content_tab", "16-18 Transition Matrices tool")),
+                  br(),
+                  p("A level and other 16 to 18 results data are now all available on the statistics platform, ", 
+                    a("Explore Education Statistics (EES)", 
+                      href = "https://explore-education-statistics.service.gov.uk/find-statistics/a-level-and-other-16-to-18-results")),
                   br()
                 )
               )
@@ -175,25 +179,49 @@ dashboard_panel <- function() {
           )
         ),
         
+     
+        # column(
+        #   width=12,
+        #   fluidRow(
+        # 
+        #     column(
+        #       width = 12,
+        #       box(
+        #         width = 12,
+        #         htmlOutput("tm_title"),
+        #         DT::dataTableOutput("tm_table") %>% withSpinner(color="#1d70b8")
+        #       )
+        #     ),
+        # 
+        #     conditionalPanel(
+        #       condition = "input$format == 'Percentage data'",
+        #       plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color="#1d70b8")
+        #     )
+        #   )
+        # ),
+        
+        
+        
         column(
           width=12,
           fluidRow(
-            
+
             column(
               width = 12,
               box(
                 width = 12,
                 htmlOutput("tm_title"),
-                DT::dataTableOutput("tm_table")
+                DT::dataTableOutput("tm_table") %>% withSpinner(color="#1d70b8")
               ),
-              
+
               column(
                 12,
-                plotOutput("percentage_chart", height = "15cm")
+                plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color="#1d70b8")
               )
             )
           )
         ),
+        
         
         column(
           width=12,

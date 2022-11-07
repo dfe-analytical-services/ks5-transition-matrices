@@ -40,7 +40,6 @@ server <- function(input, output, session) {
   
 
   
-  
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Updates to drop down boxes ----
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -260,7 +259,28 @@ server <- function(input, output, session) {
   
   
   
-  percentage_chart_data <- eventReactive(input$chart_band, {
+  # percentage_chart_data <- eventReactive(input$chart_band, {
+  #   percentage_select_function(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
+  #     filter(PRIOR_BAND == input$chart_band) %>%
+  #     
+  #     # Now we have our selected row data it needs cleaning up because these values are characters
+  #     # First we'll turn it into a list
+  #     map(~.x) %>%
+  #     # Next we need to remove the % signs from the percentages
+  #     # Then we'll set all 'x' and 'NA' to NA which, along with all numbers, will be converted to numeric using line below
+  #     lapply(., function(x)gsub("[%]", "", x)) %>%
+  #     na_if(., "x") %>%
+  #     na_if(., "NA") %>%
+  #     lapply(., function(x) if(all(grepl("^[0-9.]+$", x))) as.numeric(x) else x) %>%
+  #     # Next we need to remove all NA's
+  #     discard(~all(is.na(.x))) %>%
+  #     # Map the list back into a tibble
+  #     map_df(~.x) %>%
+  #     reshape2::melt() 
+  # })
+  
+  
+  percentage_chart_data <- reactive({
     percentage_select_function(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
       filter(PRIOR_BAND == input$chart_band) %>%
       

@@ -179,7 +179,34 @@ dashboard_panel <- function() {
           )
         ),
         
-     
+        
+        ## attempt 1 ----- INSIDE SECOND COLUMN
+        
+        # column(
+        #   width=12,
+        #   fluidRow(
+        #     
+        #     column(
+        #       width = 12,
+        #       box(
+        #         width = 12,
+        #         htmlOutput("tm_title"),
+        #         DT::dataTableOutput("tm_table") %>% withSpinner(color="#1d70b8")
+        #       ),
+        #       
+        #       conditionalPanel(
+        #         condition = "input$format == 'Percentage data'",
+        #         plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color="#1d70b8")
+        #       )
+        #     )
+        #   )
+        # ),
+        
+       
+        
+        
+        ## attempt 2 ----- TWO SEPERATE COLUMNS
+        
         # column(
         #   width=12,
         #   fluidRow(
@@ -191,7 +218,13 @@ dashboard_panel <- function() {
         #         htmlOutput("tm_title"),
         #         DT::dataTableOutput("tm_table") %>% withSpinner(color="#1d70b8")
         #       )
-        #     ),
+        #     )
+        #   )
+        # ),
+        # 
+        # column(
+        #   width=12,
+        #   fluidRow(
         # 
         #     conditionalPanel(
         #       condition = "input$format == 'Percentage data'",
@@ -202,6 +235,9 @@ dashboard_panel <- function() {
         
         
         
+        
+        ## attempt 3 ----- INSIDE MAIN COLUMN
+     
         column(
           width=12,
           fluidRow(
@@ -212,15 +248,38 @@ dashboard_panel <- function() {
                 width = 12,
                 htmlOutput("tm_title"),
                 DT::dataTableOutput("tm_table") %>% withSpinner(color="#1d70b8")
-              ),
-
-              column(
-                12,
-                plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color="#1d70b8")
               )
+            ),
+
+            conditionalPanel(
+              condition = "input$format == 'Percentage data'",
+              plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color="#1d70b8")
             )
           )
         ),
+        
+        
+        ## attempt 4 ----- ORIGINAL
+        
+        # column(
+        #   width=12,
+        #   fluidRow(
+        # 
+        #     column(
+        #       width = 12,
+        #       box(
+        #         width = 12,
+        #         htmlOutput("tm_title"),
+        #         DT::dataTableOutput("tm_table") %>% withSpinner(color="#1d70b8")
+        #       ),
+        # 
+        #       column(
+        #         12,
+        #         plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color="#1d70b8")
+        #       )
+        #     )
+        #   )
+        # ),
         
         
         column(

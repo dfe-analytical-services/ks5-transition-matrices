@@ -100,7 +100,7 @@ If you spot any issues with the application, please flag it in the "Issues" tab 
 
 ### Merging pull requests
 
-Only members of the 16-18 accountability data and development team can merge pull requests. Add katie-aisling as a requested reviewer, and the team will review before merging.
+Only members of the 16-18 accountability data and development team can merge pull requests. Add katie-aisling, cjrace, and rmbielby as a requested reviewers, and the team will review before merging.
 
 ---
 

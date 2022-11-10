@@ -145,7 +145,8 @@ dashboard_panel <- function() {
                 selectizeInput(
                   inputId = "subj_select",
                   label = "2. Select a subject",
-                  choices = list(Subjects = sort(unique(qual_lookup$Subject)))
+                  choices = list(Subjects = sort(unique(qual_lookup$Subject))),
+                  selected = "Mathematics"
                 )
               ), 
               

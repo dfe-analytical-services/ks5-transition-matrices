@@ -156,7 +156,7 @@ server <- function(input, output, session) {
       req(input$format == "Percentage data")
       selectInput("chart_band",
         label = tags$span(style = "color: white;", "6. Select a KS4 prior attainment band to display in the plot"),
-        list(bands = sort(grade_boundaries))
+        list(bands = sort(prior_band_chart()))
       )
     })
 

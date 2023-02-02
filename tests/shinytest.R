@@ -1,2 +1,2 @@
 library(shinytest)
-shinytest::testApp("./")
+shinytest::testApp("../")

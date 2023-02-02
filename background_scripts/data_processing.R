@@ -20,11 +20,11 @@ rm(list=ls())
 # ---- Things to change between runs ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-tm_file = "[KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2022U]"
+tm_file = "[KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2022A]"
 
 
-ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2022/KS5/November_2022/LIVE_RUN/06_ancillary/"
-current_year <- "2022U"
+ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2022/KS5/February_2023/LIVE_RUN/06_ancillary/"
+current_year <- "2022A"
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Reading in the data from SQL tables ----
@@ -35,9 +35,10 @@ current_year <- "2022U"
 con <- DBI::dbConnect(odbc::odbc(), driver = "SQL Server",
                       server = "3dcpri-pdb16\\acsqls")
 
-# select data from SQL tables
-tm_data_raw <- tbl(con, sql(paste("select * from", tm_file))) %>% collect()
 
+# Select data from SQL tables
+
+tm_data_raw <- tbl(con, sql(paste("select * from", tm_file))) %>% collect()
 
 # disconnect
 DBI::dbDisconnect(con)

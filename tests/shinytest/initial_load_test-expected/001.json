@@ -13,11 +13,12 @@
     "example_table_search": "",
     "example_table_state": null,
     "format": "Numbers data",
+    "grade_structure_select": "character(0)",
+    "link_to_app_content_tab": 0,
+    "navlistPanel": "Homepage",
     "qual_select": "GCE A level",
-    "sidebarCollapsed": false,
-    "sidebarItemExpanded": null,
-    "size_select": "numeric(0)",
-    "subj_select": "Accounting/Finance"
+    "size_select": "1",
+    "subj_select": "Accounting / Finance"
   },
   "output": {
     "example_table": {

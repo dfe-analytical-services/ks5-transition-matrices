@@ -55,7 +55,7 @@ tidy_code_function <- function() {
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Returns a table from the Student Numbers CSV
-number_select_function <- function(qual, subj, size, grade_structure) {
+number_select_function <- function(AcadYr_sel, qual, subj, size, grade_structure) {
   filter_selection <- paste0(qual, subj, size, grade_structure)
   qual_grades <- filter(
     grade_lookup,
@@ -66,7 +66,7 @@ number_select_function <- function(qual, subj, size, grade_structure) {
   grade_list <- qual_grades$GRADE
 
   table <- stud_numbers %>%
-    filter(QUAL_ID == filter_selection) %>%
+    filter(AcadYr == AcadYr_sel & QUAL_ID == filter_selection) %>%
     select(PRIOR_BAND, grade_list)
 
   return(table)
@@ -77,7 +77,7 @@ number_select_function <- function(qual, subj, size, grade_structure) {
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Returns a table from the Student Percentages CSV
-percentage_select_function <- function(qual, subj, size, grade_structure) {
+percentage_select_function <- function(AcadYr_sel, qual, subj, size, grade_structure) {
   filter_selection <- paste0(qual, subj, size, grade_structure)
   qual_grades <- filter(grade_lookup, SUBLEVNO == qual & SUBJ == subj & SIZE == size & gradeStructure == grade_structure)
 
@@ -85,7 +85,7 @@ percentage_select_function <- function(qual, subj, size, grade_structure) {
   grade_list <- qual_grades$GRADE
 
   table <- stud_percentages %>%
-    filter(QUAL_ID == filter_selection) %>%
+    filter(AcadYr == AcadYr_sel & QUAL_ID == filter_selection) %>%
     select(PRIOR_BAND, grade_list)
 
   return(table)
@@ -166,12 +166,12 @@ grade_boundaries <- c("<1", "1-<2", "2-<3", "3-<4", "4-<5", "5-<6", "6-<7", "7-<
 
 # Create a fixed table for example table
 user_selection_example <- qual_lookup %>%
-  filter(Qual_Description == "GCE A level" & Subject == "Mathematics" & ASIZE == 1 & gradeStructure == "*,A,B,C,D,E") %>%
+  filter(AcadYr == max(AcadYr) & Qual_Description == "GCE A level" & Subject == "Mathematics" & ASIZE == 1 & gradeStructure == "*,A,B,C,D,E") %>%
   distinct()
 
 
 example_data <- number_select_function(
-  user_selection_example$SUBLEVNO, user_selection_example$SUBJ,
+  user_selection_example$AcadYr, user_selection_example$SUBLEVNO, user_selection_example$SUBJ,
   user_selection_example$SIZE, user_selection_example$gradeStructure
 ) %>%
   rename("Prior Band" = PRIOR_BAND) %>%

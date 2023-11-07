@@ -133,8 +133,18 @@ dashboard_panel <- function() {
               column(
                 width = 6,
                 selectizeInput(
+                  inputId = "AcadYr_select",
+                  label = "1. Select an academic year",
+                  choices = list(AcadYr = sort(unique(qual_lookup$AcadYr))),
+                  selected = max(qual_lookup$AcadYr)
+                )
+              ),
+              
+              column(
+                width = 6,
+                selectizeInput(
                   inputId = "qual_select",
-                  label = "1. Select a qualification",
+                  label = "2. Select a qualification",
                   choices = list(Qualifications = sort(unique(qual_lookup$Qual_Description))),
                   selected = "GCE A level"
                 )
@@ -144,7 +154,7 @@ dashboard_panel <- function() {
                 width = 6,
                 selectizeInput(
                   inputId = "subj_select",
-                  label = "2. Select a subject",
+                  label = "3. Select a subject",
                   choices = list(Subjects = sort(unique(qual_lookup$Subject))),
                   selected = "Mathematics"
                 )
@@ -154,7 +164,7 @@ dashboard_panel <- function() {
                 width = 6,
                 selectizeInput(
                   inputId = "size_select",
-                  label = "3. Select a size",
+                  label = "4. Select a size",
                   choices = list(Sizes = sort(qual_lookup$SIZE))
                 )
               ),
@@ -163,7 +173,7 @@ dashboard_panel <- function() {
                 width = 6,
                 selectizeInput(
                   inputId = "grade_structure_select",
-                  label = "4. Select a grade structure",
+                  label = "5. Select a grade structure",
                   choices = list(GradeStructures = sort(qual_lookup$gradeStructure))
                 )
               ),
@@ -171,7 +181,7 @@ dashboard_panel <- function() {
               column(
                 width = 12,
                 radioButtons(inputId="format", 
-                             label="5. Select format of data: ", 
+                             label="6. Select format of data: ", 
                              choices=c("Numbers data", "Percentage data")
                 ),
                 uiOutput("chart_band_appear")

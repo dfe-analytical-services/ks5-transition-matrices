@@ -174,12 +174,13 @@ server <- function(input, output, session) {
   prior_band_chart <- reactive({
     req(input$qual_select)
     stud_percentages %>%
-      left_join(lookup_characters, by = c("ReportYr",
+      left_join(lookup_characters, by = c(
+        "ReportYr",
         "Qual_Description", "SUBLEVNO", "Subject", "SUBJ",
         "ASIZE", "GSIZE", "SIZE", "gradeStructure"
       )) %>%
       subset(ReportYr == input$ReportYr_select &
-             Qual_Description == input$qual_select &
+        Qual_Description == input$qual_select &
         Subject == input$subj_select &
         SIZE == input$size_select &
         gradeStructure == input$grade_structure_select) %>%

@@ -57,8 +57,8 @@ homepage_panel <- function() {
               div(
                 class = "panel-body",
                 h3("Context and purpose"),
-                p("To use the 16-18 Transition Matrices tool click onto the '16-18 TM tool' tab found on the left panel. Please then
-                select a qualification, subject and subject size from the dropdown boxes. 
+                p("To use the 16-18 Transition Matrices tool click onto the 'Dashboard' tab found on the left panel. Please then
+                select a report year (the year students finished 16-18 study), qualification, subject and subject size from the dropdown boxes. 
                 Use the 'Numbers data' and 'Percentage Data' options to switch the 
                 table view between number of students and percentage of students."),
                 br(),
@@ -133,8 +133,18 @@ dashboard_panel <- function() {
               column(
                 width = 6,
                 selectizeInput(
+                  inputId = "ReportYr_select",
+                  label = "1. Select a report year",
+                  choices = unique(qual_lookup$ReportYr), # list(ReportYr = sort(unique(qual_lookup$ReportYr))),
+                  selected = max(qual_lookup$ReportYr)
+                )
+              ),
+              
+              column(
+                width = 6,
+                selectizeInput(
                   inputId = "qual_select",
-                  label = "1. Select a qualification",
+                  label = "2. Select a qualification",
                   choices = list(Qualifications = sort(unique(qual_lookup$Qual_Description))),
                   selected = "GCE A level"
                 )
@@ -144,7 +154,7 @@ dashboard_panel <- function() {
                 width = 6,
                 selectizeInput(
                   inputId = "subj_select",
-                  label = "2. Select a subject",
+                  label = "3. Select a subject",
                   choices = list(Subjects = sort(unique(qual_lookup$Subject))),
                   selected = "Mathematics"
                 )
@@ -154,7 +164,7 @@ dashboard_panel <- function() {
                 width = 6,
                 selectizeInput(
                   inputId = "size_select",
-                  label = "3. Select a size",
+                  label = "4. Select a size",
                   choices = list(Sizes = sort(qual_lookup$SIZE))
                 )
               ),
@@ -163,7 +173,7 @@ dashboard_panel <- function() {
                 width = 6,
                 selectizeInput(
                   inputId = "grade_structure_select",
-                  label = "4. Select a grade structure",
+                  label = "5. Select a grade structure",
                   choices = list(GradeStructures = sort(qual_lookup$gradeStructure))
                 )
               ),
@@ -171,7 +181,7 @@ dashboard_panel <- function() {
               column(
                 width = 12,
                 radioButtons(inputId="format", 
-                             label="5. Select format of data: ", 
+                             label="6. Select format of data: ", 
                              choices=c("Numbers data", "Percentage data")
                 ),
                 uiOutput("chart_band_appear")

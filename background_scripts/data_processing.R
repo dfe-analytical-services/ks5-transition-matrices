@@ -33,7 +33,7 @@ current_year <- "2022A"
 
 # establish connection to server
 con <- DBI::dbConnect(odbc::odbc(), driver = "SQL Server",
-                      server = "3dcpri-pdb16\\acsqls")
+                      server = "VMT1PR-DHSQL02")
 
 
 # Select data from SQL tables
@@ -150,13 +150,34 @@ grades_ordered_lookup <- bind_rows(grades_char, grades_num) %>%
 
 
 
+# -----------------------------------------------------------------------------------------------------------------------------
+# ---- add academic year to data ---- 
+# -----------------------------------------------------------------------------------------------------------------------------
+
+student_numbers <- student_numbers %>% 
+  mutate(ReportYr = 2022) %>% 
+  select(ReportYr, everything())
+
+student_percentages <- student_percentages %>% 
+  mutate(ReportYr = 2022) %>% 
+  select(ReportYr, everything())
+
+qual_lookup <- qual_lookup %>% 
+  mutate(ReportYr = 2022) %>% 
+  select(ReportYr, everything())
+
+grades_ordered_lookup <- grades_ordered_lookup %>% 
+  mutate(ReportYr = 2022) %>% 
+  select(ReportYr, everything())
 
 
 # grade_list %>% filter(SUBLEVNO == 253, SUBJ == 20596, ASIZE == 1)
 
+
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Saving Data ---- 
 # -----------------------------------------------------------------------------------------------------------------------------
+
 
 saveRDS(student_numbers, "./data/all_student_numbers.rds")
 saveRDS(student_percentages, "./data/all_student_percentages.rds")

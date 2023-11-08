@@ -49,7 +49,7 @@ server <- function(input, output, session) {
   # we need to identify which qualifications have only 1 subject option
   # use this output to update the qualification drop down box below
   single_subj <- qual_lookup %>%
-    group_by(SUBLEVNO) %>%
+    group_by(ReportYr, SUBLEVNO) %>%
     filter(n() == 1)
   # single_subj
 
@@ -59,12 +59,12 @@ server <- function(input, output, session) {
       label = NULL,
       if (input$qual_select %in% single_subj$Qual_Description) {
         choices <- qual_lookup %>%
-          filter(Qual_Description == input$qual_select) %>%
+          filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
           select(Subject) %>%
           as.character()
       } else {
         choices <- qual_lookup %>%
-          filter(Qual_Description == input$qual_select) %>%
+          filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
           select(Subject) %>%
           arrange(Subject)
       }
@@ -76,10 +76,10 @@ server <- function(input, output, session) {
   # we need to identify which subjects have multiple sizes
   # use this output to update the size select drop down box below
   multiple_sizes <- qual_lookup %>%
-    group_by(Qual_Description, SUBLEVNO, Subject, SUBJ) %>%
+    group_by(ReportYr, Qual_Description, SUBLEVNO, Subject, SUBJ) %>%
     count() %>%
     filter(n > 1) %>%
-    mutate(qual_subj_combined = paste0(Qual_Description, " - ", Subject))
+    mutate(qual_subj_combined = paste0(ReportYr, " - ", Qual_Description, " - ", Subject))
   # multiple_sizes
 
 
@@ -88,9 +88,10 @@ server <- function(input, output, session) {
     updateSelectInput(session,
       inputId = "size_select",
       label = NULL,
-      if (paste0(input$qual_select, " - ", input$subj_select) %in% multiple_sizes$qual_subj_combined) {
+      if (paste0(input$ReportYr_select, " - ", input$qual_select, " - ", input$subj_select) %in% multiple_sizes$qual_subj_combined) {
         choices <- qual_lookup %>%
           filter(
+            ReportYr == input$ReportYr_select,
             Qual_Description == input$qual_select,
             Subject == input$subj_select
           ) %>%
@@ -99,6 +100,7 @@ server <- function(input, output, session) {
       } else {
         choices <- qual_lookup %>%
           filter(
+            ReportYr == input$ReportYr_select,
             Qual_Description == input$qual_select,
             Subject == input$subj_select
           ) %>%
@@ -114,10 +116,10 @@ server <- function(input, output, session) {
   # we need to identify which subject and sizes have multiple grade structures
   # use this output to update the grade select drop down box below
   multiple_gradestructures <- qual_lookup %>%
-    group_by(Qual_Description, SUBLEVNO, Subject, SUBJ, SIZE) %>%
+    group_by(ReportYr, Qual_Description, SUBLEVNO, Subject, SUBJ, SIZE) %>%
     count() %>%
     filter(n > 1) %>%
-    mutate(qual_subj_size_combined = paste0(Qual_Description, " - ", Subject, " - ", SIZE))
+    mutate(qual_subj_size_combined = paste0(ReportYr, " - ", Qual_Description, " - ", Subject, " - ", SIZE))
   # multiple_gradestructures
 
 
@@ -126,9 +128,10 @@ server <- function(input, output, session) {
     updateSelectInput(session,
       inputId = "grade_structure_select",
       label = NULL,
-      if (paste0(input$qual_select, " - ", input$subj_select, " - ", input$size_select) %in% multiple_gradestructures$qual_subj_size_combined) {
+      if (paste0(input$ReportYr_select, " - ", input$qual_select, " - ", input$subj_select, " - ", input$size_select) %in% multiple_gradestructures$qual_subj_size_combined) {
         choices <- qual_lookup %>%
           filter(
+            ReportYr == input$ReportYr_select,
             Qual_Description == input$qual_select,
             Subject == input$subj_select,
             SIZE == input$size_select
@@ -138,6 +141,7 @@ server <- function(input, output, session) {
       } else {
         choices <- qual_lookup %>%
           filter(
+            ReportYr == input$ReportYr_select,
             Qual_Description == input$qual_select,
             Subject == input$subj_select,
             SIZE == input$size_select
@@ -155,7 +159,7 @@ server <- function(input, output, session) {
     renderUI({
       req(input$format == "Percentage data")
       selectInput("chart_band",
-        label = tags$span(style = "color: white;", "6. Select a KS4 prior attainment band to display in the plot"),
+        label = tags$span(style = "color: white;", "7. Select a KS4 prior attainment band to display in the plot"),
         list(bands = sort(prior_band_chart()))
       )
     })
@@ -171,10 +175,12 @@ server <- function(input, output, session) {
     req(input$qual_select)
     stud_percentages %>%
       left_join(lookup_characters, by = c(
+        "ReportYr",
         "Qual_Description", "SUBLEVNO", "Subject", "SUBJ",
         "ASIZE", "GSIZE", "SIZE", "gradeStructure"
       )) %>%
-      subset(Qual_Description == input$qual_select &
+      subset(ReportYr == input$ReportYr_select &
+        Qual_Description == input$qual_select &
         Subject == input$subj_select &
         SIZE == input$size_select &
         gradeStructure == input$grade_structure_select) %>%
@@ -197,7 +203,8 @@ server <- function(input, output, session) {
   ## Try and streamline the original code using reactive tables to prevent repetition
   lookup_selection <- reactive({
     qual_lookup %>%
-      filter(Qual_Description == input$qual_select &
+      filter(ReportYr == input$ReportYr_select &
+        Qual_Description == input$qual_select &
         Subject == input$subj_select &
         SIZE == input$size_select &
         gradeStructure == input$grade_structure_select) %>%
@@ -212,9 +219,9 @@ server <- function(input, output, session) {
   # Create a reactive table for numbers table -----------------------------------------------
   # the function on the last line removes columns that are empty
   numbers_data <- reactive({
-    req(c(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure))
+    req(c(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure))
 
-    number_select_function(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
+    number_select_function(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
       rename("Prior Band" = PRIOR_BAND)
   })
 
@@ -222,9 +229,9 @@ server <- function(input, output, session) {
 
   # Create a reactive table for percentage table -----------------------------------------------
   percentage_data <- reactive({
-    req(c(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure))
+    req(c(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure))
 
-    percentage_select_function(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
+    percentage_select_function(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
       mutate_all(list(~ str_replace(., "NA%", ""))) %>%
       rename("Prior Band" = PRIOR_BAND)
   })
@@ -307,7 +314,7 @@ server <- function(input, output, session) {
 
 
   percentage_chart_data <- reactive({
-    percentage_select_function(lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
+    percentage_select_function(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
       filter(PRIOR_BAND == input$chart_band) %>%
       # Now we have our selected row data it needs cleaning up because these values are characters
       # First we'll turn it into a list

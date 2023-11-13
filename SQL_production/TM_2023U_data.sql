@@ -20,13 +20,13 @@
 DECLARE @RPYEAR AS INTEGER = 2023
 
 If object_Id('tempDB..#subj_tab') is not null drop table #subj_tab
-select * into #subj_tab from QRD.dbo.Subje01_2023_10_31
+select * into #subj_tab from QRD.dbo.Subje01_2023_09_18
 If object_Id('tempDB..#tab2') is not null drop table #tab2
-select * into #tab2 from QRD.dbo.Table2_2023_10_31
+select * into #tab2 from QRD.dbo.Table2_2023_09_18
 If object_Id('tempDB..#tab3') is not null drop table #tab3
-select * into #tab3 from QRD.dbo.Table3_2023_10_31
+select * into #tab3 from QRD.dbo.Table3_2023_09_18
 If object_Id('tempDB..#tab4') is not null drop table #tab4
-select * into #tab4 from QRD.dbo.Table4_2023_10_31
+select * into #tab4 from QRD.dbo.Table4_2023_09_18
 If object_Id('tempDB..#subj') is not null drop table #subj
 --select distinct SUBLEVNO, SUBJ, MAPPING into #subj from [L3VA].[U2022].[QUAL_SUBJ_LOOKUP]
 select distinct SUBJ, MAPPING into #subj from [L3VA].[U2023].[SUBJCODES_lookup]

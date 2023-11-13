@@ -20,11 +20,11 @@ rm(list=ls())
 # ---- Things to change between runs ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-tm_file = "[KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2022A]"
+tm_file = "[KS5_STATISTICS_RESTRICTED].[TM_2023].[TM_data_2023U]"
 
 
-ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2022/KS5/February_2023/LIVE_RUN/06_ancillary/"
-current_year <- "2022A"
+ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2023/KS5/November_2023/06_ancillary/"
+current_year <- "2023U"
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Reading in the data from SQL tables ----
@@ -151,44 +151,6 @@ grades_ordered_lookup <- bind_rows(grades_char, grades_num) %>%
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
-# ---- add academic year to data ---- 
-# -----------------------------------------------------------------------------------------------------------------------------
-
-student_numbers <- student_numbers %>% 
-  mutate(ReportYr = 2022) %>% 
-  select(ReportYr, everything())
-
-student_percentages <- student_percentages %>% 
-  mutate(ReportYr = 2022) %>% 
-  select(ReportYr, everything())
-
-qual_lookup <- qual_lookup %>% 
-  mutate(ReportYr = 2022) %>% 
-  select(ReportYr, everything())
-
-grades_ordered_lookup <- grades_ordered_lookup %>% 
-  mutate(ReportYr = 2022) %>% 
-  select(ReportYr, everything())
-
-
-# grade_list %>% filter(SUBLEVNO == 253, SUBJ == 20596, ASIZE == 1)
-
-
-# -----------------------------------------------------------------------------------------------------------------------------
-# ---- Saving Data ---- 
-# -----------------------------------------------------------------------------------------------------------------------------
-
-
-saveRDS(student_numbers, "./data/all_student_numbers.rds")
-saveRDS(student_percentages, "./data/all_student_percentages.rds")
-
-saveRDS(qual_lookup, "./data/qual_lookup.rds")
-saveRDS(grades_ordered_lookup, "./data/grade_lookup.rds")
-
-
-
-
-# -----------------------------------------------------------------------------------------------------------------------------
 # ---- ANCILLARY DATA FOR EES ---- 
 # -----------------------------------------------------------------------------------------------------------------------------
 
@@ -233,5 +195,50 @@ ancillary_data <- ancillary_data_numbers %>%
 
 write_csv(ancillary_data, paste0(ancillary_save_path, 'tm_numbers_percentages_', current_year, '.csv'))
 
+
+
+# -----------------------------------------------------------------------------------------------------------------------------
+# ---- add academic year to data ---- 
+# -----------------------------------------------------------------------------------------------------------------------------
+
+student_numbers <- student_numbers %>% 
+  mutate(ReportYr = 2023) %>% 
+  select(ReportYr, everything())
+
+student_percentages <- student_percentages %>% 
+  mutate(ReportYr = 2023) %>% 
+  select(ReportYr, everything())
+
+qual_lookup <- qual_lookup %>% 
+  mutate(ReportYr = 2023) %>% 
+  select(ReportYr, everything())
+
+grades_ordered_lookup <- grades_ordered_lookup %>% 
+  mutate(ReportYr = 2023) %>% 
+  select(ReportYr, everything())
+
+
+# grade_list %>% filter(SUBLEVNO == 253, SUBJ == 20596, ASIZE == 1)
+
+
+# -----------------------------------------------------------------------------------------------------------------------------
+# ---- Saving Data ---- 
+# -----------------------------------------------------------------------------------------------------------------------------
+
+student_numbers_old <- read_rds("./data/all_student_numbers.rds")
+student_percentages_old <- read_rds("./data/all_student_percentages.rds")
+qual_lookup_old <- read_rds("./data/qual_lookup.rds")
+grades_ordered_lookup_old <- read_rds("./data/grade_lookup.rds")
+
+student_numbers <- bind_rows(student_numbers, student_numbers_old)
+student_percentages <- bind_rows(student_percentages, student_percentages_old)
+qual_lookup <- bind_rows(qual_lookup, qual_lookup_old)
+grades_ordered_lookup <- bind_rows(grades_ordered_lookup, grades_ordered_lookup_old)
+
+saveRDS(student_numbers, "./data/all_student_numbers.rds")
+saveRDS(student_percentages, "./data/all_student_percentages.rds")
+
+saveRDS(qual_lookup, "./data/qual_lookup.rds")
+saveRDS(grades_ordered_lookup, "./data/grade_lookup.rds")
 
 

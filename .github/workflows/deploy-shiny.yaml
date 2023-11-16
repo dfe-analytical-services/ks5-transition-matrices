@@ -2,33 +2,10 @@ on:
   push:
     branches:
       - master
+      - development
 
 name: deploy-shiny
 
-# jobs:
-#   deploy-shiny:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: r-lib/actions/setup-r@v2
-#       with:
-#         r-version: 4.2.1
-#         use-public-rspm: true
-#         
-#       - name: Install Curl
-#         run: sudo apt install libcurl4-openssl-dev libssl-dev
-#       - name: Restore renv snapshot
-#         shell: Rscript {0}
-#         run: |
-#           if (!require('renv')) install.packages('renv')
-#           renv::restore()
-#       - name: Push to shiny.io
-#         run: >
-#           Rscript
-#           -e "rsconnect::setAccountInfo(name='department-for-education', token='${{secrets.SHINYAPPS_TOKEN}}', secret='${{secrets.SHINYAPPS_SECRET}}')"
-#           -e "rsconnect::deployApp()"
-#           
-          
 jobs:
   deployShiny:
     runs-on: ${{ matrix.config.os }}
@@ -55,6 +32,14 @@ jobs:
           r-version: 4.2.1
           use-public-rspm: true
 
+      - name: Set env vars (dev)
+        if: endsWith(github.ref, '/development')
+        run: |
+          echo "SHINYAPP_NAME='dev-ks5-transition-matrices'" >> $GITHUB_ENV
+      - name: Set env vars (prod)
+        if: endsWith(github.ref, '/main')
+        run: |
+          echo "SHINYAPP_NAME='ks5-transition-matrices'">> $GITHUB_ENV
       - name: Cache R packages
         if: runner.os != 'Windows'
         uses: actions/cache@v1
@@ -82,7 +67,7 @@ jobs:
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::install("rsconnect@0.8.29")
-          
+         
 # Tokens are stored as secrets in GitHub to make sure only DfE analysts can publish apps in our shiny.io area
 # Navigate to Settings > Secrets to add and view secrets. These can also be things like admin login and passwords for SQL databases.
 # Get in touch with the Stats Development team if you need to add the below secrets to publish to shinyapps.io
@@ -90,5 +75,6 @@ jobs:
       - name: Push to shiny.io
         run: >
           Rscript
-          -e "rsconnect::setAccountInfo(name='department-for-education', token='${{secrets.SHINYAPPS_TOKEN}}', secret='${{secrets.SHINYAPPS_SECRET}}')"
-          -e "rsconnect::deployApp()" 
+          -e "rsconnect::setAccountInfo(name = 'department-for-education', token = '${{secrets.SHINYAPPS_TOKEN}}', secret = '${{secrets.SHINYAPPS_SECRET}}')"
+          -e "rsconnect::deployApp(appName=${{env.SHINYAPP_NAME}})"
+

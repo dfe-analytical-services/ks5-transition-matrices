@@ -46,28 +46,16 @@ server <- function(input, output, session) {
   # to the qualification that a user selects in the qualification select drop down
   # qualifications with only one subject, and subjects with multiple sizes require special formatting
 
-  # we need to identify which qualifications have only 1 subject option
-  # use this output to update the qualification drop down box below
-  single_subj <- qual_lookup %>%
-    group_by(ReportYr, SUBLEVNO) %>%
-    filter(n() == 1)
-  # single_subj
 
   observe({
     updateSelectInput(session,
-      inputId = "subj_select",
-      label = NULL,
-      if (input$qual_select %in% single_subj$Qual_Description) {
-        choices <- qual_lookup %>%
-          filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
-          select(Subject) %>%
-          as.character()
-      } else {
-        choices <- qual_lookup %>%
-          filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
-          select(Subject) %>%
-          arrange(Subject)
-      }
+                      inputId = "subj_select",
+                      label = NULL,
+                      choices <- qual_lookup %>%
+                        filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
+                        pull(Subject) %>%
+                        sort(.)
+                      
     )
   })
 
@@ -317,13 +305,12 @@ server <- function(input, output, session) {
     percentage_select_function(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
       filter(PRIOR_BAND == input$chart_band) %>%
       # Now we have our selected row data it needs cleaning up because these values are characters
-      # First we'll turn it into a list
-      map(~.x) %>%
       # Next we need to remove the % signs from the percentages
       # Then we'll set all 'x' and 'NA' to NA which, along with all numbers, will be converted to numeric using line below
-      lapply(., function(x) gsub("[%]", "", x)) %>%
-      na_if(., "x") %>%
-      na_if(., "NA") %>%
+      map_df(., ~ gsub("[%]", "", .x)) %>%
+      mutate(across(everything(), ~na_if(., "x"))) %>%
+      mutate(across(everything(), ~na_if(., "NA"))) %>% 
+      map(~.x) %>%
       lapply(., function(x) if (all(grepl("^[0-9.]+$", x))) as.numeric(x) else x) %>%
       # Next we need to remove all NA's
       discard(~ all(is.na(.x))) %>%

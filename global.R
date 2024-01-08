@@ -67,7 +67,7 @@ number_select_function <- function(ReportYr_sel, qual, subj, size, grade_structu
 
   table <- stud_numbers %>%
     filter(ReportYr == ReportYr_sel & QUAL_ID == filter_selection) %>%
-    select(PRIOR_BAND, grade_list)
+    select(PRIOR_BAND, all_of(grade_list))
 
   return(table)
 }
@@ -86,7 +86,7 @@ percentage_select_function <- function(ReportYr_sel, qual, subj, size, grade_str
 
   table <- stud_percentages %>%
     filter(ReportYr == ReportYr_sel & QUAL_ID == filter_selection) %>%
-    select(PRIOR_BAND, grade_list)
+    select(PRIOR_BAND, all_of(grade_list))
 
   return(table)
 }

@@ -40,7 +40,7 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
            QUAL_ID = paste0(SUBLEVNO, SUBJ, SIZE, gradeStructure),
            ROW_ID = paste0(SUBLEVNO, SUBJ, SIZE, PRIOR_BAND, gradeStructure)) %>%
     mutate(across(c(everything(), -total_students), ~as.character(.))) %>%
-    arrange(ROW_ID) %>% 
+    arrange(ROW_ID, .locale = "en") %>% 
     pivot_wider(names_from = GRADE, values_from = total_students)
   
   

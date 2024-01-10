@@ -78,7 +78,7 @@ ancillary_data_numbers <- current_year_data$student_numbers %>%
          grade,
          count) %>%
   filter(!is.na(count)) %>%
-  arrange(qualification_code, subject_code, size, grade_structure, prior_attainment_band, grade)
+  arrange(qualification_code, subject_code, size, grade_structure, prior_attainment_band, grade, .locale = "en")
 
 
 ancillary_data_percentages <- current_year_data$student_percentages %>%
@@ -96,7 +96,7 @@ ancillary_data_percentages <- current_year_data$student_percentages %>%
          grade,
          percentage) %>%
   filter(percentage != "NA%") %>%
-  arrange(qualification_code, subject_code, size, grade_structure, prior_attainment_band, grade)
+  arrange(qualification_code, subject_code, size, grade_structure, prior_attainment_band, grade, .locale = "en")
 
 
 ancillary_data <- ancillary_data_numbers %>%

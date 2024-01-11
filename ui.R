@@ -80,7 +80,7 @@ ui <- function(input, output, session) {
       ),
     shinyjs::useShinyjs(),
     customDisconnectMessage(),
-    useShinydashboard(),
+    #useShinydashboard(),
     tags$head(includeHTML(("google-analytics.html"))),
     tags$head(
       tags$link(

@@ -26,7 +26,7 @@ source("./background_scripts/data_processing_func.R")
 # ---- Things to change between runs ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2023/KS5/February_2024/06_ancillary/"
+ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2023/KS5/4 Dev/07_development/06_ancillary/" 
 current_year <- "2023A"
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -39,8 +39,8 @@ con <- DBI::dbConnect(odbc::odbc(), driver = "SQL Server", server = "VMT1PR-DHSQ
 
 # Select data from SQL tables - need to add the current year for unamended run and change from U to A for the amended run
 
-tm_data_raw_2023 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2023].[TM_data_2023A]")) %>% collect()
-tm_data_raw_2022 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2022A]")) %>% collect()
+tm_data_raw_2023 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2023A]")) %>% collect()
+tm_data_raw_2022 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2022A]")) %>% collect()
 
 # disconnect
 DBI::dbDisconnect(con)

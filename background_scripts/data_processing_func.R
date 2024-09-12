@@ -23,8 +23,8 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
   
   tm_data <- sql_data %>%
     filter(!(is.na(PRIOR_BAND)),
-           !(is.na(SUBJ))) %>%
-    bind_rows(tm_data_subj_na)
+           !(is.na(SUBJ))) #%>%
+    #bind_rows(tm_data_subj_na)
   
   colSums(is.na(tm_data)) %>% as.data.frame() 
   

@@ -1513,20 +1513,17 @@
     },
     "shinyGovstyle": {
       "Package": "shinyGovstyle",
-      "Version": "0.1.0",
+      "Version": "0.0.8",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "htmltools",
         "jsonlite",
-        "magrittr",
-        "purrr",
         "shiny",
-        "shinyjs",
-        "stringr"
+        "shinyjs"
       ],
-      "Hash": "4a57256cf54590da8a07c53b995c42a8"
+      "Hash": "a593ce187f4a7830392e0843041e3ea8"
     },
     "shinyWidgets": {
       "Package": "shinyWidgets",

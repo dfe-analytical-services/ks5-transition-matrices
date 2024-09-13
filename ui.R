@@ -74,7 +74,7 @@ ui <- function(input, output, session) {
         description = site_title,
         robots = "index,follow",
         generator = "R-Shiny",
-        subject = "16-18 statistics",
+        subject = "16 to 18 statistics",
         rating = "General",
         referrer = "no-referrer"
       ),
@@ -93,7 +93,7 @@ ui <- function(input, output, session) {
     shinyGovstyle::header(
       main_text = "",
       main_link = "https://www.gov.uk/government/organisations/department-for-education",
-      secondary_text = "16-18 Transition Matrices",
+      secondary_text = "16 to 18 Transition Matrices",
       logo = "images/DfE_logo_landscape.png",
       logo_width = 150,
       logo_height = 32

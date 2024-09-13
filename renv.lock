@@ -997,6 +997,23 @@
       ],
       "Hash": "a623a2239e642806158bc4dc3f51565d"
     },
+    "odbc": {
+      "Package": "odbc",
+      "Version": "1.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "R",
+        "Rcpp",
+        "bit64",
+        "blob",
+        "hms",
+        "methods",
+        "rlang"
+      ],
+      "Hash": "c9ad62d78905bde34d90362638a58bec"
+    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.1",
@@ -1293,13 +1310,13 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "1.0.3",
+      "Version": "1.0.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "utils"
       ],
-      "Hash": "41b847654f567341725473431dd0d5ab"
+      "Hash": "32c3f93e8360f667ca5863272ec8ba6a"
     },
     "reshape2": {
       "Package": "reshape2",

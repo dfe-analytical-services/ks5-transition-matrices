@@ -16,7 +16,7 @@
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
-rm(list=ls())
+rm(list = ls())
 
 library(dplyr)
 library(tidyr)
@@ -24,17 +24,17 @@ library(data.table)
 library(stringr)
 
 
-qrd_table0_file = "[QRD].[dbo].[Subje01_2021_09_08]"
-qrd_table2_file = "[QRD].[dbo].[Table2_2021_09_08]"
-qrd_table3_file = "[QRD].[dbo].[Table3_2021_09_08]"
-qrd_table4_file = "[QRD].[dbo].[Table4_2021_09_08]"
+qrd_table0_file <- "[QRD].[dbo].[Subje01_2021_09_08]"
+qrd_table2_file <- "[QRD].[dbo].[Table2_2021_09_08]"
+qrd_table3_file <- "[QRD].[dbo].[Table3_2021_09_08]"
+qrd_table4_file <- "[QRD].[dbo].[Table4_2021_09_08]"
 
-exam_file = "[L3VA].[U2021].[FILTERED_EXAMS_PROVIDERS]"
-lookup_file = "[L3VA].[U2021].[QUAL_SUBJ_LOOKUP]"
+exam_file <- "[L3VA].[U2021].[FILTERED_EXAMS_PROVIDERS]"
+lookup_file <- "[L3VA].[U2021].[QUAL_SUBJ_LOOKUP]"
 
-current_year = 2021
-#sublevno_char_num = c(113, 114)
-#sublevno_char_num = list()
+current_year <- 2021
+# sublevno_char_num = c(113, 114)
+# sublevno_char_num = list()
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -42,13 +42,15 @@ current_year = 2021
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # Establish connection to server
-con <- DBI::dbConnect(odbc::odbc(), driver = "SQL Server",
-                      server = "3dcpri-pdb16\\acsqls")
+con <- DBI::dbConnect(odbc::odbc(),
+  driver = "SQL Server",
+  server = "3dcpri-pdb16\\acsqls"
+)
 
 # Select data from SQL tables
 exams_data <- tbl(con, sql(paste("select * from", exam_file))) %>% collect()
 
-lookup_data <- tbl(con, sql(paste("select [Qualification name], SUBLEVNO, [Subject name], SUBJ, SIZE 
+lookup_data <- tbl(con, sql(paste("select [Qualification name], SUBLEVNO, [Subject name], SUBJ, SIZE
                           from", lookup_file, "where EXAM_COHORT not in (1)"))) %>% collect()
 
 qrd_table0 <- tbl(con, sql(paste("select QUID, Qual_Type, Syllabus_Short_Title, Last_Used
@@ -73,19 +75,19 @@ DBI::dbDisconnect(con)
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-# 1. create the SUBLEVNO list from the exams data - should include all qualifications in exams data, and the list of GNUMBERS that are in the data 
-SUBLEVNO_in_exams <- exams_data %>% 
-  select(SUBLEVNO) %>% 
-  distinct() %>% 
+# 1. create the SUBLEVNO list from the exams data - should include all qualifications in exams data, and the list of GNUMBERS that are in the data
+SUBLEVNO_in_exams <- exams_data %>%
+  select(SUBLEVNO) %>%
+  distinct() %>%
   arrange(SUBLEVNO)
 
 
 # 2. create a GNUMBER list from the exams data
 # takes the first instance of each GNUMBER in the exams file
 # PROBLEM: same GNUMBER for different subjects... Art & Design! 13510 13570 13650... etc all same GNUMBER 60149589
-# need to group by SUBJ as well 
+# need to group by SUBJ as well
 
-GNUM_in_exams <- exams_data %>% 
+GNUM_in_exams <- exams_data %>%
   group_by(GNUMBER, SUBJ) %>%
   slice(1) %>%
   ungroup() %>%
@@ -104,9 +106,9 @@ SUBJ_in_lookup <- lookup_data %>%
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-# 4,. create a list of the subjects that have multiple GNUMBERS 
-multiple_GNUM <- GNUM_in_exams %>% 
-  filter(QUID %in% unique(.[duplicated(.$QUID),]$QUID)) %>% 
+# 4,. create a list of the subjects that have multiple GNUMBERS
+multiple_GNUM <- GNUM_in_exams %>%
+  filter(QUID %in% unique(.[duplicated(.$QUID), ]$QUID)) %>%
   left_join(., SUBJ_in_lookup, by = "SUBJ") %>%
   distinct()
 
@@ -128,8 +130,8 @@ SUBLEVNO_diff_grades <- setdiff(SUBLEVNO_in_exams$SUBLEVNO, qrd_tab_2_4$Qual_Num
 # create a list of GNUMBERS (also known as QUID in the QRD) for the subjects that have different grade structures in comparison to others within their qualification
 GNUMBER_diff_grades <- exams_data %>%
   filter(SUBLEVNO %in% SUBLEVNO_diff_grades) %>%
-  select(GNUMBER, SUBJ) %>% 
-  distinct() %>% 
+  select(GNUMBER, SUBJ) %>%
+  distinct() %>%
   arrange(GNUMBER)
 
 
@@ -144,23 +146,27 @@ same_grade_quals <- qrd_table2 %>%
   left_join(qrd_table0, by = "Qual_Type") %>%
   left_join(qrd_table4, by = "Qual_Type") %>%
   arrange(Qual_Number) %>%
-  filter(!Grade %in% c("N", "Q", "R", "X"),
-         Grade != "F",
-         Qual_Number %in% SUBLEVNO_in_exams$SUBLEVNO) %>%
+  filter(
+    !Grade %in% c("N", "Q", "R", "X"),
+    Grade != "F",
+    Qual_Number %in% SUBLEVNO_in_exams$SUBLEVNO
+  ) %>%
   mutate(SUBLEVNO_subscript = as.character(Qual_Number))
 
 
-# 8. joins the two QRD tables with qualifications with different grades. 
+# 8. joins the two QRD tables with qualifications with different grades.
 # make additional column to append subscripts in order to differentiate different QUIDS within the same qualification
 # requires additional filter QUID %in% GNUMBER_diff_grades$GNUMBER because some of the qualifications have subjects that are not included in the TMs
 diff_grade_quals <- qrd_table3 %>%
   left_join(qrd_table0, by = "QUID") %>%
   left_join(qrd_table4, by = "Qual_Type") %>%
   arrange(Qual_Number) %>%
-  filter(!Grade %in% c("N", "Q", "R", "X"),
-         Grade != "F",
-         Qual_Number %in% SUBLEVNO_in_exams$SUBLEVNO,
-         QUID %in% GNUMBER_diff_grades$GNUMBER) 
+  filter(
+    !Grade %in% c("N", "Q", "R", "X"),
+    Grade != "F",
+    Qual_Number %in% SUBLEVNO_in_exams$SUBLEVNO,
+    QUID %in% GNUMBER_diff_grades$GNUMBER
+  )
 
 
 
@@ -186,44 +192,54 @@ all_diff_grade_quals_subj <- diff_grade_quals %>%
   group_by(SUBJ) %>%
   mutate(subscript = cur_group_id()) %>%
   ungroup() %>%
-  unite("SUBLEVNO_subscript", c(Qual_Number,subscript), na.rm = TRUE, remove = FALSE) %>%
+  unite("SUBLEVNO_subscript", c(Qual_Number, subscript), na.rm = TRUE, remove = FALSE) %>%
   arrange(subscript) %>%
   distinct() %>%
   select(-subscript)
 
 
 # 11. makes big lookup table for ALL qualifications and subjects
-all_grades_combined <- bind_rows(all_same_grade_quals_subj, all_diff_grade_quals_subj) 
+all_grades_combined <- bind_rows(all_same_grade_quals_subj, all_diff_grade_quals_subj)
 
 
 # 12. qualification 699 does not appear in QRD as its just an extension of GCE AS level (Not continued to A2) (121)
 grades_699 <- all_grades_combined %>%
   filter(Qual_Number == 111 | Qual_Number == 121) %>%
-  mutate(Qual_Number = 699,
-         SUBLEVNO_subscript = 699,
-         Last_Used = 0,
-         Qual_Description = "GCE AS level (All)",
-         Syllabus_Short_Title = "",
-         QUID = "",
-         ASIZE = 0.5) %>%
+  mutate(
+    Qual_Number = 699,
+    SUBLEVNO_subscript = 699,
+    Last_Used = 0,
+    Qual_Description = "GCE AS level (All)",
+    Syllabus_Short_Title = "",
+    QUID = "",
+    ASIZE = 0.5
+  ) %>%
   distinct()
 
 
 # 13. for level 2 qualifications, set ASIZE equal to GSIZE
 all_grades_combined_final <- rbind(all_grades_combined, grades_699) %>%
-  mutate(ASIZE = case_when(Potential_Level == 2 ~ GSIZE,
-                           TRUE ~ ASIZE))
+  mutate(ASIZE = case_when(
+    Potential_Level == 2 ~ GSIZE,
+    TRUE ~ ASIZE
+  ))
 
 
 # -------------
 # QA to check all subjects in 111 and 121 are present in 699 data
 # -------------
-subj_699 <- grades_699 %>% select("Subject name", SUBJ) %>% distinct()
-subj_111 <- lookup_data %>% filter(SUBLEVNO == 111) %>% select("Subject name", SUBJ)
-subj_121 <- lookup_data %>% filter(SUBLEVNO == 121) %>% select("Subject name", SUBJ)
+subj_699 <- grades_699 %>%
+  select("Subject name", SUBJ) %>%
+  distinct()
+subj_111 <- lookup_data %>%
+  filter(SUBLEVNO == 111) %>%
+  select("Subject name", SUBJ)
+subj_121 <- lookup_data %>%
+  filter(SUBLEVNO == 121) %>%
+  select("Subject name", SUBJ)
 
-#setdiff(subj_699, subj_121)
-#setdiff(subj_699, subj_111)
+# setdiff(subj_699, subj_121)
+# setdiff(subj_699, subj_111)
 subj_111_121 <- merge(subj_111, subj_121, all = TRUE)
 setdiff(subj_699, subj_111_121)
 # -------------
@@ -246,19 +262,22 @@ subscript_subj_lookup <- all_grades_combined_final %>%
 # need to strip character values from some of the SUBLEVNO 130 without affecting the character grades or grades from other sublevnos
 grade_tidy <- all_grades_combined_final %>%
   select(Qual_Number, SUBLEVNO_subscript, SUBJ, ASIZE, Grade, Year_Added, Last_Input_Year) %>%
-  mutate(Grade = case_when(Grade == "*A" | Grade == "A*" ~ "*A", 
-                           Grade == "*D" | Grade == "D*" ~ "D*", 
-                           Grade == "**D" | Grade == "D**" ~ "D**", 
-                           Grade == "*DD" | Grade == "DD*" ~ "DD*", 
-                           Grade == "DDM" | Grade == "MDD" ~ "DDM",
-                           Grade == "PPM" | Grade == "MPP" ~ "MPP",
-                           Grade == "PMM" | Grade == "MMP" ~ "MMP",
-                           Grade == "MMD" | Grade == "DMM" ~ "DMM",
-                           Grade == "F" ~ "U",
-                           grepl("F", Grade) ~ "FAIL",
-                           TRUE ~ as.character(Grade))) %>%
+  mutate(Grade = case_when(
+    Grade == "*A" | Grade == "A*" ~ "*A",
+    Grade == "*D" | Grade == "D*" ~ "D*",
+    Grade == "**D" | Grade == "D**" ~ "D**",
+    Grade == "*DD" | Grade == "DD*" ~ "DD*",
+    Grade == "DDM" | Grade == "MDD" ~ "DDM",
+    Grade == "PPM" | Grade == "MPP" ~ "MPP",
+    Grade == "PMM" | Grade == "MMP" ~ "MMP",
+    Grade == "MMD" | Grade == "DMM" ~ "DMM",
+    Grade == "F" ~ "U",
+    grepl("F", Grade) ~ "FAIL",
+    TRUE ~ as.character(Grade)
+  )) %>%
   mutate(Grade = ifelse(is.na(as.numeric(str_extract_all(Grade, "\\d+"))) | SUBLEVNO_subscript != 130,
-                        Grade, as.numeric(str_extract_all(Grade, "\\d+")))) %>%
+    Grade, as.numeric(str_extract_all(Grade, "\\d+"))
+  )) %>%
   distinct()
 
 
@@ -269,8 +288,8 @@ grade_tidy <- all_grades_combined_final %>%
 #   arrange(desc(Year_Added)) %>%
 #   slice_head() %>%
 #   ungroup()
-# 
-# 
+#
+#
 # grade_select <- grade_year_select %>%
 #   left_join(grade_tidy)
 
@@ -278,7 +297,7 @@ grade_tidy <- all_grades_combined_final %>%
 
 # 16. remove grades that are no longer in use by using last input year column
 grade_select <- grade_tidy %>%
-    filter(Last_Input_Year == current_year)
+  filter(Last_Input_Year == current_year)
 
 
 
@@ -290,12 +309,12 @@ grade_select <- grade_tidy %>%
 # for numeric this is ascending, for character this is descending
 # will need to split again based on numeric and character and then re-combine again
 grades_char <- grade_select %>%
-  mutate(Char = is.na(suppressWarnings(as.numeric(grade_select$Grade)))) %>%  # gives extra column - True is character, False is number
-  filter(Char == TRUE) %>% 
+  mutate(Char = is.na(suppressWarnings(as.numeric(grade_select$Grade)))) %>% # gives extra column - True is character, False is number
+  filter(Char == TRUE) %>%
   arrange(desc(Grade))
 
 grades_num <- grade_select %>%
-  mutate(Char = is.na(suppressWarnings(as.numeric(grade_select$Grade)))) %>%  # gives extra column - True is character, False is number
+  mutate(Char = is.na(suppressWarnings(as.numeric(grade_select$Grade)))) %>% # gives extra column - True is character, False is number
   filter(Char == FALSE) %>%
   arrange(Grade)
 
@@ -313,14 +332,16 @@ grades_ordered <- bind_rows(grades_char, grades_num) %>%
 
 qrd_grades_r <- grades_ordered %>%
   select(Qual_Number, SUBJ, ASIZE, Grade) %>%
-  rename(SUBLEVNO = Qual_Number,
-         GRADE = Grade) %>%
+  rename(
+    SUBLEVNO = Qual_Number,
+    GRADE = Grade
+  ) %>%
   filter(!is.na(SUBJ)) %>%
-  mutate(ASIZE_nodecimal = gsub('[.]', '', ASIZE))
+  mutate(ASIZE_nodecimal = gsub("[.]", "", ASIZE))
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
-# ---- Saving Data ---- 
+# ---- Saving Data ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
 saveRDS(qrd_grades_r, "./outputs/grades_qrd.rds")
@@ -341,17 +362,17 @@ saveRDS(SUBLEVNO_diff_grades, "./outputs/mult_grade_structure.rds")
 
 
 # Adds a third column counting each unique grade for a particular sublevno
-grades_ordered_grouped <- grades_ordered %>% 
+grades_ordered_grouped <- grades_ordered %>%
   select(SUBLEVNO_subscript, Grade) %>%
   distinct() %>%
-  group_by(SUBLEVNO_subscript) %>% 
+  group_by(SUBLEVNO_subscript) %>%
   mutate(grade_count = row_number()) %>%
   ungroup()
 
 
 # Transposes the table into same structure as excel table
 GRADES_EXCEL <- grades_ordered_grouped %>%
-  reshape2::dcast(., SUBLEVNO_subscript ~ grade_count, value.var="Grade", fill="") %>%
+  reshape2::dcast(., SUBLEVNO_subscript ~ grade_count, value.var = "Grade", fill = "") %>%
   distinct()
 
 
@@ -366,21 +387,21 @@ GRADES_EXCEL <- grades_ordered_grouped %>%
 
 
 qual_names_EXCEL_ALL <- all_grades_combined_final %>%
-  mutate(Qual_Name = case_when(!(Qual_Number %in% SUBLEVNO_diff_grades) | Qual_Number == 699 ~ Qual_Description,
-                               TRUE ~ paste(Qual_Description, `Subject name`,  sep = " ")
-                               )
-         ) 
-  
+  mutate(Qual_Name = case_when(
+    !(Qual_Number %in% SUBLEVNO_diff_grades) | Qual_Number == 699 ~ Qual_Description,
+    TRUE ~ paste(Qual_Description, `Subject name`, sep = " ")
+  ))
+
 
 QUALIFICATION_LOOKUP_EXCEL <- qual_names_EXCEL_ALL %>%
   select(SUBLEVNO_subscript, Qual_Name) %>%
   distinct()
 
-  
+
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Create SUBJECT LOOKUP ----
 # -----------------------------------------------------------------------------------------------------------------------------
- 
+
 
 SUBJECT_LOOKUP_EXCEL <- all_grades_combined_final %>%
   select(SUBJ, "Subject name") %>%
@@ -394,18 +415,18 @@ SUBJECT_LOOKUP_EXCEL <- all_grades_combined_final %>%
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-qual_names_EXCEL_grouped <- qual_names_EXCEL_ALL %>% 
+qual_names_EXCEL_grouped <- qual_names_EXCEL_ALL %>%
   select(Qual_Name, SUBLEVNO_subscript, SUBJ) %>%
   distinct() %>%
   drop_na() %>%
   arrange(SUBLEVNO_subscript, SUBJ) %>%
-  group_by(SUBLEVNO_subscript) %>% 
+  group_by(SUBLEVNO_subscript) %>%
   mutate(subj_count = row_number()) %>%
   ungroup()
 
 
 QUALSUB_EXCEL <- qual_names_EXCEL_grouped %>%
-  reshape2::dcast(., Qual_Name + SUBLEVNO_subscript ~ subj_count, value.var="SUBJ", fill="") %>%
+  reshape2::dcast(., Qual_Name + SUBLEVNO_subscript ~ subj_count, value.var = "SUBJ", fill = "") %>%
   distinct() %>%
   arrange(SUBLEVNO_subscript)
 
@@ -414,18 +435,18 @@ QUALSUB_EXCEL <- qual_names_EXCEL_grouped %>%
 # ---- Create SIZESUB ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-size_EXCEL_grouped <- qual_names_EXCEL_ALL %>% 
+size_EXCEL_grouped <- qual_names_EXCEL_ALL %>%
   select(Qual_Name, SUBLEVNO_subscript, ASIZE) %>%
   distinct() %>%
   drop_na() %>%
   arrange(ASIZE) %>%
-  group_by(SUBLEVNO_subscript) %>% 
+  group_by(SUBLEVNO_subscript) %>%
   mutate(size_count = row_number()) %>%
   ungroup()
 
 
 SIZESUB_EXCEL <- size_EXCEL_grouped %>%
-  reshape2::dcast(., Qual_Name + SUBLEVNO_subscript ~ size_count, value.var="ASIZE", fill="") %>%
+  reshape2::dcast(., Qual_Name + SUBLEVNO_subscript ~ size_count, value.var = "ASIZE", fill = "") %>%
   distinct() %>%
   arrange(SUBLEVNO_subscript)
 
@@ -438,7 +459,7 @@ SIZE_LOOKUP_EXCEL <- qual_names_EXCEL_ALL %>%
   select(SUBLEVNO_subscript, Qual_Name, SUBJ, `Subject name`, ASIZE) %>%
   mutate(ASIZE = as.character(ASIZE)) %>%
   distinct() %>%
-  drop_na() 
+  drop_na()
 
 
 
@@ -454,5 +475,3 @@ no_subj_info <- all_grades_combined_final %>%
   filter(is.na(SUBJ))
 
 # -----------------------------------------------------------------------------------------------------------------------------
-
-

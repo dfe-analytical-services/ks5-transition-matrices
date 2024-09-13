@@ -1,3 +1,5 @@
 filename,status
-data/la_maintained_schools_revenue_reserve_final.csv,published
-data/some_unpublished_data.csv,unpublished
+data/all_student_numbers.rds,published
+data/all_student_percentages.rds,published
+data/grade_lookup.rds,published
+data/qual_lookup.rds,published

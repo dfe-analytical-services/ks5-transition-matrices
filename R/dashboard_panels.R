@@ -5,7 +5,7 @@ homepage_panel <- function() {
       gov_row(
         column(
           12,
-          h1("16-18 Transition Matrices"),
+          h1("16 to 18 Transition Matrices"),
           br(),
           br()
         ),
@@ -26,11 +26,11 @@ homepage_panel <- function() {
                 class = "panel-body",
                 tags$div(
                   h3("Introduction"),
-                  p("This app demonstrates the 16-18 Transition Matrices data."),
+                  p("This app demonstrates the 16 to 18 Transition Matrices data."),
                   p("Transition matrices are a useful tool to help visualise the
-                      progression of pupils aged 16-18 from key stage 4 (KS4) to key
+                      progression of pupils aged 16 to 18 from key stage 4 (KS4) to key
                       stage 5 (KS5)."),
-                  p(actionLink("link_to_app_content_tab", "16-18 Transition Matrices tool")),
+                  p(actionLink("link_to_app_content_tab", "16 to 18 Transition Matrices tool")),
                   br(),
                   p(
                     "A level and other 16 to 18 results data are now all available on the statistics platform, ",
@@ -60,8 +60,8 @@ homepage_panel <- function() {
               div(
                 class = "panel-body",
                 h3("Context and purpose"),
-                p("To use the 16-18 Transition Matrices tool click onto the 'Dashboard' tab found on the left panel. Please then
-                select a report year (the year students finished 16-18 study), qualification, subject and subject size from the dropdown boxes.
+                p("To use the 16 to 18 Transition Matrices tool click onto the 'Dashboard' tab found on the left panel. Please then
+                select a report year (the year students finished 16 to 18 study), qualification, subject and subject size from the dropdown boxes.
                 Use the 'Numbers data' and 'Percentage Data' options to switch the
                 table view between number of students and percentage of students."),
                 br(),
@@ -120,7 +120,7 @@ dashboard_panel <- function() {
       gov_row(
         column(
           width = 12,
-          h1("16-18 Transition Matrices"),
+          h1("16 to 18 Transition Matrices"),
           br(),
           br(),
         ),

@@ -15,16 +15,15 @@ shhh(library(shinyjs))
 shhh(library(tools))
 shhh(library(testthat))
 shhh(library(shinytest))
-shhh(library(shinydashboard))
 shhh(library(shinyWidgets))
 shhh(library(shinyGovstyle))
+shhh(library(dfeshiny))
 shhh(library(shinycssloaders))
 shhh(library(dplyr))
 shhh(library(ggplot2))
 shhh(library(plotly))
 shhh(library(purrr))
 shhh(library(DT))
-# shhh(library(xfun))
 shhh(library(metathis))
 shhh(library(tidyr))
 shhh(library(stringr))
@@ -33,22 +32,24 @@ shhh(library(rsconnect))
 
 # Functions ---------------------------------------------------------------------------------
 
-# tidy_code_function -------------------------------------------------------------------------------
-# Code to tidy up the scripts.
+# Set global variables --------------------------------------------------------
 
-tidy_code_function <- function() {
-  message("----------------------------------------")
-  message("App scripts")
-  message("----------------------------------------")
-  app_scripts <- eval(styler::style_dir(recursive = FALSE)$changed)
-  message("Test scripts")
-  message("----------------------------------------")
-  test_scripts <- eval(styler::style_dir("tests/", filetype = "r")$changed)
-  script_changes <- c(app_scripts, test_scripts)
-  return(script_changes)
-}
+site_title <- "16 to 18 Transition Matrices" # name of app
+parent_pub_name <- "Statistical publication" # name of source publication
+parent_publication <- # link to source publication
+  "https://explore-education-statistics.service.gov.uk/find-statistics/a-level-and-other-16-to-18-results"
 
+# Set the URLs that the site will be published to
+site_primary <- "https://department-for-education.shinyapps.io/ks5-transition-matrices/"
 
+# Combine URLs into list for disconnect function
+# We can add further mirrors where necessary. Each one can generally handle
+# about 2,500 users simultaneously
+sites_list <- c(site_primary)
+
+# Set the key for Google Analytics tracking
+google_analytics_key <- "851195T40Y"
+# End of global variables -----------------------------------------------------
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Numbers Table from QRD filtering grades on SUBLEVNO & SUBJ & SIZE & GRADE STRUCTURE ----

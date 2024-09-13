@@ -64,14 +64,14 @@ ui <- function(input, output, session) {
         href = "dfefavicon.png"
       ),
       # Add title for browser tabs
-      tags$title("16-18 Transition Matrices")
+      tags$title("16 to 18 Transition Matrices")
     ),
     tags$html(lang = "en"),
     # Add meta description for search engines
     meta() %>%
       meta_general(
-        application_name = "16-18 Transition Matrices",
-        description = "16-18 Transition Matrices",
+        application_name = site_title,
+        description = site_title,
         robots = "index,follow",
         generator = "R-Shiny",
         subject = "16-18 statistics",
@@ -80,7 +80,6 @@ ui <- function(input, output, session) {
       ),
     shinyjs::useShinyjs(),
     customDisconnectMessage(),
-    #useShinydashboard(),
     tags$head(includeHTML(("google-analytics.html"))),
     tags$head(
       tags$link(
@@ -89,6 +88,8 @@ ui <- function(input, output, session) {
         href = "dfe_shiny_gov_style.css"
       )
     ),
+    dfe_cookies_script(),
+    cookies_banner_ui(name = "16 to 18 Transition Matrices"),
     shinyGovstyle::header(
       main_text = "",
       main_link = "https://www.gov.uk/government/organisations/department-for-education",
@@ -112,7 +113,21 @@ ui <- function(input, output, session) {
       homepage_panel(),
       dashboard_panel(),
       accessibility_panel(),
-      support_links()
+      shiny::tabPanel(
+        value = "support_panel",
+        "Support and feedback",
+        support_panel(
+          team_email = "attainment.statistics@education.gov.uk",
+          repo_name = "https://github.com/dfe-analytical-services/ks5-transition-matrices/",
+          publication_name = "A level and other 16 to 18 results",
+          publication_slug = "a-level-and-other-16-to-18-results"
+        )
+      ),
+      shiny::tabPanel(
+        value = "cookies_panel_ui",
+        "Cookies",
+        cookies_panel_ui(google_analytics_key = google_analytics_key)
+      )
     ),
     tags$script(
       src = "script.js"

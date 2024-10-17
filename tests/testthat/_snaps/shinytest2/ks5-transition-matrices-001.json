@@ -3,10 +3,9 @@
     "ReportYr_select": "2023",
     "cookies": [
       "GA1.1.1784488804.1728980230",
-      "GS1.1.1728987874.2.0.1728987874.0.0.0",
-      "granted"
+      "GS1.1.1729152208.1.1.1729152369.0.0.0"
     ],
-    "cookies_banner-cookies_accept": 1,
+    "cookies_banner-cookies_accept": 0,
     "cookies_banner-cookies_link": 0,
     "cookies_banner-cookies_reject": 0,
     "cookies_panel-cookies_analytics": "no",
@@ -45,7 +44,7 @@
     "example_table_rows_selected": null,
     "example_table_search": "",
     "example_table_state": [
-      "1728987874960",
+      "1729152370040",
       "0",
       "10",
       "",

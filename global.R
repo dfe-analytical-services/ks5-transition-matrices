@@ -34,7 +34,7 @@ shhh(library(rsconnect))
 # Set global variables --------------------------------------------------------
 
 site_title <- "16 to 18 Transition Matrices" # name of app
-parent_pub_name <- "Statistical publication" # name of source publication
+parent_pub_name <- "A level and other 16 to 18 results" # name of source publication
 parent_publication <- # link to source publication
   "https://explore-education-statistics.service.gov.uk/find-statistics/a-level-and-other-16-to-18-results"
 

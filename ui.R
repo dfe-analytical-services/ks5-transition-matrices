@@ -64,7 +64,7 @@ ui <- function(input, output, session) {
         href = "dfefavicon.png"
       ),
       # Add title for browser tabs
-      tags$title("16 to 18 Transition Matrices")
+      tags$title(site_title)
     ),
     tags$html(lang = "en"),
     # Add meta description for search engines
@@ -79,7 +79,10 @@ ui <- function(input, output, session) {
         referrer = "no-referrer"
       ),
     shinyjs::useShinyjs(),
-    customDisconnectMessage(),
+    dfeshiny::custom_disconnect_message(
+      publication_name = parent_pub_name,
+      publication_link = parent_publication
+    ),
     tags$head(includeHTML(("google-analytics.html"))),
     tags$head(
       tags$link(

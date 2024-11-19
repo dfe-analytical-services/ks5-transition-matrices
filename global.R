@@ -27,7 +27,6 @@ shhh(library(metathis))
 shhh(library(tidyr))
 shhh(library(stringr))
 shhh(library(reshape2))
-shhh(library(rsconnect))
 
 # Functions ---------------------------------------------------------------------------------
 

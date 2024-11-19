@@ -1,5 +1,15 @@
 {
   "input": {
+    "ReportYr_select": "2023",
+    "cookies": [
+      "GA1.1.1784488804.1728980230",
+      "GS1.1.1729152208.1.1.1729152369.0.0.0"
+    ],
+    "cookies_banner-cookies_accept": 0,
+    "cookies_banner-cookies_link": 0,
+    "cookies_banner-cookies_reject": 0,
+    "cookies_panel-cookies_analytics": "no",
+    "cookies_panel-submit_btn": 0,
     "example_table_cell_clicked": {
 
     },
@@ -7,13 +17,88 @@
 
     ],
     "example_table_columns_selected": null,
-    "example_table_rows_all": null,
-    "example_table_rows_current": null,
+    "example_table_rows_all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "example_table_rows_current": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
     "example_table_rows_selected": null,
     "example_table_search": "",
-    "example_table_state": null,
+    "example_table_state": [
+      "1729152370040",
+      "0",
+      "10",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "TRUE",
+      "",
+      "TRUE",
+      "FALSE",
+      "TRUE"
+    ],
     "format": "Numbers data",
-    "grade_structure_select": "character(0)",
+    "grade_structure_select": "*,A,B,C,D,E",
     "link_to_app_content_tab": 0,
     "navlistPanel": "Homepage",
     "qual_select": "GCE A level",
@@ -35,6 +120,42 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Prior Band",
+              "targets": 1
+            },
+            {
+              "name": "U",
+              "targets": 2
+            },
+            {
+              "name": "E",
+              "targets": 3
+            },
+            {
+              "name": "D",
+              "targets": 4
+            },
+            {
+              "name": "C",
+              "targets": 5
+            },
+            {
+              "name": "B",
+              "targets": 6
+            },
+            {
+              "name": "A",
+              "targets": 7
+            },
+            {
+              "name": "*",
+              "targets": 8
             }
           ],
           "bFilter": false,
@@ -83,9 +204,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -100,9 +221,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0",
+          "version": "1.2.1",
           "src": {
-            "href": "crosstalk-1.2.0"
+            "href": "crosstalk-1.2.1"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

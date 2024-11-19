@@ -32,6 +32,18 @@ server <- function(input, output, session) {
   # ---- Homepage tab ----
   # -----------------------------------------------------------------------------------------------------------------------------
 
+  output$cookies_status <- dfeshiny::cookies_banner_server(
+    input_cookies = reactive(input$cookies),
+    google_analytics_key = google_analytics_key,
+    parent_session = session
+  )
+
+  # Server logic for the panel, can be placed anywhere in server.R -------
+  cookies_panel_server(
+    input_cookies = reactive(input$cookies),
+    google_analytics_key = google_analytics_key
+  )
+
   # link to TM tool
   observeEvent(input$link_to_app_content_tab, {
     updateTabsetPanel(session, "navlistPanel", selected = "dashboard")
@@ -49,13 +61,12 @@ server <- function(input, output, session) {
 
   observe({
     updateSelectInput(session,
-                      inputId = "subj_select",
-                      label = NULL,
-                      choices <- qual_lookup %>%
-                        filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
-                        pull(Subject) %>%
-                        sort(.)
-                      
+      inputId = "subj_select",
+      label = NULL,
+      choices <- qual_lookup %>%
+        filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
+        pull(Subject) %>%
+        sort(.)
     )
   })
 
@@ -308,8 +319,8 @@ server <- function(input, output, session) {
       # Next we need to remove the % signs from the percentages
       # Then we'll set all 'x' and 'NA' to NA which, along with all numbers, will be converted to numeric using line below
       map_df(., ~ gsub("[%]", "", .x)) %>%
-      mutate(across(everything(), ~na_if(., "x"))) %>%
-      mutate(across(everything(), ~na_if(., "NA"))) %>% 
+      mutate(across(everything(), ~ na_if(., "x"))) %>%
+      mutate(across(everything(), ~ na_if(., "NA"))) %>%
       map(~.x) %>%
       lapply(., function(x) if (all(grepl("^[0-9.]+$", x))) as.numeric(x) else x) %>%
       # Next we need to remove all NA's

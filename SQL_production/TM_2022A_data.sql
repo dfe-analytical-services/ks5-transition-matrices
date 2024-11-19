@@ -28,8 +28,7 @@ select * into #tab3 from QRD.dbo.Table3_2022_10_31
 If object_Id('tempDB..#tab4') is not null drop table #tab4
 select * into #tab4 from QRD.dbo.Table4_2022_10_31
 If object_Id('tempDB..#subj') is not null drop table #subj
---select distinct SUBLEVNO, SUBJ, MAPPING into #subj from [L3VA].[U2022].[QUAL_SUBJ_LOOKUP]
-select distinct SUBJ, MAPPING into #subj from [L3VA].[U2022].[QUAL_SUBJ_LOOKUP]
+
 
 If object_Id('tempDB..#raw_inst') is not null drop table #raw_inst
 select * into #raw_inst from KS5_RESTRICTED.[Outputs].[RAW_Inst_POST16_2022A]
@@ -335,24 +334,22 @@ on a.GNUMBER = y.QUID and a.BRDSUBNO = y.Syllabus_Ref
 
 --national, qualification and subject
 If object_Id('tempDB..#nat_subj') is not null drop table #nat_subj
-select Qual_Description, a.SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, SUBJ, [Subject], gradeStructure, PRIOR_BAND,  GRADE_UPDATE as GRADE, --Qualification, 
+select Qual_Description, a.SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, a.MAPPING as SUBJ, [Subject], gradeStructure, PRIOR_BAND,  GRADE_UPDATE as GRADE, --Qualification, 
 count(PUPILID) as total_students
 into #nat_subj
 from #all_dat as a
 left join #insti_data as d
 on a.URN = d.URN
-left join #subj e
-on a.MAPPING = e.MAPPING --and a.SUBLEVNO = e.SUBLEVNO
 where --TAB1618 = 1
  ((Qualification IN ('Other academic', 'Tech level', 'Applied general') and DISCS = 0) OR
 (Qualification = 'A level' and (DISCS=0 OR (DISCS=1 AND DISC=1 AND DISCB=0))) OR
 (Qualification = 'Technical certificate' and DISC_FULL = 0))
-group by Qual_Description, a.SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, SUBJ, [Subject], gradeStructure, PRIOR_BAND, GRADE_UPDATE --Qualification, 
+group by Qual_Description, a.SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, [Subject], gradeStructure, PRIOR_BAND, GRADE_UPDATE --Qualification, 
 order by Qual_Description, SUBLEVNO, ASIZE, GSIZE, [Subject], GRADE_UPDATE, PRIOR_BAND
 
 --create national data again but for AS so we can ignore usual discounting and implement AS only discounting
 If object_Id('tempDB..#nat_subj_AS') is not null drop table #nat_subj_AS
-select 'GCE AS level (All)' as Qual_Description, 699 as SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, SUBJ, [Subject], gradeStructure, PRIOR_BAND,  GRADE_UPDATE as GRADE, --Qualification, 
+select 'GCE AS level (All)' as Qual_Description, 699 as SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, a.MAPPING as SUBJ, [Subject], gradeStructure, PRIOR_BAND,  GRADE_UPDATE as GRADE, --Qualification, 
 count(PUPILID) as total_students
 into #nat_subj_AS
 from (select *, ROW_NUMBER() OVER (PARTITION BY LAESTAB, PUPILID, MAPPING, SUBLEVNO
@@ -361,13 +358,8 @@ from #all_dat
 where SUBLEVNO = 121) as a
 left join #insti_data as d
 on a.URN = d.URN
-left join /*(
-select distinct MAPPING, SUBJ
-from*/ #subj
-/*where SUBLEVNO IN (111, 121))*/ e
-on a.MAPPING = e.MAPPING --and a.SUBLEVNO = e.SUBLEVNO
 where MAINEXAM = 1 --TAB1618 = 1
-group by Qual_Description, a.SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, SUBJ, [Subject], gradeStructure, PRIOR_BAND, GRADE_UPDATE --Qualification, 
+group by Qual_Description, a.SUBLEVNO, Potential_Level, ASIZE, GSIZE, a.MAPPING, [Subject], gradeStructure, PRIOR_BAND, GRADE_UPDATE --Qualification, 
 order by Qual_Description, SUBLEVNO, ASIZE, GSIZE, [Subject], GRADE_UPDATE, PRIOR_BAND
 
 -- bind the 2 tables together
@@ -411,7 +403,7 @@ where PRIOR_BAND is NULL
 --drop table [KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2022A]
 
 select * 
-into [KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2022A]
+into [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2022A]
 from #TM_data
 
 

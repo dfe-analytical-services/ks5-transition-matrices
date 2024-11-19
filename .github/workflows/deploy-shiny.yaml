@@ -38,6 +38,11 @@ jobs:
       - name: Install odbc dependencies
         run: sudo apt-get install unixodbc-dev
 
+      - name: Install processx
+        shell: Rscript {0}
+        run: |
+          install.packages("processx")
+
       - name: restore renv
         uses: r-lib/actions/setup-renv@v2
           

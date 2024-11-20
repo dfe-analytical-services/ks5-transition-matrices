@@ -1,6 +1,12 @@
 homepage_panel <- function() {
   tabPanel(
     "Homepage",
+    modalDialog(
+      title = "Missing data",
+      "The 16 to 18 transition matrices does not include vocational and technical qualifications for 2024 provisional data due to a data collection issue. This will be resolved in revised publication.",
+      size = "l",
+      easyClose = FALSE
+    ),
     gov_main_layout(
       gov_row(
         column(
@@ -144,7 +150,7 @@ dashboard_panel <- function() {
                 selectizeInput(
                   inputId = "qual_select",
                   label = "2. Select a qualification",
-                  choices = list(Qualifications = sort(unique(qual_lookup$Qual_Description))),
+                  choices = unique(qual_lookup$Qual_Description),
                   selected = "GCE A level"
                 )
               ),
@@ -162,7 +168,7 @@ dashboard_panel <- function() {
                 selectizeInput(
                   inputId = "size_select",
                   label = "4. Select a size",
-                  choices = list(Sizes = sort(qual_lookup$SIZE))
+                  choices = list(Sizes = sort(unique(qual_lookup$SIZE)))
                 )
               ),
               column(
@@ -170,7 +176,7 @@ dashboard_panel <- function() {
                 selectizeInput(
                   inputId = "grade_structure_select",
                   label = "5. Select a grade structure",
-                  choices = list(GradeStructures = sort(qual_lookup$gradeStructure))
+                  choices = list(GradeStructures = sort(unique(qual_lookup$gradeStructure)))
                 )
               ),
               column(

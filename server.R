@@ -58,13 +58,28 @@ server <- function(input, output, session) {
   # to the qualification that a user selects in the qualification select drop down
   # qualifications with only one subject, and subjects with multiple sizes require special formatting
 
+  observe({
+    updateSelectInput(session,
+      inputId = "qual_select",
+      label = NULL,
+      choices <- qual_lookup %>%
+        filter(ReportYr == input$ReportYr_select) %>%
+        pull(Qual_Description) %>%
+        unique(.) %>%
+        sort(.)
+    )
+  })
+
 
   observe({
     updateSelectInput(session,
       inputId = "subj_select",
       label = NULL,
       choices <- qual_lookup %>%
-        filter(ReportYr == input$ReportYr_select & Qual_Description == input$qual_select) %>%
+        filter(
+          ReportYr == input$ReportYr_select,
+          Qual_Description == input$qual_select
+        ) %>%
         pull(Subject) %>%
         sort(.)
     )

@@ -167,7 +167,7 @@ make changes to the grade:
 	- sublevno 129 is an IB combined certificate - the grades that seem to exist are K and J where K is awarded and J is unawareded. This has been set as a pass for K and no result for J
 	in previous code and then later in the code the pass was set to no result. We are not sure why this was done and does not appear correct and so I have left as pass and fail.
 */
---DECLARE @RPYEAR AS INTEGER = 2022
+--DECLARE @RPYEAR AS INTEGER = 2024
 If object_Id('tempDB..#examcut') is not null drop table #examcut
 select b.*, Qual_Description, z.GPTSPE_1, z.PTSPE_1,
 case when PTQ_INCLUDE = 0 and PTQ_INCLUDE_original = 1 then 'COVID result' -- this doesn't matter as I have added the PTQ_INCLUDE = 1 filter to the where statement so this is redundent
@@ -186,7 +186,7 @@ when grade = 'D*' then '*D'
 	   when grade = 'PMM' then 'MMP'
 	   when grade = 'PPM' then 'MPP'
 else GRADE end GRADE_UPDATE,
-case when _Wolf_Included_1618 IN (1,2,3) then case when PTSPE_1 <1 then '<1'
+case when PTSPE_1 <1 then '<1'
 when PTSPE_1 >=1 and PTSPE_1 <2 then '1-<2'
 when PTSPE_1 >=2 and PTSPE_1 <3 then '2-<3'
 when PTSPE_1 >=3 and PTSPE_1 <4 then '3-<4'
@@ -196,18 +196,7 @@ when PTSPE_1 >=6 and PTSPE_1 <7 then '6-<7'
 when PTSPE_1 >=6 and PTSPE_1 <7 then '6-<7'
 when PTSPE_1 >=7 and PTSPE_1 <8 then '7-<8'
 when PTSPE_1 >=8 and PTSPE_1 <9 then '8-<9'
-when PTSPE_1 >=9 then '9>=' end 
-else case when GPTSPE_1 <1 then '<1'
-when GPTSPE_1 >=1 and GPTSPE_1 <2 then '1-<2'
-when GPTSPE_1 >=2 and GPTSPE_1 <3 then '2-<3'
-when GPTSPE_1 >=3 and GPTSPE_1 <4 then '3-<4'
-when GPTSPE_1 >=4 and GPTSPE_1 <5 then '4-<5'
-when GPTSPE_1 >=5 and GPTSPE_1 <6 then '5-<6'
-when GPTSPE_1 >=6 and GPTSPE_1 <7 then '6-<7'
-when GPTSPE_1 >=6 and GPTSPE_1 <7 then '6-<7'
-when GPTSPE_1 >=7 and GPTSPE_1 <8 then '7-<8'
-when GPTSPE_1 >=8 and GPTSPE_1 <9 then '8-<9'
-when GPTSPE_1 >=9 then '9>=' end end as PRIOR_BAND,
+when PTSPE_1 >=9 then '9>=' end as PRIOR_BAND,
 CASE WHEN (COND =1) THEN DISC_ALL  -- not moved, discount over all years, otherwise			
 		WHEN (COND =2) THEN DISC_0_1  -- else didn't move in RY and RY-1 and exam is in RY or RY-1
 		WHEN (COND =3) THEN DISC_1_2-- else didn't move in RY-1 and RY-2 and exam is in RY-1 or RY-2
@@ -247,10 +236,10 @@ on a.PUPILID = z.pupilid and a.KS4_YEAR_CALC = z.KS4_YEAR_CALC
 LEFT join #Allocations y
 on a.PUPILID = y.PUPILID
 left join #examprep as b
-on a.PUPILID = b.PUPILID and a.URN = b.URN
+on a.PUPILID = b.PUPILID
 left join #tab4 as c
 on b.SUBLEVNO = c.Qual_Number
-where [TRIGGER] = 1 and RECTYPE = 1 and COND IN (1,2,3,4,5,6,7) and NAT1618 = 1 and END_KS = 1 --??
+where [TRIGGER] = 1 and RECTYPE = 5 and COND IN (1,2,3,4,5,6,7) --and NAT1618 = 1 --and END_KS = 1 --??
   and PTQ_INCLUDE = 1 and _Wolf_Included_1618 NOT IN (1, 2, 3, 5) --- <<<------- needed in 2024U to remove VTQs, will needed removing for 2024A
   AND (AMDEXAM NOT IN ('TO','CL', 'NR','D','W') OR AMDEXAM IS NULL) 
 and ((COND = 1 and ((EXAMYEAR IN (@RPYEAR, (@RPYEAR - 1), (@RPYEAR - 2)) and SEASON = 'S') or (EXAMYEAR IN ((@RPYEAR - 1), (@RPYEAR - 2), (@RPYEAR - 3)) and SEASON = 'W')) )
@@ -404,7 +393,7 @@ where [Subject] is NULL
 -- should be zero
 
 
---drop table [KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2023A]
+--drop table [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2024U]
 
 
 select * 
@@ -425,4 +414,4 @@ from #TM_data
 -- and TABLE_NAME = 'TM_data_2022A'
 
 -- and then corrected using
--- alter table [TM_2024].[TM_data_2024U] alter column gradeStructure varchar (200) not NULL;
+-- alter table [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2024U] alter column gradeStructure varchar (200) not NULL;

@@ -41,7 +41,7 @@ select * into #CSCP_lookup from KS5_RESTRICTED.Internal.CSCP_subject_lookup
 If object_Id('tempDB..#indicator') is not null drop table #indicator
 select * into #indicator from KS5_RESTRICTED.[Outputs].[PupilIndicators_POST16_202223A]
 If object_Id('tempDB..#PRIOR') is not null drop table #PRIOR
-select * into #PRIOR from KS5_STATISTICS_RESTRICTED.[EES_2023A].[PRIORS_KS4end2022]
+select * into #PRIOR from KS5_STATISTICS_RESTRICTED.[EES_2024U].[PRIORS_KS4end2022]
 If object_Id('tempDB..#Allocations') is not null drop table #Allocations
 select PUPILID, END_KS into #Allocations from KS5_RESTRICTED.[Outputs].[PupilAllocations_POST16_202223A]
 
@@ -184,7 +184,7 @@ when grade = 'D*' then '*D'
 	   when grade = 'PMM' then 'MMP'
 	   when grade = 'PPM' then 'MPP'
 else GRADE end GRADE_UPDATE,
-case when _Wolf_Included_1618 IN (1,2,3) then case when PTSPE_1 <1 then '<1'
+case when PTSPE_1 <1 then '<1'
 when PTSPE_1 >=1 and PTSPE_1 <2 then '1-<2'
 when PTSPE_1 >=2 and PTSPE_1 <3 then '2-<3'
 when PTSPE_1 >=3 and PTSPE_1 <4 then '3-<4'
@@ -194,18 +194,7 @@ when PTSPE_1 >=6 and PTSPE_1 <7 then '6-<7'
 when PTSPE_1 >=6 and PTSPE_1 <7 then '6-<7'
 when PTSPE_1 >=7 and PTSPE_1 <8 then '7-<8'
 when PTSPE_1 >=8 and PTSPE_1 <9 then '8-<9'
-when PTSPE_1 >=9 then '9>=' end 
-else case when GPTSPE_1 <1 then '<1'
-when GPTSPE_1 >=1 and GPTSPE_1 <2 then '1-<2'
-when GPTSPE_1 >=2 and GPTSPE_1 <3 then '2-<3'
-when GPTSPE_1 >=3 and GPTSPE_1 <4 then '3-<4'
-when GPTSPE_1 >=4 and GPTSPE_1 <5 then '4-<5'
-when GPTSPE_1 >=5 and GPTSPE_1 <6 then '5-<6'
-when GPTSPE_1 >=6 and GPTSPE_1 <7 then '6-<7'
-when GPTSPE_1 >=6 and GPTSPE_1 <7 then '6-<7'
-when GPTSPE_1 >=7 and GPTSPE_1 <8 then '7-<8'
-when GPTSPE_1 >=8 and GPTSPE_1 <9 then '8-<9'
-when GPTSPE_1 >=9 then '9>=' end end as PRIOR_BAND,
+when PTSPE_1 >=9 then '9>=' end as PRIOR_BAND,
 CASE WHEN (COND =1) THEN DISC_ALL  -- not moved, discount over all years, otherwise			
 		WHEN (COND =2) THEN DISC_0_1  -- else didn't move in RY and RY-1 and exam is in RY or RY-1
 		WHEN (COND =3) THEN DISC_1_2-- else didn't move in RY-1 and RY-2 and exam is in RY-1 or RY-2
@@ -245,10 +234,10 @@ on a.PUPILID = z.pupilid and a.KS4_YEAR_CALC = z.KS4_YEAR_CALC
 LEFT join #Allocations y
 on a.PUPILID = y.PUPILID
 left join #examprep as b
-on a.PUPILID = b.PUPILID and a.URN = b.URN
+on a.PUPILID = b.PUPILID
 left join #tab4 as c
 on b.SUBLEVNO = c.Qual_Number
-where [TRIGGER] = 1 and RECTYPE = 1 and COND IN (1,2,3,4,5,6,7) and NAT1618 = 1 and END_KS = 1 --??
+where [TRIGGER] = 1 and RECTYPE = 5 and COND IN (1,2,3,4,5,6,7) --and NAT1618 = 1 and END_KS = 1 --??
   and PTQ_INCLUDE = 1 --and PTQ_INCLUDE_original = 1 -- remove COVID impacted quals for 2022 TMs
   AND (AMDEXAM NOT IN ('TO','CL', 'NR','D','W') OR AMDEXAM IS NULL) 
 and ((COND = 1 and ((EXAMYEAR IN (@RPYEAR, (@RPYEAR - 1), (@RPYEAR - 2)) and SEASON = 'S') or (EXAMYEAR IN ((@RPYEAR - 1), (@RPYEAR - 2), (@RPYEAR - 3)) and SEASON = 'W')) )
@@ -402,7 +391,7 @@ where [Subject] is NULL
 -- should be zero
 
 
---drop table [KS5_STATISTICS_RESTRICTED].[TM_2022].[TM_data_2023A]
+--drop table [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2023A]
 
 
 select * 
@@ -423,4 +412,4 @@ from #TM_data
 -- and TABLE_NAME = 'TM_data_2022A'
 
 -- and then corrected using
--- alter table [TM_2023].[TM_data_2023A] alter column gradeStructure varchar (200) not NULL;
+-- alter table [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2023A] alter column gradeStructure varchar (200) not NULL;

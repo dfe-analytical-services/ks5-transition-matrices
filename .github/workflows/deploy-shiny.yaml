@@ -46,9 +46,6 @@ jobs:
         run: |
           echo "SHINYAPP_NAME='ks5-transition-matrices'">> $GITHUB_ENV
 
-      - name: Install odbc dependencies
-        run: sudo apt-get install unixodbc-dev
-
       - name: Install processx
         shell: Rscript {0}
         run: |

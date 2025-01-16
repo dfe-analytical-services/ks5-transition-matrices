@@ -1,6 +1,6 @@
 {
   "input": {
-    "ReportYr_select": "2023",
+    "ReportYr_select": "2024",
     "cookies": [
       "GA1.1.1784488804.1728980230",
       "GS1.1.1729152208.1.1.1729152369.0.0.0"
@@ -98,12 +98,12 @@
       "TRUE"
     ],
     "format": "Numbers data",
-    "grade_structure_select": "*,A,B,C,D,E",
+    "grade_structure_select": "D,M",
     "link_to_app_content_tab": 0,
     "navlistPanel": "Homepage",
-    "qual_select": "GCE A level",
-    "size_select": "1",
-    "subj_select": "Accounting / Finance"
+    "qual_select": "Advanced Extension Award",
+    "size_select": "0",
+    "subj_select": "Mathematics"
   },
   "output": {
     "example_table": {

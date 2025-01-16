@@ -21,8 +21,9 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
     mutate(SUBJ = sample(100:900, 1))
 
   tm_data <- sql_data %>%
+    mutate(PRIOR_BAND = replace_na(PRIOR_BAND, "Unknown prior")) %>%
     filter(
-      !(is.na(PRIOR_BAND)),
+      # !(is.na(PRIOR_BAND)),
       !(is.na(SUBJ))
     ) # %>%
   # bind_rows(tm_data_subj_na)
@@ -32,6 +33,15 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- NUMBERS & PERCENTAGES CALCULATED ----
   # -----------------------------------------------------------------------------------------------------------------------------
+
+  totals <- tm_data %>%
+    group_by(Qual_Description, SUBLEVNO, Potential_Level, ASIZE, GSIZE, MAPPING, Subject, gradeStructure, SUBJ, GRADE) %>%
+    summarise(total_students = sum(total_students, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(PRIOR_BAND = "zAll")
+
+  tm_data <- tm_data %>%
+    bind_rows(totals)
 
   student_numbers <- tm_data %>%
     mutate(
@@ -46,6 +56,7 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
       QUAL_ID = paste0(SUBLEVNO, SUBJ, SIZE, gradeStructure),
       ROW_ID = paste0(SUBLEVNO, SUBJ, SIZE, PRIOR_BAND, gradeStructure)
     ) %>%
+    mutate(PRIOR_BAND = if_else(PRIOR_BAND == "zAll", "All", PRIOR_BAND)) %>%
     mutate(across(c(everything(), -total_students), ~ as.character(.))) %>%
     arrange(ROW_ID, .locale = "en") %>%
     pivot_wider(names_from = GRADE, values_from = total_students)

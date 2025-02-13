@@ -1,12 +1,6 @@
 homepage_panel <- function() {
   tabPanel(
     "Homepage",
-    modalDialog(
-      title = "Missing data",
-      "The 16 to 18 transition matrices does not include vocational and technical qualifications for 2024 provisional data due to a data collection issue. This will be resolved in the revised publication.",
-      size = "l",
-      easyClose = FALSE
-    ),
     gov_main_layout(
       gov_row(
         column(

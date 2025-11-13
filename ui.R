@@ -123,7 +123,8 @@ ui <- function(input, output, session) {
           team_email = "attainment.statistics@education.gov.uk",
           repo_name = "https://github.com/dfe-analytical-services/ks5-transition-matrices/",
           publication_name = "A level and other 16 to 18 results",
-          publication_slug = "a-level-and-other-16-to-18-results"
+          publication_slug = "a-level-and-other-16-to-18-results",
+          form_url = "https://forms.office.com/e/Sa4ULADzx4"
         )
       ),
       shiny::tabPanel(

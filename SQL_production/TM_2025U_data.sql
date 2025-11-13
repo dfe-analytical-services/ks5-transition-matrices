@@ -16,34 +16,36 @@
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 
+-- REMEMBER to remove the VTQ filter on line 254 for 2024A
+
 -- declare the year and all the names of the base tables to be updated to appropriate tables
-DECLARE @RPYEAR AS INTEGER = 2023
+DECLARE @RPYEAR AS INTEGER = 2025
 
 If object_Id('tempDB..#subj_tab') is not null drop table #subj_tab
-select * into #subj_tab from QRD.dbo.Subje01_2023_10_31
+select * into #subj_tab from QRD.dbo.Subje01_2025_09
 If object_Id('tempDB..#tab2') is not null drop table #tab2
-select * into #tab2 from QRD.dbo.Table2_2023_10_31
+select * into #tab2 from QRD.dbo.Table2_2025_09
 If object_Id('tempDB..#tab3') is not null drop table #tab3
-select * into #tab3 from QRD.dbo.Table3_2023_10_31
+select * into #tab3 from QRD.dbo.Table3_2025_09
 If object_Id('tempDB..#tab4') is not null drop table #tab4
-select * into #tab4 from QRD.dbo.Table4_2023_10_31
+select * into #tab4 from QRD.dbo.Table4_2025_09
 If object_Id('tempDB..#subj') is not null drop table #subj
 
 
 If object_Id('tempDB..#raw_inst') is not null drop table #raw_inst
-select * into #raw_inst from KS5_RESTRICTED.[Outputs].[RAW_Inst_POST16_202223A]
+select * into #raw_inst from KS5_RESTRICTED.[Outputs].[RAW_Inst_POST16_202425U]
 If object_Id('tempDB..#raw_LA') is not null drop table #raw_LA
-select * into #raw_LA from KS5_RESTRICTED.[Outputs].[RAW_LEA_POST16_202223A]
+select * into #raw_LA from KS5_RESTRICTED.[Outputs].[RAW_LEA_POST16_202425U]
 If object_Id('tempDB..#exam') is not null drop table #exam
-select * into #exam from [KS5_RESTRICTED].[Outputs].[Exam_PT_POST16_202223A]
+select * into #exam from [KS5_RESTRICTED].[Outputs].[Exam_PT_POST16_202425U]
 If object_Id('tempDB..#CSCP_lookup') is not null drop table #CSCP_lookup
 select * into #CSCP_lookup from KS5_RESTRICTED.Internal.CSCP_subject_lookup
 If object_Id('tempDB..#indicator') is not null drop table #indicator
-select * into #indicator from KS5_RESTRICTED.[Outputs].[PupilIndicators_POST16_202223A]
+select * into #indicator from KS5_RESTRICTED.[Outputs].[PupilIndicators_POST16_202425U]
 If object_Id('tempDB..#PRIOR') is not null drop table #PRIOR
-select * into #PRIOR from KS5_STATISTICS_RESTRICTED.[EES_2024U].[PRIORS_KS4end2022]
+select * into #PRIOR from KS5_STATISTICS_RESTRICTED.[EES_2025U].[PRIORS_KS4end2024]
 If object_Id('tempDB..#Allocations') is not null drop table #Allocations
-select PUPILID, END_KS into #Allocations from KS5_RESTRICTED.[Outputs].[PupilAllocations_POST16_202223A]
+select PUPILID, END_KS into #Allocations from KS5_RESTRICTED.[Outputs].[PupilAllocations_POST16_202425U]
 
 ----------------------------------------------------------
 --
@@ -55,7 +57,7 @@ select PUPILID, END_KS into #Allocations from KS5_RESTRICTED.[Outputs].[PupilAll
 --the spec for PTQ INCLUDE doesn't include removing # but it appears to be the case when QAing with RM - i think there is something somewhere about # quals
 If object_Id('tempDB..#QRD_PTQINCLUDE') is not null drop table #QRD_PTQINCLUDE
 select distinct a.QUID, case when a.syllabus_ref = '***' then '' else a.syllabus_ref end as syllabus_ref, a.Wolf_Included_1618 as Wolf_Included_1618_original, KS5_Academic, KS5_Subset,
-case when syllabus_ref != 'KNO' and (App1618 = 1 and ((KS5_Equivalences = 1 and KS5_Academic = 1) or Wolf_Included_1618 in (1,2,3)) and QUID != '#') then 1 else 0 end PTQ_INCLUDE_original
+case when syllabus_ref != 'KNO' and (App1618 = 1 and ((KS5_Equivalences = 1 and KS5_Academic = 1) or Wolf_Included_1618 in (1,2,3,5)) and QUID != '#') then 1 else 0 end PTQ_INCLUDE_original
 into #QRD_PTQINCLUDE
 from #subj_tab as a
 left join #tab4 as b
@@ -165,7 +167,7 @@ make changes to the grade:
 	- sublevno 129 is an IB combined certificate - the grades that seem to exist are K and J where K is awarded and J is unawareded. This has been set as a pass for K and no result for J
 	in previous code and then later in the code the pass was set to no result. We are not sure why this was done and does not appear correct and so I have left as pass and fail.
 */
---DECLARE @RPYEAR AS INTEGER = 2022
+--DECLARE @RPYEAR AS INTEGER = 2025
 If object_Id('tempDB..#examcut') is not null drop table #examcut
 select b.*, Qual_Description, z.GPTSPE_1, z.PTSPE_1,
 case when PTQ_INCLUDE = 0 and PTQ_INCLUDE_original = 1 then 'COVID result' -- this doesn't matter as I have added the PTQ_INCLUDE = 1 filter to the where statement so this is redundent
@@ -237,8 +239,8 @@ left join #examprep as b
 on a.PUPILID = b.PUPILID
 left join #tab4 as c
 on b.SUBLEVNO = c.Qual_Number
-where [TRIGGER] = 1 and RECTYPE = 5 and COND IN (1,2,3,4,5,6,7) --and NAT1618 = 1 and END_KS = 1 --??
-  and PTQ_INCLUDE = 1 --and PTQ_INCLUDE_original = 1 -- remove COVID impacted quals for 2022 TMs
+where [TRIGGER] = 1 and RECTYPE = 5 and COND IN (1,2,3,4,5,6,7) --and NAT1618 = 1 --and END_KS = 1 --??
+  and PTQ_INCLUDE = 1
   AND (AMDEXAM NOT IN ('TO','CL', 'NR','D','W') OR AMDEXAM IS NULL) 
 and ((COND = 1 and ((EXAMYEAR IN (@RPYEAR, (@RPYEAR - 1), (@RPYEAR - 2)) and SEASON = 'S') or (EXAMYEAR IN ((@RPYEAR - 1), (@RPYEAR - 2), (@RPYEAR - 3)) and SEASON = 'W')) )
 OR (COND = 2 and ((EXAMYEAR IN (@RPYEAR, (@RPYEAR - 1)) and SEASON = 'S') or (EXAMYEAR IN ((@RPYEAR - 1), (@RPYEAR - 2)) and SEASON = 'W')))
@@ -252,8 +254,8 @@ OR (COND = 7 and ((EXAMYEAR = (@RPYEAR - 2) and SEASON = 'S') or (EXAMYEAR = (@R
 --pull all the grades from the QRD tables 2 and 3 for the qualifications to be reported
 If object_Id('tempDB..#grade_struc') is not null drop table #grade_struc
 select a.*, b.Grade as grade2, c.Grade as grade3, b.points as points2, c.Points as points3,
-coalesce(c.grade, b.grade) as QRD_grade, coalesce(c.points, b.points) as QRD_points,
-coalesce(c.last_input_year, b.last_input_year) as last_input_year
+coalesce(c.grade, b.grade) as QRD_grade, coalesce(c.points, b.points) as QRD_points/*,
+coalesce(c.last_input_year, b.last_input_year) as last_input_year*/
 into #grade_struc
 from (
 select distinct GNUMBER, QUAL_TYPE, SUBLEVNO	
@@ -285,7 +287,7 @@ when sublevno=129 then (case when QRD_grade='K' then 'Pass' when QRD_grade in ('
 else QRD_grade end as GRADE_update
 into #grade_struc_update
 from #grade_struc
-where last_input_year = @RPYEAR
+--where last_input_year = @RPYEAR
 
 --concatenate the grades to make a grade structure but remove fail and no result in contrast to previous years
 If object_Id('tempDB..#generic_gradeStruc') is not null drop table #generic_gradeStruc
@@ -378,24 +380,20 @@ left join #bind_nat_dat b
 on a.SUBLEVNO = b.SUBLEVNO and a.POTENTIAL_LEVEL = b.POTENTIAL_LEVEL 
 and a.ASIZE = b.ASIZE and a.GSIZE = b.GSIZE and a.MAPPING = b.MAPPING and a.gradeStructure = b.gradeStructure
 
+-- See note at end of script
+alter table #TM_data alter column gradeStructure varchar (200) not NULL
 
 select * from #TM_data
 where PRIOR_BAND is NULL
-
--- 11913 rows
--- up to 11914 rows with grade structure added in
--- 955 NULLS in prior band
 
 select * from #TM_data
 where [Subject] is NULL
 -- should be zero
 
-
---drop table [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2023A]
-
+drop table [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2025U]
 
 select * 
-into [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2023A]
+into [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2025U]
 from #TM_data
 
 
@@ -408,8 +406,8 @@ from #TM_data
 -- use KS5_STATISTICS_RESTRICTED
 -- select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH
 -- from INFORMATION_SCHEMA.COLUMNS 
--- where TABLE_SCHEMA = 'TM_2022' 
--- and TABLE_NAME = 'TM_data_2022A'
+-- where TABLE_SCHEMA = 'TM_2025' 
+-- and TABLE_NAME = 'TM_data_2025U'
 
--- and then corrected using
--- alter table [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2023A] alter column gradeStructure varchar (200) not NULL;
+---- and then corrected using
+-- alter table [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2025U] alter column gradeStructure varchar (200) not NULL;

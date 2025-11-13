@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.4.2",
+    "Version": "4.5.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -337,11 +337,12 @@
     },
     "chromote": {
       "Package": "chromote",
-      "Version": "0.3.1",
+      "Version": "0.5.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R6",
+        "cli",
         "curl",
         "fastmap",
         "jsonlite",
@@ -351,9 +352,11 @@
         "promises",
         "rlang",
         "utils",
-        "websocket"
+        "websocket",
+        "withr",
+        "zip"
       ],
-      "Hash": "5532726015b620830baae59aa689ea52"
+      "Hash": "645cd21d708d14c2732a34b2ccba87b8"
     },
     "cli": {
       "Package": "cli",
@@ -539,7 +542,7 @@
         "stringr",
         "styler"
       ],
-      "Hash": "f875b7df5b4b75e24fd6cf38e94bccf0"
+      "Hash": "51a65ddfcb880c75d5f2f28cef8410c8"
     },
     "diffobj": {
       "Package": "diffobj",
@@ -869,13 +872,13 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.8.9",
+      "Version": "2.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "methods"
       ],
-      "Hash": "4e993b65c2c3ffbffce7bb3e2c6f832b"
+      "Hash": "b0776f526d36d8bd4a3344a88fe165c4"
     },
     "knitr": {
       "Package": "knitr",
@@ -1958,6 +1961,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "51dab85c6c98e50a18d7551e9d49f76c"
+    },
+    "zip": {
+      "Package": "zip",
+      "Version": "2.3.3",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "6ebe4b1dc74c3e50e74e316323629583"
     }
   }
 }

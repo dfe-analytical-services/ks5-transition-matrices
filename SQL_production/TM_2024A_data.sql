@@ -393,11 +393,11 @@ where [Subject] is NULL
 -- should be zero
 
 
---drop table [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2024U]
+--drop table [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2024A]
 
 
 select * 
-into [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2024A]
+into [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2024A]
 from #TM_data
 
 

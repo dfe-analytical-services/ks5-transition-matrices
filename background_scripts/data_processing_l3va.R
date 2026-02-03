@@ -87,9 +87,6 @@ sublevno_char_num_qa_filtered <- sublevno_char_num_qa %>%
 # this is found in the section above 'Things to change between runs'
 
 
-
-
-
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Qualification and Subject Lookup ----
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -127,8 +124,6 @@ tm_prior_bands <- exams_data %>%
 
 # remove the exmas_data variable to free up space
 # rm(exams_data)
-
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

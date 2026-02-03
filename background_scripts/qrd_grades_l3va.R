@@ -294,7 +294,6 @@ grade_tidy <- all_grades_combined_final %>%
 #   left_join(grade_tidy)
 
 
-
 # 16. remove grades that are no longer in use by using last input year column
 grade_select <- grade_tidy %>%
   filter(Last_Input_Year == current_year)
@@ -321,9 +320,6 @@ grades_num <- grade_select %>%
 grades_ordered <- bind_rows(grades_char, grades_num) %>%
   arrange(SUBLEVNO_subscript) %>%
   subset(., !(SUBLEVNO_subscript == 130 & Grade == "U")) # removes IB grade U, because IB should only have FAIL
-
-
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

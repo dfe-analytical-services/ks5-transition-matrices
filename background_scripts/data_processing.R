@@ -109,7 +109,6 @@ ancillary_data <- ancillary_data_numbers %>%
   left_join(ancillary_data_percentages)
 
 
-
 write_csv(ancillary_data, paste0(ancillary_save_path, "tm_numbers_percentages_", current_year, ".csv"))
 
 

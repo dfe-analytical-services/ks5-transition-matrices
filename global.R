@@ -91,24 +91,6 @@ percentage_select_function <- function(ReportYr_sel, qual, subj, size, grade_str
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Source scripts ---------------------------------------------------------------------------------
 
 # Source any scripts here. Scripts may be needed to process data before it gets to the server file.
@@ -135,7 +117,6 @@ appLoadingCSS <- "
 "
 
 
-
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Read in the Data from 01_data-processing ----
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -146,10 +127,6 @@ stud_percentages <- readRDS("data/all_student_percentages.rds")
 
 qual_lookup <- readRDS("data/qual_lookup.rds")
 grade_lookup <- readRDS("data/grade_lookup.rds")
-
-
-
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -181,11 +158,6 @@ example_data <- number_select_function(
 example_value <- example_data %>%
   filter(`Prior Band` == "5-<6") %>%
   pull("C")
-
-
-
-
-
 
 
 site_primary <- "https://https://department-for-education.shinyapps.io/ks5-transition-matrices/"

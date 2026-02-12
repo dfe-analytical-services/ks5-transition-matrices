@@ -27,9 +27,7 @@
       7,
       8,
       9,
-      10,
-      11,
-      12
+      10
     ],
     "example_table_rows_current": [
       1,
@@ -41,9 +39,7 @@
       7,
       8,
       9,
-      10,
-      11,
-      12
+      10
     ],
     "example_table_rows_selected": null,
     "example_table_search": "",
@@ -267,9 +263,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.2",
+          "version": "1.2.1",
           "src": {
-            "href": "crosstalk-1.2.2"
+            "href": "crosstalk-1.2.1"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

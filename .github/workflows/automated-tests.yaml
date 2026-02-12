@@ -1,0 +1,10 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+      
+name: Automated tests
+
+jobs:
+  automatedTests:
+    uses: dfe-analytical-services/dfeshiny/.github/workflows/automated_tests_template.yaml@main

@@ -23,8 +23,8 @@ source("./background_scripts/data_processing_func.R")
 # ---- Things to change between runs ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2025/KS5/01_november_2025/10_ancillary/"
-current_year <- "2025U"
+ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2025/KS5/02_february_2026/10_ancillary/"
+current_year <- "2025A"
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Thing to add - Reading in the data from SQL tables and running function ----
@@ -35,7 +35,7 @@ con <- DBI::dbConnect(odbc::odbc(), driver = "SQL Server", server = "VMT1PR-DHSQ
 
 
 # Select data from SQL tables - need to add the current year for unamended run and change from U to A for the amended run
-tm_data_raw_2025 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2025U]")) %>% collect()
+tm_data_raw_2025 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2025A]")) %>% collect()
 tm_data_raw_2024 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2024A]")) %>% collect()
 tm_data_raw_2023 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2023A]")) %>% collect()
 tm_data_raw_2022 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2022A]")) %>% collect()
@@ -101,13 +101,12 @@ ancillary_data_percentages <- current_year_data$student_percentages %>%
     grade,
     percentage
   ) %>%
-  filter(percentage != "NA%") %>%
+  filter(percentage != "NA") %>%
   arrange(qualification_code, subject_code, size, grade_structure, prior_attainment_band, grade, .locale = "en")
 
 
 ancillary_data <- ancillary_data_numbers %>%
   left_join(ancillary_data_percentages)
-
 
 
 write_csv(ancillary_data, paste0(ancillary_save_path, "tm_numbers_percentages_", current_year, ".csv"))

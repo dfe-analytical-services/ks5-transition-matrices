@@ -50,7 +50,6 @@ server <- function(input, output, session) {
   })
 
 
-
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Updates to drop down boxes ----
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +85,6 @@ server <- function(input, output, session) {
   })
 
 
-
   # we need to identify which subjects have multiple sizes
   # use this output to update the size select drop down box below
   multiple_sizes <- qual_lookup %>%
@@ -95,7 +93,6 @@ server <- function(input, output, session) {
     filter(n > 1) %>%
     mutate(qual_subj_combined = paste0(ReportYr, " - ", Qual_Description, " - ", Subject))
   # multiple_sizes
-
 
 
   observe({
@@ -125,8 +122,6 @@ server <- function(input, output, session) {
   })
 
 
-
-
   # we need to identify which subject and sizes have multiple grade structures
   # use this output to update the grade select drop down box below
   multiple_gradestructures <- qual_lookup %>%
@@ -135,7 +130,6 @@ server <- function(input, output, session) {
     filter(n > 1) %>%
     mutate(qual_subj_size_combined = paste0(ReportYr, " - ", Qual_Description, " - ", Subject, " - ", SIZE))
   # multiple_gradestructures
-
 
 
   observe({
@@ -167,7 +161,6 @@ server <- function(input, output, session) {
   })
 
 
-
   # only want the prior band drop down box to appear if the percentage data checkbox has been selected
   output$chart_band_appear <-
     renderUI({
@@ -177,8 +170,6 @@ server <- function(input, output, session) {
         list(bands = sort(prior_band_chart()))
       )
     })
-
-
 
 
   lookup_characters <- qual_lookup %>%
@@ -240,18 +231,14 @@ server <- function(input, output, session) {
   })
 
 
-
   # Create a reactive table for percentage table -----------------------------------------------
   percentage_data <- reactive({
     req(c(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure))
 
     percentage_select_function(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
-      mutate_all(list(~ str_replace(., "NA%", ""))) %>%
+      mutate_all(list(~ str_replace(., "NA", ""))) %>%
       rename("Prior Band" = PRIOR_BAND)
   })
-
-
-
 
 
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -293,17 +280,12 @@ server <- function(input, output, session) {
   })
 
 
-
-
-
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Creating the percentage plots... doesn't depend on grading structure so just use percentage_select_qrd_1 ----
   # -----------------------------------------------------------------------------------------------------------------------------
 
   # The below code removes columns that have an NA value. The purrr functions were taken from this website:
   # https://community.rstudio.com/t/drop-all-na-columns-from-a-dataframe/5844
-
-
 
 
   # percentage_chart_data <- eventReactive(input$chart_band, {
@@ -375,10 +357,6 @@ server <- function(input, output, session) {
   )
 
 
-
-
-
-
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- Download Buttons ----
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -406,7 +384,6 @@ server <- function(input, output, session) {
   )
 
 
-
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- TM page title ----
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -423,28 +400,6 @@ server <- function(input, output, session) {
       )
     }
   })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   # Stop app ---------------------------------------------------------------------------------

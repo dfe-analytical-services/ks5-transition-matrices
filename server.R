@@ -236,7 +236,7 @@ server <- function(input, output, session) {
     req(c(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure))
 
     percentage_select_function(lookup_selection()$ReportYr, lookup_selection()$SUBLEVNO, lookup_selection()$SUBJ, lookup_selection()$SIZE, lookup_selection()$gradeStructure) %>%
-      mutate_all(list(~ str_replace(., "NA%", ""))) %>%
+      mutate_all(list(~ str_replace(., "NA", ""))) %>%
       rename("Prior Band" = PRIOR_BAND)
   })
 

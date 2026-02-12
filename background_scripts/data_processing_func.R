@@ -67,7 +67,7 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
     mutate_if(is.numeric, function(x) {
       round(x * 100, 2)
     }) %>%
-    mutate_if(is.numeric, ~ paste0(.x, "%"))
+    mutate_if(is.numeric, ~ ifelse(is.na(.x), paste0(.x), paste0(.x, "%")))
 
   # -----------------------------------------------------------------------------------------------------------------------------
   # ---- LOOKUP & FULL GRADE OPTIONS CALCULATED ----

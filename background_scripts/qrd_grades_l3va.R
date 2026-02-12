@@ -113,7 +113,6 @@ multiple_GNUM <- GNUM_in_exams %>%
   distinct()
 
 
-
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Find a list of all SUBLEVNOs in the EXAMS data and GNUMBERS for qualifications with different grading structures ----
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -167,8 +166,6 @@ diff_grade_quals <- qrd_table3 %>%
     Qual_Number %in% SUBLEVNO_in_exams$SUBLEVNO,
     QUID %in% GNUMBER_diff_grades$GNUMBER
   )
-
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -252,7 +249,6 @@ subscript_subj_lookup <- all_grades_combined_final %>%
   filter(!is.na(SUBJ))
 
 
-
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Tidy grading structure, remove duplicates, fix IB (130), order grades low to high ----
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -299,10 +295,6 @@ grade_select <- grade_tidy %>%
   filter(Last_Input_Year == current_year)
 
 
-
-
-
-
 # 17. arrange the grades
 # would like to sort numeric and character grades differently so that all grades go from low - high
 # for numeric this is ascending, for character this is descending
@@ -344,11 +336,6 @@ saveRDS(qrd_grades_r, "./outputs/grades_qrd.rds")
 saveRDS(SUBLEVNO_diff_grades, "./outputs/mult_grade_structure.rds")
 
 
-
-
-
-
-
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- EXCEL ----
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -370,9 +357,6 @@ grades_ordered_grouped <- grades_ordered %>%
 GRADES_EXCEL <- grades_ordered_grouped %>%
   reshape2::dcast(., SUBLEVNO_subscript ~ grade_count, value.var = "Grade", fill = "") %>%
   distinct()
-
-
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -456,7 +440,6 @@ SIZE_LOOKUP_EXCEL <- qual_names_EXCEL_ALL %>%
   mutate(ASIZE = as.character(ASIZE)) %>%
   distinct() %>%
   drop_na()
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

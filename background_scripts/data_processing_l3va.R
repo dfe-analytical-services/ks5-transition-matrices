@@ -28,11 +28,9 @@ exam_file <- "[L3VA].[U2022].[FILTERED_EXAMS_PROVIDERS]"
 lookup_file <- "[L3VA].[U2022].[QUAL_SUBJ_LOOKUP]"
 
 
-
 # qualifications with character and numeric grading, e.g D1, D2...
 # can use QA check in sections below to see if there are any new qualifications to add to this list
 sublevno_char_num <- c(113, 114)
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -154,8 +152,6 @@ tm_grade_count <- tm_prior_bands %>%
   arrange(ROW_ID)
 
 
-
-
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- NUMBERS & PERCENTAGES CALCULATED ----
 # -----------------------------------------------------------------------------------------------------------------------------
@@ -171,7 +167,6 @@ student_percentages_l3va <- student_numbers_l3va %>%
     round(x * 100, 2)
   }) %>%
   mutate_if(is.numeric, ~ paste0(.x, "%"))
-
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

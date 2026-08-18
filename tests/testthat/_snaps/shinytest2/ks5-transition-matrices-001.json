@@ -1,6 +1,8 @@
 {
   "input": {
     "ReportYr_select": "2025",
+    "accessibility_statement": 0,
+    "accessibility_to_dashboard": 0,
     "cookies": [
       "GA1.1.1784488804.1728980230",
       "GS1.1.1729152208.1.1.1729152369.0.0.0"
@@ -10,6 +12,8 @@
     "cookies_banner-cookies_reject": 0,
     "cookies_panel-cookies_analytics": "no",
     "cookies_panel-submit_btn": 0,
+    "cookies_statement": 0,
+    "cookies_to_dashboard": 0,
     "example_table_cell_clicked": {
 
     },
@@ -147,16 +151,21 @@
     "grade_structure_select": "D,M",
     "link_to_app_content_tab": 0,
     "navlistPanel": "Homepage",
+    "pages": "dashboard",
+    "parent_publication": 0,
     "qual_select": "Advanced Extension Award",
     "size_select": "0",
-    "subj_select": "Mathematics"
+    "subj_select": "Mathematics",
+    "support": 0,
+    "support_to_dashboard": 0
   },
   "output": {
     "example_table": {
       "x": {
+        "style": "bootstrap5",
         "filter": "none",
         "vertical": false,
-        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>E<\/th>\n      <th>D<\/th>\n      <th>C<\/th>\n      <th>B<\/th>\n      <th>A<\/th>\n      <th>*<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "container": "<table class=\"table table-striped table-hover row-border order-column display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>E<\/th>\n      <th>D<\/th>\n      <th>C<\/th>\n      <th>B<\/th>\n      <th>A<\/th>\n      <th>*<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
         "options": {
           "columnDefs": [
             {
@@ -249,21 +258,54 @@
           "all_files": true
         },
         {
-          "name": "dt-core",
+          "name": "dt-core-bootstrap5",
           "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.6"
+            "href": "dt-core-bootstrap5-1.13.6"
           },
           "meta": null,
-          "script": "js/jquery.dataTables.min.js",
-          "stylesheet": [
-            "css/jquery.dataTables.min.css",
-            "css/jquery.dataTables.extra.css"
+          "script": [
+            "js/jquery.dataTables.min.js",
+            "js/dataTables.bootstrap5.min.js"
           ],
+          "stylesheet": "css/dataTables.bootstrap5.min.css",
           "head": null,
           "attachment": null,
           "package": null,
           "all_files": false
+        },
+        {
+          "name": "bootstrap",
+          "version": "5.3.8",
+          "src": {
+            "href": "bootstrap-5.3.8"
+          },
+          "meta": {
+            "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no"
+          },
+          "script": "bootstrap.bundle.min.js",
+          "stylesheet": "bootstrap.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "bs3compat",
+          "version": "0.12.0",
+          "src": {
+            "href": "bs3compat-0.12.0"
+          },
+          "meta": null,
+          "script": [
+            "transition.js",
+            "tabs.js",
+            "bs3compat.js"
+          ],
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
         },
         {
           "name": "crosstalk",

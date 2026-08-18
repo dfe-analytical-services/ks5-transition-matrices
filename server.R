@@ -20,11 +20,45 @@
 
 
 server <- function(input, output, session) {
+  # The template uses bookmarking to store input choices in the url. You can
+  # exclude specific inputs (for example extra info created for a datatable
+  # or plotly chart) using the list below, but it will need updating to match
+  # any entries in your own dashboard's bookmarking url that you don't want
+  # including.
+  setBookmarkExclude(c(
+    "cookies",
+    "link_to_app_content_tab",
+    "tabBenchmark_rows_current",
+    "tabBenchmark_rows_all",
+    "tabBenchmark_columns_selected",
+    "tabBenchmark_cell_clicked",
+    "tabBenchmark_cells_selected",
+    "tabBenchmark_search",
+    "tabBenchmark_rows_selected",
+    "tabBenchmark_row_last_clicked",
+    "tabBenchmark_state",
+    "plotly_relayout-A",
+    "plotly_click-A",
+    "plotly_hover-A",
+    "plotly_afterplot-A",
+    ".clientValue-default-plotlyCrosstalkOpts"
+  ))
+
+  observe({
+    # Trigger this observer every time an input changes
+    reactiveValuesToList(input)
+    session$doBookmark()
+  })
+
+  onBookmarked(function(url) {
+    updateQueryString(url)
+  })
+
   # Loading screen ---------------------------------------------------------------------------
   # Call initial loading screen
 
-  hide(id = "loading-content", anim = TRUE, animType = "fade")
-  show("app-content")
+  # hide(id = "loading-content", anim = TRUE, animType = "fade")
+  # show("app-content")
 
   # Simple server stuff goes here ------------------------------------------------------------
 
@@ -32,20 +66,37 @@ server <- function(input, output, session) {
   # ---- Homepage tab ----
   # -----------------------------------------------------------------------------------------------------------------------------
 
+  # Cookies logic -------------------------------------------------------------
   output$cookies_status <- dfeshiny::cookies_banner_server(
-    input_cookies = reactive(input$cookies),
-    google_analytics_key = google_analytics_key,
-    parent_session = session
-  )
-
-  # Server logic for the panel, can be placed anywhere in server.R -------
-  cookies_panel_server(
-    input_cookies = reactive(input$cookies),
+    input_cookies = shiny::reactive(input$cookies),
+    parent_session = session,
     google_analytics_key = google_analytics_key
   )
 
+  dfeshiny::cookies_panel_server(
+    input_cookies = shiny::reactive(input$cookies),
+    google_analytics_key = google_analytics_key
+  )
+
+  # output$cookies_status <- dfeshiny::cookies_banner_server(
+  #   input_cookies = reactive(input$cookies),
+  #   google_analytics_key = google_analytics_key,
+  #   parent_session = session
+  # )
+  #
+  # # Server logic for the panel, can be placed anywhere in server.R -------
+  # cookies_panel_server(
+  #   input_cookies = reactive(input$cookies),
+  #   google_analytics_key = google_analytics_key
+  # )
+
   # link to TM tool
   observeEvent(input$link_to_app_content_tab, {
+    updateTabsetPanel(session, "navlistPanel", selected = "dashboard")
+  })
+
+  # FOR THE APP ---------------------------------------------------------------
+  observeEvent(input$link_to_dashboard_tab, {
     updateTabsetPanel(session, "navlistPanel", selected = "dashboard")
   })
 
@@ -401,6 +452,52 @@ server <- function(input, output, session) {
     }
   })
 
+  # Wrap a plot with a larger spinner
+  with_gov_spinner <- function(
+    ui_element,
+    spinner_type = 6,
+    size = 1,
+    color = "#1d70b8"
+  ) {
+    shinycssloaders::withSpinner(
+      ui_element,
+      type = spinner_type,
+      color = color,
+      size = size,
+      proxy.height = paste0(250 * size, "px")
+    )
+  }
+
+  # navigation link within text --------------------------------------------
+  observeEvent(input$nav_link, {
+    shiny::updateTabsetPanel(session, "navlistPanel", selected = input$nav_link)
+  })
+
+  # Dynamic label showing custom selections -----------------------------------
+  output$dropdown_label <- renderText({
+    paste0("Current selections: ", input$selectPhase, ", ", input$selectArea)
+  })
+
+  ## Footer links -------------------------------------------------------------
+  observeEvent(input$dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$support, nav_select("pages", "support"))
+  observeEvent(
+    input$accessibility_statement,
+    nav_select("pages", "accessibility_statement")
+  )
+  observeEvent(
+    input$cookies_statement,
+    nav_select("pages", "cookies_statement")
+  )
+
+  ## Back links to main dashboard ---------------------------------------------
+  observeEvent(input$footnotes_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$support_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$cookies_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(
+    input$accessibility_to_dashboard,
+    nav_select("pages", "dashboard")
+  )
 
   # Stop app ---------------------------------------------------------------------------------
 

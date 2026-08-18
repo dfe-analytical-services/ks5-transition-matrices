@@ -31,14 +31,18 @@ current_year <- "2025A"
 # -----------------------------------------------------------------------------------------------------------------------------
 
 # establish connection to server
-con <- DBI::dbConnect(odbc::odbc(), driver = "SQL Server", server = "VMT1PR-DHSQL02")
+con <- DBI::dbConnect(odbc::databricks(),
+  driver = "Databricks ODBC Driver",
+  httpPath = Sys.getenv("DATABRICKS_SQL_PATH"),
+  useNativeQuery = FALSE
+)
 
 
 # Select data from SQL tables - need to add the current year for unamended run and change from U to A for the amended run
-tm_data_raw_2025 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2025].[TM_data_2025A]")) %>% collect()
-tm_data_raw_2024 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2024A]")) %>% collect()
-tm_data_raw_2023 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2023A]")) %>% collect()
-tm_data_raw_2022 <- tbl(con, sql("select * from [KS5_STATISTICS_RESTRICTED].[TM_2024].[TM_data_2022A]")) %>% collect()
+tm_data_raw_2025 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2025.tm_data_2025a")) %>% collect()
+tm_data_raw_2024 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2024.tm_data_2024a")) %>% collect()
+tm_data_raw_2023 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2024.tm_data_2023a")) %>% collect()
+tm_data_raw_2022 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2024.tm_data_2022a")) %>% collect()
 
 # disconnect
 DBI::dbDisconnect(con)

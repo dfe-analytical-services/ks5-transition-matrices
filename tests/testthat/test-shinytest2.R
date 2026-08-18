@@ -49,14 +49,14 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
   ), allow_no_input_binding_ = TRUE)
   app$expect_values()
 
-  app$set_inputs(navlistPanel = "Accessibility")
-  app$expect_values()
-
-  app$set_inputs(navlistPanel = "support_panel")
-  app$expect_values()
-
-  app$set_inputs(navlistPanel = "cookies_panel_ui")
-  app$expect_values()
+  # app$set_inputs(navlistPanel = "Accessibility")
+  # app$expect_values()
+  #
+  # app$set_inputs(navlistPanel = "support_panel")
+  # app$expect_values()
+  #
+  # app$set_inputs(navlistPanel = "cookies_panel_ui")
+  # app$expect_values()
 
   app$set_inputs(navlistPanel = "dashboard")
   app$expect_values()

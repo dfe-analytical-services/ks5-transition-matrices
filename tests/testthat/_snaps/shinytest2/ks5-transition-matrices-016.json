@@ -3,7 +3,6 @@
     "ReportYr_select": "2025",
     "accessibility_statement": 0,
     "accessibility_to_dashboard": 0,
-    "chart_band": "",
     "cookies": [
       "GA1.1.1784488804.1728980230",
       "GS1.1.1729152208.1.1.1729152369.0.0.0"
@@ -102,7 +101,7 @@
       "FALSE",
       "TRUE"
     ],
-    "format": "Percentage data",
+    "format": "Numbers data",
     "grade_structure_select": "character(0)",
     "link_to_app_content_tab": 0,
     "navlistPanel": "dashboard",
@@ -198,25 +197,11 @@
   },
   "output": {
     "chart_band_appear": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"chart_band-label\" for=\"chart_band\">\n    <span style=\"color: white;\">7. Select a KS4 prior attainment band to display in the plot<\/span>\n  <\/label>\n  <div>\n    <select id=\"chart_band\" class=\"shiny-input-select\"><optgroup label=\"bands\">\n\n<\/optgroup><\/select>\n    <script type=\"application/json\" data-for=\"chart_band\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
-      "deps": [
-        {
-          "name": "selectize",
-          "version": "0.15.2",
-          "src": {
-            "href": "selectize-0.15.2"
-          },
-          "meta": null,
-          "script": [
-            "selectize.min.js",
-            "selectize-plugin-a11y.min.js"
-          ],
-          "stylesheet": "selectize.css",
-          "head": null,
-          "attachment": null,
-          "package": null,
-          "all_files": true
-        }
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
       ]
     },
     "example_table": {
@@ -381,20 +366,13 @@
         }
       ]
     },
-    "percentage_chart": {
-      "message": {
-        "i": "In argument: `&...`."
-      },
-      "call": "qual_grades <- filter(grade_lookup, SUBLEVNO == qual & SUBJ == subj & SIZE == size & gradeStructure == grade_structure)",
-      "type": "rlang_error"
-    },
     "tm_table": [
       "",
       "NULL",
       "c(\"shiny.silent.error\", \"validation\")"
     ],
     "tm_title": {
-      "html": "<b style=\"font-size: 24px;\">Percentage of students per KS4 attainment band for selected KS5 options.<\/b>",
+      "html": "<b style=\"font-size: 24px;\">Number of students per KS4 attainment band for selected KS5 options.<\/b>",
       "deps": [
 
       ]

@@ -6,12 +6,15 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
     cookies = c("GA1.1.1784488804.1728980230", "GS1.1.1729152208.1.1.1729152369.0.0.0"),
     allow_no_input_binding_ = TRUE
   )
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(example_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(example_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(example_table_state = c(
@@ -25,15 +28,19 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
     ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
     c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE)
   ), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(navlistPanel = "dashboard")
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_state = c(
@@ -47,27 +54,35 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
     ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
     c(TRUE, "", TRUE, FALSE, TRUE)
   ), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
-  # app$set_inputs(navlistPanel = "Accessibility")
-  # app$expect_values()
-  #
-  # app$set_inputs(navlistPanel = "support_panel")
-  # app$expect_values()
-  #
-  # app$set_inputs(navlistPanel = "cookies_panel_ui")
-  # app$expect_values()
+  app$set_inputs(navlistPanel = "Accessibility")
+  app$wait_for_idle(500)
+  app$expect_values()
+
+  app$set_inputs(navlistPanel = "support_panel")
+  app$wait_for_idle(500)
+  app$expect_values()
+
+  app$set_inputs(navlistPanel = "cookies_panel_ui")
+  app$wait_for_idle(500)
+  app$expect_values()
 
   app$set_inputs(navlistPanel = "dashboard")
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(subj_select = "Chemistry")
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_state = c(
@@ -81,15 +96,19 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
     ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
     c(TRUE, "", TRUE, FALSE, TRUE)
   ), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(format = "Percentage data")
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(tm_table_state = c(
@@ -103,8 +122,10 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
     ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
     c(TRUE, "", TRUE, FALSE, TRUE)
   ), allow_no_input_binding_ = TRUE)
+  app$wait_for_idle(500)
   app$expect_values()
 
   app$set_inputs(chart_band = "4-<5")
+  app$wait_for_idle(500)
   app$expect_values()
 })

@@ -102,13 +102,13 @@
       "TRUE"
     ],
     "format": "Numbers data",
-    "grade_structure_select": "D,M",
+    "grade_structure_select": "*,A,B,C,D,E",
     "link_to_app_content_tab": 0,
     "navlistPanel": "dashboard",
     "pages": "dashboard",
     "parent_publication": 0,
-    "qual_select": "Advanced Extension Award",
-    "size_select": "0",
+    "qual_select": "GCE A level",
+    "size_select": "1",
     "subj_select": "Mathematics",
     "support": 0,
     "support_to_dashboard": 0,
@@ -128,7 +128,10 @@
       6,
       7,
       8,
-      9
+      9,
+      10,
+      11,
+      12
     ],
     "tm_table_rows_current": [
       1,
@@ -139,7 +142,10 @@
       6,
       7,
       8,
-      9
+      9,
+      10,
+      11,
+      12
     ],
     "tm_table_rows_selected": null,
     "tm_table_search": "",
@@ -156,6 +162,42 @@
         "caseInsensitive": true
       },
       "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
         {
           "visible": true,
           "search": {
@@ -371,7 +413,7 @@
         "style": "bootstrap5",
         "filter": "none",
         "vertical": false,
-        "container": "<table class=\"table table-striped table-hover row-border order-column display\">\n  <thead>\n    <tr>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>M<\/th>\n      <th>D<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "container": "<table class=\"table table-striped table-hover row-border order-column display\">\n  <thead>\n    <tr>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>E<\/th>\n      <th>D<\/th>\n      <th>C<\/th>\n      <th>B<\/th>\n      <th>A<\/th>\n      <th>*<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
         "options": {
           "columnDefs": [
             {
@@ -387,12 +429,28 @@
               "targets": 1
             },
             {
-              "name": "M",
+              "name": "E",
               "targets": 2
             },
             {
               "name": "D",
               "targets": 3
+            },
+            {
+              "name": "C",
+              "targets": 4
+            },
+            {
+              "name": "B",
+              "targets": 5
+            },
+            {
+              "name": "A",
+              "targets": 6
+            },
+            {
+              "name": "*",
+              "targets": 7
             }
           ],
           "bFilter": false,

@@ -148,13 +148,13 @@
       ]
     },
     "format": "Numbers data",
-    "grade_structure_select": "D,M",
+    "grade_structure_select": "*,A,B,C,D,E",
     "link_to_app_content_tab": 0,
     "navlistPanel": "Homepage",
     "pages": "dashboard",
     "parent_publication": 0,
-    "qual_select": "Advanced Extension Award",
-    "size_select": "0",
+    "qual_select": "GCE A level",
+    "size_select": "1",
     "subj_select": "Mathematics",
     "support": 0,
     "support_to_dashboard": 0

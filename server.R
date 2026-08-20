@@ -116,7 +116,8 @@ server <- function(input, output, session) {
         filter(ReportYr == input$ReportYr_select) %>%
         pull(Qual_Description) %>%
         unique(.) %>%
-        sort(.)
+        sort(.),
+      selected = "GCE A level"
     )
   })
 
@@ -131,7 +132,8 @@ server <- function(input, output, session) {
           Qual_Description == input$qual_select
         ) %>%
         pull(Subject) %>%
-        sort(.)
+        sort(.),
+      selected = "Mathematics"
     )
   })
 
@@ -213,14 +215,23 @@ server <- function(input, output, session) {
 
 
   # only want the prior band drop down box to appear if the percentage data checkbox has been selected
-  output$chart_band_appear <-
-    renderUI({
-      req(input$format == "Percentage data")
+  output$chart_band_appear <- renderUI({
+    req(input$format == "Percentage data")
+    tagList(
       selectInput("chart_band",
-        label = tags$span(style = "color: white;", "7. Select a KS4 prior attainment band to display in the plot"),
+        label = "7. Select a KS4 prior attainment band to display in the plot",
+        selected = "All",
         list(bands = sort(prior_band_chart()))
-      )
-    })
+      ),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br()
+    )
+  })
 
 
   lookup_characters <- qual_lookup %>%

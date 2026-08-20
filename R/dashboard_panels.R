@@ -98,99 +98,101 @@ dashboard_panel <- function() {
       gov_row(
         column(
           width = 12,
-          heading_text(
-            "16-18 English and maths progress by prior attainment matrix",
-            size = "m",
-            level = 2
-          )
-        ),
-        # input selection --------------------------------------------------
-        layout_column_wrap(
-          width = 0.5,
-          selectizeInput(
-            inputId = "ReportYr_select",
-            label = "1. Select a report year",
-            choices = unique(qual_lookup$ReportYr), # list(ReportYr = sort(unique(qual_lookup$ReportYr))),
-            selected = max(qual_lookup$ReportYr)
-          ),
-          selectizeInput(
-            inputId = "qual_select",
-            label = "2. Select a qualification",
-            choices = unique(qual_lookup$Qual_Description),
-            selected = "GCE A level"
-          ),
-          selectizeInput(
-            inputId = "subj_select",
-            label = "3. Select a subject",
-            choices = unique(qual_lookup$Subject),
-            selected = "Mathematics"
-          ),
-          selectizeInput(
-            inputId = "size_select",
-            label = "4. Select a size",
-            choices = list(Sizes = sort(unique(qual_lookup$SIZE)))
-          ),
-          selectizeInput(
-            inputId = "grade_structure_select",
-            label = "5. Select a grade structure",
-            choices = list(GradeStructures = sort(unique(qual_lookup$gradeStructure)))
-          ),
-          br(),
-          radioButtons(
-            inputId = "format",
-            label = "6. Select format of data: ",
-            choices = c("Numbers data", "Percentage data")
-          ),
-          uiOutput("chart_band_appear")
-        ),
-        column(
-          width = 12,
-          gov_row(
-            column(
-              width = 12,
-              br(),
-              br(),
-              htmlOutput("tm_title"),
-              DT::dataTableOutput("tm_table") %>% withSpinner(color = "#1d70b8")
+          bslib::card(
+            bslib::card_header(
+              heading_text("16-18 English and maths progress by prior attainment matrix",
+                size = "m",
+                level = 2
+              )
             ),
-            column(
-              width = 12,
-              br(),
-              br(),
-              conditionalPanel(
-                condition = "input.format == 'Percentage data'",
-                plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color = "#1d70b8")
+            bslib::card_body(
+              # input selection --------------------------------------------------
+              layout_column_wrap(
+                width = 0.5,
+                selectizeInput(
+                  inputId = "ReportYr_select",
+                  label = "1. Select a report year",
+                  choices = unique(qual_lookup$ReportYr),
+                  selected = max(qual_lookup$ReportYr)
+                ),
+                selectizeInput(
+                  inputId = "qual_select",
+                  label = "2. Select a qualification",
+                  choices = unique(qual_lookup$Qual_Description),
+                  # selected = "GCE A level"
+                ),
+                selectizeInput(
+                  inputId = "subj_select",
+                  label = "3. Select a subject",
+                  choices = unique(qual_lookup$Subject),
+                  # selected = "Mathematics"
+                ),
+                selectizeInput(
+                  inputId = "size_select",
+                  label = "4. Select a size",
+                  choices = list(Sizes = sort(unique(qual_lookup$SIZE)))
+                ),
+                selectizeInput(
+                  inputId = "grade_structure_select",
+                  label = "5. Select a grade structure",
+                  choices = list(GradeStructures = sort(unique(qual_lookup$gradeStructure)))
+                ),
+                # br(),
+                radioButtons(
+                  inputId = "format",
+                  label = "6. Select format of data: ",
+                  choices = c("Numbers data", "Percentage data")
+                )
               ),
-              br(),
-              br()
+              layout_column_wrap(
+                width = 0.5,
+                uiOutput("chart_band_appear")
+              )
             )
           )
         ),
-        column(
-          width = 12,
-          div(
-            class = "well",
-            style = "min-height: 100%; height: 100%; overflow-y: visible",
-            gov_row(
-              column(
-                width = 12,
-                paste("Download the underlying data for this dashboard:"), br(),
-                downloadButton(
-                  outputId = "tm_data_download_numbers",
-                  label = "Download (all student numbers data)",
-                  icon = shiny::icon("download"),
-                  class = "downloadButton"
-                ),
+        gov_row(
+          column(
+            width = 12,
+            bslib::card(
+              bslib::card_body(
+                htmlOutput("tm_title"),
+                DT::dataTableOutput("tm_table") %>% withSpinner(color = "#1d70b8"),
                 br(),
-                br()
+                conditionalPanel(
+                  condition = "input.format == 'Percentage data'",
+                  plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color = "#1d70b8")
+                )
+              )
+            )
+          )
+        ),
+        gov_row(
+          column(
+            width = 12,
+            bslib::card(
+              bslib::card_header(
+                heading_text("Download the underlying data for this dashboard:",
+                  size = "m",
+                  level = 2
+                )
               ),
               column(
-                width = 12,
-                downloadButton(
-                  outputId = "tm_data_download_percentage",
-                  label = "Download (all student percentage data)",
-                  icon = shiny::icon("download"),
-                  class = "downloadButton"
+                width = 6,
+                bslib::card_body(
+                  downloadButton(
+                    outputId = "tm_data_download_numbers",
+                    label = "Download (all student numbers data)",
+                    icon = shiny::icon("download"),
+                    class = "downloadButton"
+                  ),
+                  br(),
+                  downloadButton(
+                    outputId = "tm_data_download_percentage",
+                    label = "Download (all student percentage data)",
+                    icon = shiny::icon("download"),
+                    class = "downloadButton"
+                  )
                 )
               )
             )

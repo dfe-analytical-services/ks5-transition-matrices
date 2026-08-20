@@ -406,7 +406,7 @@ server <- function(input, output, session) {
           axis.text.y = element_text(size = 15, vjust = 0.5),
           # set size, colour and spacing of axis labels
           axis.title.x = element_text(size = 20, vjust = -0.5),
-          axis.title.y = element_text(size = 20, vjust = 2.0),
+          axis.title.y = element_text(size = 20, vjust = 1.0),
           # sorting out the background colour, grid lines, and axis lines
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),

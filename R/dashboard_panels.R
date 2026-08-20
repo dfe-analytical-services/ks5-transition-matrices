@@ -165,7 +165,8 @@ dashboard_panel <- function() {
                   condition = "input.format == 'Percentage data'",
                   plotOutput(
                     "percentage_chart",
-                    height = "15cm"
+                    height = "16cm",
+                    width = "100%"
                   ) %>% withSpinner(color = "#1d70b8")
                 )
               )

@@ -406,13 +406,14 @@ server <- function(input, output, session) {
           axis.text.y = element_text(size = 15, vjust = 0.5),
           # set size, colour and spacing of axis labels
           axis.title.x = element_text(size = 20, vjust = -0.5),
-          axis.title.y = element_text(size = 20, vjust = 1.0),
+          axis.title.y = element_text(size = 20, vjust = 1.5),
           # sorting out the background colour, grid lines, and axis lines
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "transparent"),
           plot.background = element_rect(fill = "transparent", color = NA),
-          axis.line = element_line(colour = "black")
+          axis.line = element_line(colour = "black") # ,
+          # plot.margin = margin(t = 10, r = 10, b = 10, l = 50)
         )
     },
     bg = "transparent"

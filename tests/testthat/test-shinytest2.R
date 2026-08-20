@@ -1,5 +1,15 @@
 library(shinytest2)
 
+app <- AppDriver$new(
+  name = "basic_load",
+  height = 846,
+  width = 1445,
+  load_timeout = 120 * 1000,
+  timeout = 60 * 1000,
+  wait = TRUE,
+  expect_values_screenshot_args = FALSE # Turn off as we don't need screenshots
+)
+
 test_that("{shinytest2} recording: ks5-transition-matrices", {
   app <- AppDriver$new(name = "ks5-transition-matrices", height = 911, width = 1619)
   app$set_inputs(

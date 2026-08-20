@@ -1,0 +1,327 @@
+{
+  "input": {
+    "ReportYr_select": "2025",
+    "accessibility_statement": 0,
+    "accessibility_to_dashboard": 0,
+    "cookies": [
+      "GA1.1.1784488804.1728980230",
+      "GS1.1.1729152208.1.1.1729152369.0.0.0"
+    ],
+    "cookies_banner-cookies_accept": 0,
+    "cookies_banner-cookies_link": 0,
+    "cookies_banner-cookies_reject": 0,
+    "cookies_panel-cookies_analytics": "no",
+    "cookies_panel-submit_btn": 0,
+    "cookies_statement": 0,
+    "cookies_to_dashboard": 0,
+    "example_table_cell_clicked": {
+
+    },
+    "example_table_cells_selected": [
+
+    ],
+    "example_table_columns_selected": null,
+    "example_table_rows_all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "example_table_rows_current": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "example_table_rows_selected": null,
+    "example_table_search": "",
+    "example_table_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    },
+    "format": "Numbers data",
+    "grade_structure_select": "*,A,B,C,D,E",
+    "link_to_app_content_tab": 0,
+    "navlistPanel": "Homepage",
+    "pages": "dashboard",
+    "parent_publication": 0,
+    "qual_select": "GCE A level",
+    "size_select": "1",
+    "subj_select": "Mathematics",
+    "support": 0,
+    "support_to_dashboard": 0
+  },
+  "output": {
+    "example_table": {
+      "x": {
+        "style": "bootstrap5",
+        "filter": "none",
+        "vertical": false,
+        "container": "<table class=\"table table-striped table-hover row-border order-column display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Prior Band<\/th>\n      <th>U<\/th>\n      <th>E<\/th>\n      <th>D<\/th>\n      <th>C<\/th>\n      <th>B<\/th>\n      <th>A<\/th>\n      <th>*<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "options": {
+          "columnDefs": [
+            {
+              "className": "dt-center",
+              "targets": "_all"
+            },
+            {
+              "orderable": false,
+              "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Prior Band",
+              "targets": 1
+            },
+            {
+              "name": "U",
+              "targets": 2
+            },
+            {
+              "name": "E",
+              "targets": 3
+            },
+            {
+              "name": "D",
+              "targets": 4
+            },
+            {
+              "name": "C",
+              "targets": 5
+            },
+            {
+              "name": "B",
+              "targets": 6
+            },
+            {
+              "name": "A",
+              "targets": 7
+            },
+            {
+              "name": "*",
+              "targets": 8
+            }
+          ],
+          "bFilter": false,
+          "bPaginate": false,
+          "scrollX": true,
+          "order": [
+
+          ],
+          "autoWidth": false,
+          "orderClasses": false,
+          "rowCallback": "function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 5).node()).css({'background-color':value == \"5-&lt;6\" ? \"#D4CEDE\" : null});\n}",
+          "ajax": {
+            "type": "POST",
+            "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = true;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
+          },
+          "serverSide": true,
+          "processing": true
+        },
+        "selection": {
+          "mode": "multiple",
+          "selected": null,
+          "target": "row",
+          "selectable": null
+        }
+      },
+      "evals": [
+        "options.rowCallback",
+        "options.ajax.data"
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "jquery",
+          "version": "3.6.0",
+          "src": {
+            "href": "jquery-3.6.0"
+          },
+          "meta": null,
+          "script": "jquery-3.6.0.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "dt-core-bootstrap5",
+          "version": "1.13.6",
+          "src": {
+            "href": "dt-core-bootstrap5-1.13.6"
+          },
+          "meta": null,
+          "script": [
+            "js/jquery.dataTables.min.js",
+            "js/dataTables.bootstrap5.min.js"
+          ],
+          "stylesheet": "css/dataTables.bootstrap5.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "bootstrap",
+          "version": "5.3.8",
+          "src": {
+            "href": "bootstrap-5.3.8"
+          },
+          "meta": {
+            "viewport": "width=device-width, initial-scale=1, shrink-to-fit=no"
+          },
+          "script": "bootstrap.bundle.min.js",
+          "stylesheet": "bootstrap.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "bs3compat",
+          "version": "0.12.0",
+          "src": {
+            "href": "bs3compat-0.12.0"
+          },
+          "meta": null,
+          "script": [
+            "transition.js",
+            "tabs.js",
+            "bs3compat.js"
+          ],
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.2.2",
+          "src": {
+            "href": "crosstalk-1.2.2"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

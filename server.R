@@ -116,7 +116,8 @@ server <- function(input, output, session) {
         filter(ReportYr == input$ReportYr_select) %>%
         pull(Qual_Description) %>%
         unique(.) %>%
-        sort(.)
+        sort(.),
+      selected = "GCE A level"
     )
   })
 
@@ -131,7 +132,8 @@ server <- function(input, output, session) {
           Qual_Description == input$qual_select
         ) %>%
         pull(Subject) %>%
-        sort(.)
+        sort(.),
+      selected = "Mathematics"
     )
   })
 
@@ -213,14 +215,23 @@ server <- function(input, output, session) {
 
 
   # only want the prior band drop down box to appear if the percentage data checkbox has been selected
-  output$chart_band_appear <-
-    renderUI({
-      req(input$format == "Percentage data")
+  output$chart_band_appear <- renderUI({
+    req(input$format == "Percentage data")
+    tagList(
       selectInput("chart_band",
-        label = tags$span(style = "color: white;", "7. Select a KS4 prior attainment band to display in the plot"),
+        label = "7. Select a KS4 prior attainment band to display in the plot",
+        selected = "All",
         list(bands = sort(prior_band_chart()))
-      )
-    })
+      ),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br()
+    )
+  })
 
 
   lookup_characters <- qual_lookup %>%
@@ -324,7 +335,7 @@ server <- function(input, output, session) {
     datatable(tm_table_data(),
       options = list(
         columnDefs = list(list(className = "dt-center", targets = "_all")),
-        bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
+        bFilter = FALSE, bPaginate = FALSE # , scrollX = TRUE # Causes a flicker when switching to perc data so commented out
       ),
       rownames = FALSE
     )
@@ -395,7 +406,7 @@ server <- function(input, output, session) {
           axis.text.y = element_text(size = 15, vjust = 0.5),
           # set size, colour and spacing of axis labels
           axis.title.x = element_text(size = 20, vjust = -0.5),
-          axis.title.y = element_text(size = 20, vjust = 2.0),
+          axis.title.y = element_text(size = 20, vjust = 1.5),
           # sorting out the background colour, grid lines, and axis lines
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),

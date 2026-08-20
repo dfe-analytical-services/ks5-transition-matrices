@@ -412,8 +412,7 @@ server <- function(input, output, session) {
           panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "transparent"),
           plot.background = element_rect(fill = "transparent", color = NA),
-          axis.line = element_line(colour = "black") # ,
-          # plot.margin = margin(t = 10, r = 10, b = 10, l = 50)
+          axis.line = element_line(colour = "black")
         )
     },
     bg = "transparent"

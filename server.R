@@ -335,7 +335,7 @@ server <- function(input, output, session) {
     datatable(tm_table_data(),
       options = list(
         columnDefs = list(list(className = "dt-center", targets = "_all")),
-        bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
+        bFilter = FALSE, bPaginate = FALSE # , scrollX = TRUE # Causes a flicker when switching to perc data so commented out
       ),
       rownames = FALSE
     )

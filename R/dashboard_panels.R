@@ -136,8 +136,10 @@ dashboard_panel <- function() {
                   inputId = "grade_structure_select",
                   label = "5. Select a grade structure",
                   choices = list(GradeStructures = sort(unique(qual_lookup$gradeStructure)))
-                ),
-                # br(),
+                )
+              ),
+              layout_column_wrap(
+                width = 0.5,
                 radioButtons(
                   inputId = "format",
                   label = "6. Select format of data: ",
@@ -161,7 +163,10 @@ dashboard_panel <- function() {
                 br(),
                 conditionalPanel(
                   condition = "input.format == 'Percentage data'",
-                  plotOutput("percentage_chart", height = "15cm") %>% withSpinner(color = "#1d70b8")
+                  plotOutput(
+                    "percentage_chart",
+                    height = "15cm"
+                  ) %>% withSpinner(color = "#1d70b8")
                 )
               )
             )

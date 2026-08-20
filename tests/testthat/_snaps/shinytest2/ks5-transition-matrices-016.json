@@ -413,7 +413,6 @@
           ],
           "bFilter": false,
           "bPaginate": false,
-          "scrollX": true,
           "order": [
 
           ],

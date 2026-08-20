@@ -188,15 +188,15 @@ dashboard_panel <- function() {
                   downloadButton(
                     outputId = "tm_data_download_numbers",
                     label = "Download (all student numbers data)",
-                    icon = shiny::icon("download"),
-                    class = "downloadButton"
+                    icon = icon("download"),
+                    class = "btn-primary"
                   ),
                   br(),
                   downloadButton(
                     outputId = "tm_data_download_percentage",
                     label = "Download (all student percentage data)",
                     icon = shiny::icon("download"),
-                    class = "downloadButton"
+                    class = "btn-primary"
                   )
                 )
               )

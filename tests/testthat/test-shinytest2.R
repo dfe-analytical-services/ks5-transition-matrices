@@ -1,17 +1,14 @@
 library(shinytest2)
 
-app <- AppDriver$new(
-  name = "basic_load",
-  height = 846,
-  width = 1445,
-  load_timeout = 120 * 1000,
-  timeout = 60 * 1000,
-  wait = TRUE,
-  expect_values_screenshot_args = FALSE # Turn off as we don't need screenshots
-)
-
 test_that("{shinytest2} recording: ks5-transition-matrices", {
-  app <- AppDriver$new(name = "ks5-transition-matrices", height = 911, width = 1619)
+  app <- AppDriver$new(
+    name = "basic_load",
+    height = 846,
+    width = 1445,
+    load_timeout = 120 * 1000,
+    timeout = 60 * 1000,
+    wait = TRUE
+  )
   app$set_inputs(
     cookies = c("GA1.1.1784488804.1728980230", "GS1.1.1729152208.1.1.1729152369.0.0.0"),
     allow_no_input_binding_ = TRUE

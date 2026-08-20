@@ -100,7 +100,7 @@ dashboard_panel <- function() {
           width = 12,
           bslib::card(
             bslib::card_header(
-              heading_text("16-18 English and maths progress by prior attainment matrix",
+              heading_text("16 to 18 Transition Matrices",
                 size = "m",
                 level = 2
               )

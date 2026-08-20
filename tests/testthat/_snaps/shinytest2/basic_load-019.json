@@ -3,7 +3,7 @@
     "ReportYr_select": "2025",
     "accessibility_statement": 0,
     "accessibility_to_dashboard": 0,
-    "chart_band": "4-<5",
+    "chart_band": "All",
     "cookies": [
       "GA1.1.1784488804.1728980230",
       "GS1.1.1729152208.1.1.1729152369.0.0.0"
@@ -146,55 +146,93 @@
     ],
     "tm_table_rows_selected": null,
     "tm_table_search": "",
-    "tm_table_state": [
-      "1729152401377",
-      "0",
-      "10",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE"
-    ]
+    "tm_table_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    }
   },
   "output": {
     "chart_band_appear": {
@@ -382,8 +420,8 @@
       ]
     },
     "percentage_chart": {
-      "src": "[image data hash: 76705049c001e4a3c13c08746a07b96f]",
-      "width": 977.328125,
+      "src": "[image data hash: d1acd39923444be12067ced720c3c883]",
+      "width": 861.328125,
       "height": 604.71875,
       "alt": "Plot object",
       "coordmap": {
@@ -403,7 +441,7 @@
               "left": 0.4,
               "right": 7.6,
               "bottom": 0,
-              "top": 28.48,
+              "top": 23.72,
               "discrete_limits": {
                 "x": [
                   "U",
@@ -421,15 +459,15 @@
               "y": "value"
             },
             "range": {
-              "left": 59.27698701484025,
-              "right": 971.5205479452055,
+              "left": 59.27698701484019,
+              "right": 855.5205479452055,
               "bottom": 549.0589504851598,
               "top": 5.479452054794521
             }
           }
         ],
         "dims": {
-          "width": 977.328125,
+          "width": 861.328125,
           "height": 604.71875
         }
       }

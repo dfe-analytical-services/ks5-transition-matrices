@@ -382,7 +382,7 @@
       ]
     },
     "percentage_chart": {
-      "src": "[image data hash: c1c013c1b45f5fc12fc9b6ff0d0aeabb]",
+      "src": "[image data hash: 00aaa1dc0ca4251dafba765926781473]",
       "width": 861.328125,
       "height": 604.71875,
       "alt": "Plot object",
@@ -421,9 +421,9 @@
               "y": "value"
             },
             "range": {
-              "left": 59.27698701484025,
+              "left": 48.83818493150687,
               "right": 855.5205479452055,
-              "bottom": 549.0589504851598,
+              "bottom": 557.8493150684931,
               "top": 5.479452054794521
             }
           }

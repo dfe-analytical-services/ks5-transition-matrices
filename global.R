@@ -97,7 +97,9 @@ register_font(
   italic = "www/fonts/DejaVuSans-Oblique.ttf",
   bolditalic = "www/fonts/DejaVuSans-BoldOblique.ttf"
 )
-showtext_auto()
+if (interactive()) {
+  showtext_auto()
+}
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Numbers Table from QRD filtering grades on SUBLEVNO & SUBJ & SIZE & GRADE STRUCTURE ----

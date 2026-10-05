@@ -119,13 +119,13 @@ dashboard_panel <- function() {
                   inputId = "qual_select",
                   label = "2. Select a qualification",
                   choices = unique(qual_lookup$Qual_Description),
-                  # selected = "GCE A level"
+                  selected = "GCE A level"
                 ),
                 selectizeInput(
                   inputId = "subj_select",
                   label = "3. Select a subject",
                   choices = unique(qual_lookup$Subject),
-                  # selected = "Mathematics"
+                  selected = "Mathematics"
                 ),
                 selectizeInput(
                   inputId = "size_select",

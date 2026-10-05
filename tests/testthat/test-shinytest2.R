@@ -7,7 +7,7 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
     height = 846, width = 1445,
     load_timeout = 120 * 1000,
     timeout = 60 * 1000,
-    wait = TRUE#,
+    wait = TRUE # ,
     # expect_values_screenshot_args = FALSE # Turns off screenshots
   )
   app$wait_for_idle(5)

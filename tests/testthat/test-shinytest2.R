@@ -4,10 +4,13 @@ test_that("{shinytest2} recording: ks5-transition-matrices", {
   app <- AppDriver$new(
     test_path("../.."),
     name = "ks5-transition-matrices",
-    height = 1305, width = 2259,
-    load_timeout = 360 * 1000,
-    timeout = 360 * 1000
+    height = 846, width = 1445,
+    load_timeout = 120 * 1000,
+    timeout = 60 * 1000,
+    wait = TRUE#,
+    # expect_values_screenshot_args = FALSE # Turns off screenshots
   )
+  app$wait_for_idle(5)
 
   app$set_inputs(
     cookies = c("GA1.1.1784488804.1728980230", "GS1.1.1729152208.1.1.1729152369.0.0.0"),

@@ -470,8 +470,8 @@
       ]
     },
     "percentage_chart": {
-      "src": "[image data hash: dd4918b42b75d134aba9d446c9347c25]",
-      "width": 1404,
+      "src": "[image data hash: c465c80732304bd41cd8fcef6651d259]",
+      "width": 861.328125,
       "height": 604.71875,
       "alt": "Plot object",
       "coordmap": {
@@ -509,15 +509,15 @@
               "y": "value"
             },
             "range": {
-              "left": 48.8381849315068,
-              "right": 1398.520547945205,
+              "left": 48.83818493150687,
+              "right": 855.5205479452055,
               "bottom": 557.8493150684931,
               "top": 5.479452054794521
             }
           }
         ],
         "dims": {
-          "width": 1404,
+          "width": 861.328125,
           "height": 604.71875
         }
       }

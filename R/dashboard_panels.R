@@ -95,6 +95,7 @@ dashboard_panel <- function() {
     value = "dashboard",
     "Dashboard",
     gov_main_layout(
+      width = "full",
       gov_row(
         column(
           width = 12,

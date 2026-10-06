@@ -1,8 +1,9 @@
 {
   "input": {
     "ReportYr_select": "2025",
-    "accessibility_statement": 0,
+    "accessibility_statement": 1,
     "accessibility_to_dashboard": 0,
+    "chart_band": "All",
     "cookies": [
       "GA1.1.1784488804.1728980230",
       "GS1.1.1729152208.1.1.1729152369.0.0.0"
@@ -12,8 +13,8 @@
     "cookies_banner-cookies_reject": 0,
     "cookies_panel-cookies_analytics": "no",
     "cookies_panel-submit_btn": 0,
-    "cookies_statement": 0,
-    "cookies_to_dashboard": 0,
+    "cookies_statement": 1,
+    "cookies_to_dashboard": 1,
     "example_table_cell_clicked": {
 
     },
@@ -31,7 +32,9 @@
       7,
       8,
       9,
-      10
+      10,
+      11,
+      12
     ],
     "example_table_rows_current": [
       1,
@@ -43,65 +46,109 @@
       7,
       8,
       9,
-      10
+      10,
+      11,
+      12
     ],
     "example_table_rows_selected": null,
     "example_table_search": "",
-    "example_table_state": [
-      "1729152370040",
-      "0",
-      "10",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE"
-    ],
-    "format": "Numbers data",
+    "example_table_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    },
+    "format": "Percentage data",
     "grade_structure_select": "*,A,B,C,D,E",
     "link_to_app_content_tab": 0,
     "navlistPanel": "dashboard",
@@ -110,7 +157,7 @@
     "qual_select": "GCE A level",
     "size_select": "1",
     "subj_select": "Mathematics",
-    "support": 0,
+    "support": 1,
     "support_to_dashboard": 0,
     "tm_table_cell_clicked": {
 
@@ -127,7 +174,11 @@
       5,
       6,
       7,
-      8
+      8,
+      9,
+      10,
+      11,
+      12
     ],
     "tm_table_rows_current": [
       1,
@@ -137,67 +188,123 @@
       5,
       6,
       7,
-      8
+      8,
+      9,
+      10,
+      11,
+      12
     ],
     "tm_table_rows_selected": null,
     "tm_table_search": "",
-    "tm_table_state": [
-      "1729152378179",
-      "0",
-      "10",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE"
-    ]
+    "tm_table_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    }
   },
   "output": {
     "chart_band_appear": {
-      "message": "",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"chart_band-label\" for=\"chart_band\">7. Select a KS4 prior attainment band to display in the plot<\/label>\n  <div>\n    <select id=\"chart_band\" class=\"shiny-input-select\"><optgroup label=\"bands\">\n<option value=\"&lt;1\">&lt;1<\/option>\n<option value=\"1-&lt;2\">1-&lt;2<\/option>\n<option value=\"2-&lt;3\">2-&lt;3<\/option>\n<option value=\"3-&lt;4\">3-&lt;4<\/option>\n<option value=\"4-&lt;5\">4-&lt;5<\/option>\n<option value=\"5-&lt;6\">5-&lt;6<\/option>\n<option value=\"6-&lt;7\">6-&lt;7<\/option>\n<option value=\"7-&lt;8\">7-&lt;8<\/option>\n<option value=\"8-&lt;9\">8-&lt;9<\/option>\n<option value=\"9&gt;=\">9&gt;=<\/option>\n<option value=\"All\" selected>All<\/option>\n<option value=\"Unknown prior\">Unknown prior<\/option>\n<\/optgroup><\/select>\n    <script type=\"application/json\" data-for=\"chart_band\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>\n<br/>\n<br/>\n<br/>\n<br/>\n<br/>\n<br/>\n<br/>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.15.2",
+          "src": {
+            "href": "selectize-0.15.2"
+          },
+          "meta": null,
+          "script": [
+            "selectize.min.js",
+            "selectize-plugin-a11y.min.js"
+          ],
+          "stylesheet": "selectize.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
       ]
     },
     "example_table": {
@@ -362,6 +469,59 @@
         }
       ]
     },
+    "percentage_chart": {
+      "src": "[image data hash: 01fdc960f0341ff63cec11940b978fa7]",
+      "width": 811.328125,
+      "height": 604.71875,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 7.6,
+              "bottom": 0,
+              "top": 25.13,
+              "discrete_limits": {
+                "x": [
+                  "U",
+                  "E",
+                  "D",
+                  "C",
+                  "B",
+                  "A",
+                  "*"
+                ]
+              }
+            },
+            "mapping": {
+              "x": "variable",
+              "y": "value"
+            },
+            "range": {
+              "left": 60.7600599315069,
+              "right": 805.5205479452055,
+              "bottom": 547.8649400684932,
+              "top": 5.479452054794521
+            }
+          }
+        ],
+        "dims": {
+          "width": 811.328125,
+          "height": 604.71875
+        }
+      }
+    },
     "tm_table": {
       "x": {
         "style": "bootstrap5",
@@ -514,7 +674,7 @@
       ]
     },
     "tm_title": {
-      "html": "<b style=\"font-size: 24px;\">Number of students per KS4 attainment band for selected KS5 options.<\/b>",
+      "html": "<b style=\"font-size: 24px;\">Percentage of students per KS4 attainment band for selected KS5 options.<\/b>",
       "deps": [
 
       ]

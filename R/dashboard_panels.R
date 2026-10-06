@@ -6,7 +6,7 @@ homepage_panel <- function() {
         column(
           12,
           heading_text(
-            "16 to 18 Transition Matrices",
+            "16 to 19 Transition Matrices",
             size = "l",
             level = 1
           )
@@ -23,17 +23,17 @@ homepage_panel <- function() {
           bslib::card_body(
             heading_text("Introduction", size = "s", level = 3),
             gov_text(
-              "This app demonstrates the 16 to 18 Transition Matrices data."
+              "This app demonstrates the 16 to 19 Transition Matrices data."
             ),
             gov_text(
-              "Transition matrices are a useful tool to help visualise the progression of pupils aged 16 to 18 from key stage 4
+              "Transition matrices are a useful tool to help visualise the progression of pupils aged 16 to 19 from key stage 4
               (KS4) to key stage 5 (KS5)."
             ),
             gov_text(
-              actionLink("link_to_app_content_tab", "16 to 18 Transition Matrices tool")
+              actionLink("link_to_app_content_tab", "16 to 19 Transition Matrices tool")
             ),
             gov_text(
-              "A level and other 16 to 18 results data are now all available on the statistics platform, ",
+              "A level and other 16 to 19 results data are now all available on the statistics platform, ",
               actionLink(
                 "parent_publication",
                 "Explore Education Statistics (EES)"
@@ -50,8 +50,8 @@ homepage_panel <- function() {
           bslib::card_body(
             heading_text("Context and purpose", size = "s", level = 3),
             gov_text(
-              "To use the 16 to 18 Transition Matrices tool click onto the 'Dashboard' tab found on the left panel. Please then
-              select a report year (the year students finished 16 to 18 study), qualification, subject and subject size from the dropdown boxes.
+              "To use the 16 to 19 Transition Matrices tool click onto the 'Dashboard' tab found on the left panel. Please then
+              select a report year (the year students finished 16 to 19 study), qualification, subject and subject size from the dropdown boxes.
               Use the 'Numbers data' and 'Percentage Data' options to switch the
               table view between number of students and percentage of students."
             ),
@@ -95,12 +95,13 @@ dashboard_panel <- function() {
     value = "dashboard",
     "Dashboard",
     gov_main_layout(
+      width = "full",
       gov_row(
         column(
           width = 12,
           bslib::card(
             bslib::card_header(
-              heading_text("16 to 18 Transition Matrices",
+              heading_text("16 to 19 Transition Matrices",
                 size = "m",
                 level = 2
               )
@@ -119,13 +120,13 @@ dashboard_panel <- function() {
                   inputId = "qual_select",
                   label = "2. Select a qualification",
                   choices = unique(qual_lookup$Qual_Description),
-                  # selected = "GCE A level"
+                  selected = "GCE A level"
                 ),
                 selectizeInput(
                   inputId = "subj_select",
                   label = "3. Select a subject",
                   choices = unique(qual_lookup$Subject),
-                  # selected = "Mathematics"
+                  selected = "Mathematics"
                 ),
                 selectizeInput(
                   inputId = "size_select",

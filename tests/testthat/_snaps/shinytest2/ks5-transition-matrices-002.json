@@ -31,7 +31,9 @@
       7,
       8,
       9,
-      10
+      10,
+      11,
+      12
     ],
     "example_table_rows_current": [
       1,
@@ -43,74 +45,118 @@
       7,
       8,
       9,
-      10
+      10,
+      11,
+      12
     ],
     "example_table_rows_selected": null,
     "example_table_search": "",
-    "example_table_state": [
-      "1729152370040",
-      "0",
-      "10",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE",
-      "TRUE",
-      "",
-      "TRUE",
-      "FALSE",
-      "TRUE"
-    ],
+    "example_table_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    },
     "format": "Numbers data",
     "grade_structure_select": "*,A,B,C,D,E",
     "link_to_app_content_tab": 0,
     "navlistPanel": "Homepage",
-    "pages": "dashboard",
+    "pages": "support",
     "parent_publication": 0,
     "qual_select": "GCE A level",
     "size_select": "1",
     "subj_select": "Mathematics",
-    "support": 0,
+    "support": 1,
     "support_to_dashboard": 0
   },
   "output": {

@@ -1,138 +1,84 @@
 library(shinytest2)
+library(diffviewer)
 
 test_that("{shinytest2} recording: ks5-transition-matrices", {
   app <- AppDriver$new(
-    name = "basic_load",
-    height = 846,
-    width = 1445,
-    load_timeout = 120 * 1000,
-    timeout = 60 * 1000,
-    wait = TRUE
+    test_path("../.."),
+    name = "ks5-transition-matrices",
+    height = 846, width = 1445,
+    load_timeout = 45 * 1000,
+    timeout = 20 * 1000,
+    wait = TRUE # ,
+    # variant = platform_variant()
   )
+  app$wait_for_idle()
+
   app$set_inputs(
     cookies = c("GA1.1.1784488804.1728980230", "GS1.1.1729152208.1.1.1729152369.0.0.0"),
     allow_no_input_binding_ = TRUE
   )
-  app$wait_for_idle()
-  app$expect_values()
 
-  app$set_inputs(example_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
   app$wait_for_idle()
-  app$expect_values()
+  app$expect_values() # 1
 
-  app$set_inputs(example_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
+  app$click("support")
   app$wait_for_idle()
-  app$expect_values()
+  app$expect_values() # 2
 
-  app$set_inputs(example_table_state = c(
-    1729152370040, 0, 10, "", TRUE, FALSE, TRUE,
-    c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "",
-      TRUE, FALSE, TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "", TRUE, FALSE,
-      TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
-    c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE)
-  ), allow_no_input_binding_ = TRUE)
+  app$click("accessibility_statement")
   app$wait_for_idle()
-  app$expect_values()
+  app$expect_values() # 3
 
-  app$set_inputs(navlistPanel = "dashboard")
+  app$click("cookies_statement")
   app$wait_for_idle()
-  app$expect_values()
+  app$expect_values() # 4
 
-  app$set_inputs(tm_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8), allow_no_input_binding_ = TRUE)
+  app$click("cookies_to_dashboard")
   app$wait_for_idle()
-  app$expect_values()
+  app$expect_values() # 5
 
-  app$set_inputs(tm_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8), allow_no_input_binding_ = TRUE)
+  app$set_inputs(navlistPanel = "dashboard", wait_ = FALSE)
   app$wait_for_idle()
-  app$expect_values()
+  app$expect_values() # 6
 
-  app$set_inputs(tm_table_state = c(
-    1729152378179, 0, 10, "", TRUE, FALSE, TRUE,
-    c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "",
-      TRUE, FALSE, TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "", TRUE, FALSE,
-      TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
-    c(TRUE, "", TRUE, FALSE, TRUE)
-  ), allow_no_input_binding_ = TRUE)
+  app$set_inputs(format = "Percentage data", wait_ = FALSE)
   app$wait_for_idle()
-  app$expect_values()
+  Sys.sleep(5)
+  app$expect_values() # 7
 
-  app$set_inputs(navlistPanel = "Accessibility")
+  app$set_inputs(subj_select = "Chemistry", wait_ = FALSE)
   app$wait_for_idle()
-  app$expect_values()
+  app$set_inputs(format = "Numbers data", wait_ = FALSE)
+  app$wait_for_idle()
+  app$expect_values() # 8
 
-  app$set_inputs(navlistPanel = "support_panel")
+  app$set_inputs(format = "Percentage data", wait_ = FALSE)
   app$wait_for_idle()
-  app$expect_values()
+  Sys.sleep(5)
+  app$expect_values() # 9
 
-  app$set_inputs(navlistPanel = "cookies_panel_ui")
-  app$wait_for_idle()
-  app$expect_values()
+  # app$set_inputs(chart_band = "4-<5", wait_ = FALSE)
+  # app$wait_for_idle()
+  # Sys.sleep(5)
+  # app$expect_screenshot() # 10
 
-  app$set_inputs(navlistPanel = "dashboard")
+  app$set_inputs(qual_select = "VRQ Level 3", wait_ = FALSE)
   app$wait_for_idle()
-  app$expect_values()
+  app$set_inputs(subj_select = "Health Studies", wait_ = FALSE)
+  app$wait_for_idle()
+  app$set_inputs(size_select = "3.25", wait_ = FALSE)
+  app$wait_for_idle()
+  app$set_inputs(format = "Numbers data", wait_ = FALSE)
+  app$wait_for_idle()
+  app$expect_values() # 11
 
-  app$set_inputs(subj_select = "Chemistry")
+  app$set_inputs(format = "Percentage data", wait_ = FALSE)
   app$wait_for_idle()
-  app$expect_values()
+  Sys.sleep(5)
+  app$expect_values() # 12
 
-  app$set_inputs(tm_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(tm_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(tm_table_state = c(
-    1729152396312, 0, 10, "", TRUE, FALSE, TRUE,
-    c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "",
-      TRUE, FALSE, TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "", TRUE, FALSE,
-      TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
-    c(TRUE, "", TRUE, FALSE, TRUE)
-  ), allow_no_input_binding_ = TRUE)
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(format = "Percentage data")
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(tm_table_rows_current = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(tm_table_rows_all = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), allow_no_input_binding_ = TRUE)
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(tm_table_state = c(
-    1729152401377, 0, 10, "", TRUE, FALSE, TRUE,
-    c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "",
-      TRUE, FALSE, TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(
-      TRUE, "", TRUE, FALSE,
-      TRUE
-    ), c(TRUE, "", TRUE, FALSE, TRUE), c(TRUE, "", TRUE, FALSE, TRUE),
-    c(TRUE, "", TRUE, FALSE, TRUE)
-  ), allow_no_input_binding_ = TRUE)
-  app$wait_for_idle()
-  app$expect_values()
-
-  app$set_inputs(chart_band = "4-<5")
-  app$wait_for_idle()
-  app$expect_values()
+  # app$set_inputs(chart_band = "5-<6", wait_ = FALSE)
+  # app$wait_for_value(output = "percentage_chart")
+  # Sys.sleep(5)
+  # app$expect_screenshot() # 13
 })

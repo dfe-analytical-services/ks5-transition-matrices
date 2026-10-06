@@ -52,13 +52,14 @@ shhh(library(metathis))
 # Dependencies needed for testing or CI but not for the app -------------------
 # Including them here keeps them in renv but avoids the app needlessly loading
 # them, saving on load time.
-# if (FALSE) {
-shhh(library(shinytest2))
-shhh(library(chromote))
-shhh(library(testthat))
-shhh(library(devtools))
-shhh(library(shinya11y))
-# }
+if (FALSE) {
+  shhh(library(shinytest2))
+  shhh(library(chromote))
+  shhh(library(rsconnect))
+  shhh(library(testthat))
+  shhh(library(devtools))
+  shhh(library(shinya11y))
+}
 
 # shhh(library(tools))
 # shhh(library(shinytest))
@@ -69,7 +70,7 @@ shhh(library(shinya11y))
 
 # Set global variables --------------------------------------------------------
 
-site_title <- "16 to 18 Transition Matrices" # name of app
+site_title <- "16 to 19 Transition Matrices" # name of app
 parent_pub_name <- "A level and other 16 to 18 results" # name of source publication
 parent_publication <- "https://explore-education-statistics.service.gov.uk/find-statistics/a-level-and-other-16-to-18-results"
 
@@ -152,19 +153,19 @@ percentage_select_function <- function(ReportYr_sel, qual, subj, size, grade_str
 # appLoadingCSS ----------------------------------------------------------------------------
 # Set up loading screen
 
-appLoadingCSS <- "
-#loading-content {
-  position: absolute;
-  background: #000000;
-  opacity: 0.9;
-  z-index: 100;
-  left: 0;
-  right: 0;
-  height: 100%;
-  text-align: center;
-  color: #FFFFFF;
-}
-"
+# appLoadingCSS <- "
+# #loading-content {
+#   position: absolute;
+#   background: #000000;
+#   opacity: 0.9;
+#   z-index: 100;
+#   left: 0;
+#   right: 0;
+#   height: 100%;
+#   text-align: center;
+#   color: #FFFFFF;
+# }
+# "
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

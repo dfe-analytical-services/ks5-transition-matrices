@@ -434,34 +434,55 @@ server <- function(input, output, session) {
       reshape2::melt()
   })
 
+  output$percentage_chart <- renderPlot({
+    req(input$format == "Percentage data")
+    ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
+      geom_bar(stat = "identity", fill = "#407291", colour = "black") +
+      xlab("Grades") +
+      scale_y_continuous(
+        name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
+        expand = c(0, 0)
+      ) +
+      theme(
+        # set size and spacing of axis tick labels
+        axis.text = element_text(size = 16),
+        # set size, colour and spacing of axis labels
+        axis.title = element_text(size = 20),
+        # sorting out the background colour, grid lines, and axis lines
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black")
+      )
+  })
 
-  output$percentage_chart <- renderPlot(
-    {
-      req(input$format == "Percentage data")
-      ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
-        geom_bar(stat = "identity", fill = "#407291", colour = "black") +
-        xlab("Grades") +
-        scale_y_continuous(
-          name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
-          expand = c(0, 0)
-        ) +
-        theme(
-          # set size and spacing of axis tick labels
-          axis.text.x = element_text(size = 15, vjust = 0.5),
-          axis.text.y = element_text(size = 15, vjust = 0.5),
-          # set size, colour and spacing of axis labels
-          axis.title.x = element_text(size = 20, vjust = -0.5),
-          axis.title.y = element_text(size = 20, vjust = 1.5),
-          # sorting out the background colour, grid lines, and axis lines
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(fill = "transparent"),
-          plot.background = element_rect(fill = "transparent", color = NA),
-          axis.line = element_line(colour = "black")
-        )
-    },
-    bg = "transparent"
-  )
+  # output$percentage_chart <- renderPlot(
+  #   {
+  #     req(input$format == "Percentage data")
+  #     ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
+  #       geom_bar(stat = "identity", fill = "#407291", colour = "black") +
+  #       xlab("Grades") +
+  #       scale_y_continuous(
+  #         name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
+  #         expand = c(0, 0)
+  #       ) +
+  #       theme(
+  #         # set size and spacing of axis tick labels
+  #         axis.text.x = element_text(size = 15, vjust = 0.5),
+  #         axis.text.y = element_text(size = 15, vjust = 0.5),
+  #         # set size, colour and spacing of axis labels
+  #         axis.title.x = element_text(size = 20, vjust = -0.5),
+  #         axis.title.y = element_text(size = 20, vjust = 1.5),
+  #         # sorting out the background colour, grid lines, and axis lines
+  #         panel.grid.major = element_blank(),
+  #         panel.grid.minor = element_blank(),
+  #         panel.background = element_blank(),
+  #         plot.background = element_blank(),
+  #         axis.line = element_line(colour = "black")
+  #       )
+  #   },
+  #   bg = "transparent"
+  # )
 
 
   # -----------------------------------------------------------------------------------------------------------------------------

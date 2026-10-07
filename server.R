@@ -20,11 +20,45 @@
 
 
 server <- function(input, output, session) {
+  # The template uses bookmarking to store input choices in the url. You can
+  # exclude specific inputs (for example extra info created for a datatable
+  # or plotly chart) using the list below, but it will need updating to match
+  # any entries in your own dashboard's bookmarking url that you don't want
+  # including.
+  setBookmarkExclude(c(
+    "cookies",
+    "link_to_app_content_tab",
+    "tabBenchmark_rows_current",
+    "tabBenchmark_rows_all",
+    "tabBenchmark_columns_selected",
+    "tabBenchmark_cell_clicked",
+    "tabBenchmark_cells_selected",
+    "tabBenchmark_search",
+    "tabBenchmark_rows_selected",
+    "tabBenchmark_row_last_clicked",
+    "tabBenchmark_state",
+    "plotly_relayout-A",
+    "plotly_click-A",
+    "plotly_hover-A",
+    "plotly_afterplot-A",
+    ".clientValue-default-plotlyCrosstalkOpts"
+  ))
+
+  observe({
+    # Trigger this observer every time an input changes
+    reactiveValuesToList(input)
+    session$doBookmark()
+  })
+
+  onBookmarked(function(url) {
+    updateQueryString(url)
+  })
+
   # Loading screen ---------------------------------------------------------------------------
   # Call initial loading screen
 
-  hide(id = "loading-content", anim = TRUE, animType = "fade")
-  show("app-content")
+  # hide(id = "loading-content", anim = TRUE, animType = "fade")
+  # show("app-content")
 
   # Simple server stuff goes here ------------------------------------------------------------
 
@@ -32,20 +66,37 @@ server <- function(input, output, session) {
   # ---- Homepage tab ----
   # -----------------------------------------------------------------------------------------------------------------------------
 
+  # Cookies logic -------------------------------------------------------------
   output$cookies_status <- dfeshiny::cookies_banner_server(
-    input_cookies = reactive(input$cookies),
-    google_analytics_key = google_analytics_key,
-    parent_session = session
-  )
-
-  # Server logic for the panel, can be placed anywhere in server.R -------
-  cookies_panel_server(
-    input_cookies = reactive(input$cookies),
+    input_cookies = shiny::reactive(input$cookies),
+    parent_session = session,
     google_analytics_key = google_analytics_key
   )
 
+  dfeshiny::cookies_panel_server(
+    input_cookies = shiny::reactive(input$cookies),
+    google_analytics_key = google_analytics_key
+  )
+
+  # output$cookies_status <- dfeshiny::cookies_banner_server(
+  #   input_cookies = reactive(input$cookies),
+  #   google_analytics_key = google_analytics_key,
+  #   parent_session = session
+  # )
+  #
+  # # Server logic for the panel, can be placed anywhere in server.R -------
+  # cookies_panel_server(
+  #   input_cookies = reactive(input$cookies),
+  #   google_analytics_key = google_analytics_key
+  # )
+
   # link to TM tool
   observeEvent(input$link_to_app_content_tab, {
+    updateTabsetPanel(session, "navlistPanel", selected = "dashboard")
+  })
+
+  # FOR THE APP ---------------------------------------------------------------
+  observeEvent(input$link_to_dashboard_tab, {
     updateTabsetPanel(session, "navlistPanel", selected = "dashboard")
   })
 
@@ -57,33 +108,50 @@ server <- function(input, output, session) {
   # to the qualification that a user selects in the qualification select drop down
   # qualifications with only one subject, and subjects with multiple sizes require special formatting
 
-  observe({
-    updateSelectInput(session,
-      inputId = "qual_select",
-      label = NULL,
-      choices <- qual_lookup %>%
-        filter(ReportYr == input$ReportYr_select) %>%
-        pull(Qual_Description) %>%
-        unique(.) %>%
-        sort(.)
+  observeEvent(input$ReportYr_select, {
+    choices <- qual_lookup %>%
+      filter(ReportYr == input$ReportYr_select) %>%
+      pull(Qual_Description) %>%
+      unique() %>%
+      sort()
+
+    selected <- if (input$qual_select %in% choices) {
+      input$qual_select
+    } else {
+      choices[1]
+    }
+
+    updateSelectInput(
+      session,
+      "qual_select",
+      choices = choices,
+      selected = selected
     )
   })
 
+  observeEvent(input$qual_select, {
+    choices <- qual_lookup %>%
+      filter(
+        ReportYr == input$ReportYr_select,
+        Qual_Description == input$qual_select
+      ) %>%
+      pull(Subject) %>%
+      unique() %>%
+      sort()
 
-  observe({
-    updateSelectInput(session,
+    selected <- if (input$subj_select %in% choices) {
+      input$subj_select
+    } else {
+      choices[1]
+    }
+
+    updateSelectInput(
+      session,
       inputId = "subj_select",
-      label = NULL,
-      choices <- qual_lookup %>%
-        filter(
-          ReportYr == input$ReportYr_select,
-          Qual_Description == input$qual_select
-        ) %>%
-        pull(Subject) %>%
-        sort(.)
+      choices = choices,
+      selected = selected
     )
   })
-
 
   # we need to identify which subjects have multiple sizes
   # use this output to update the size select drop down box below
@@ -94,30 +162,45 @@ server <- function(input, output, session) {
     mutate(qual_subj_combined = paste0(ReportYr, " - ", Qual_Description, " - ", Subject))
   # multiple_sizes
 
+  observeEvent(input$subj_select, {
+    if (
+      paste0(
+        input$ReportYr_select, " - ",
+        input$qual_select, " - ",
+        input$subj_select
+      ) %in% multiple_sizes$qual_subj_combined
+    ) {
+      choices <- qual_lookup %>%
+        filter(
+          ReportYr == input$ReportYr_select,
+          Qual_Description == input$qual_select,
+          Subject == input$subj_select
+        ) %>%
+        pull(SIZE) %>%
+        unique() %>%
+        sort()
+    } else {
+      choices <- qual_lookup %>%
+        filter(
+          ReportYr == input$ReportYr_select,
+          Qual_Description == input$qual_select,
+          Subject == input$subj_select
+        ) %>%
+        pull(SIZE) %>%
+        unique()
+    }
 
-  observe({
-    updateSelectInput(session,
+    selected <- if (input$size_select %in% choices) {
+      input$size_select
+    } else {
+      choices[1]
+    }
+
+    updateSelectInput(
+      session,
       inputId = "size_select",
-      label = NULL,
-      if (paste0(input$ReportYr_select, " - ", input$qual_select, " - ", input$subj_select) %in% multiple_sizes$qual_subj_combined) {
-        choices <- qual_lookup %>%
-          filter(
-            ReportYr == input$ReportYr_select,
-            Qual_Description == input$qual_select,
-            Subject == input$subj_select
-          ) %>%
-          select(SIZE) %>%
-          arrange(SIZE)
-      } else {
-        choices <- qual_lookup %>%
-          filter(
-            ReportYr == input$ReportYr_select,
-            Qual_Description == input$qual_select,
-            Subject == input$subj_select
-          ) %>%
-          select(SIZE) %>%
-          as.character()
-      }
+      choices = choices,
+      selected = selected
     )
   })
 
@@ -131,45 +214,69 @@ server <- function(input, output, session) {
     mutate(qual_subj_size_combined = paste0(ReportYr, " - ", Qual_Description, " - ", Subject, " - ", SIZE))
   # multiple_gradestructures
 
+  observeEvent(input$size_select, {
+    if (
+      paste0(
+        input$ReportYr_select, " - ",
+        input$qual_select, " - ",
+        input$subj_select, " - ",
+        input$size_select
+      ) %in% multiple_gradestructures$qual_subj_size_combined
+    ) {
+      choices <- qual_lookup %>%
+        filter(
+          ReportYr == input$ReportYr_select,
+          Qual_Description == input$qual_select,
+          Subject == input$subj_select,
+          SIZE == input$size_select
+        ) %>%
+        pull(gradeStructure) %>%
+        unique() %>%
+        sort()
+    } else {
+      choices <- qual_lookup %>%
+        filter(
+          ReportYr == input$ReportYr_select,
+          Qual_Description == input$qual_select,
+          Subject == input$subj_select,
+          SIZE == input$size_select
+        ) %>%
+        pull(gradeStructure) %>%
+        unique()
+    }
 
-  observe({
-    updateSelectInput(session,
+    selected <- if (input$grade_structure_select %in% choices) {
+      input$grade_structure_select
+    } else {
+      choices[1]
+    }
+
+    updateSelectInput(
+      session,
       inputId = "grade_structure_select",
-      label = NULL,
-      if (paste0(input$ReportYr_select, " - ", input$qual_select, " - ", input$subj_select, " - ", input$size_select) %in% multiple_gradestructures$qual_subj_size_combined) {
-        choices <- qual_lookup %>%
-          filter(
-            ReportYr == input$ReportYr_select,
-            Qual_Description == input$qual_select,
-            Subject == input$subj_select,
-            SIZE == input$size_select
-          ) %>%
-          select(gradeStructure) %>%
-          arrange(gradeStructure)
-      } else {
-        choices <- qual_lookup %>%
-          filter(
-            ReportYr == input$ReportYr_select,
-            Qual_Description == input$qual_select,
-            Subject == input$subj_select,
-            SIZE == input$size_select
-          ) %>%
-          select(gradeStructure) %>%
-          as.character()
-      }
+      choices = choices,
+      selected = selected
     )
   })
 
-
   # only want the prior band drop down box to appear if the percentage data checkbox has been selected
-  output$chart_band_appear <-
-    renderUI({
-      req(input$format == "Percentage data")
+  output$chart_band_appear <- renderUI({
+    req(input$format == "Percentage data")
+    tagList(
       selectInput("chart_band",
-        label = tags$span(style = "color: white;", "7. Select a KS4 prior attainment band to display in the plot"),
+        label = "7. Select a KS4 prior attainment band to display in the plot",
+        selected = "All",
         list(bands = sort(prior_band_chart()))
-      )
-    })
+      ),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br(),
+      br()
+    )
+  })
 
 
   lookup_characters <- qual_lookup %>%
@@ -273,7 +380,7 @@ server <- function(input, output, session) {
     datatable(tm_table_data(),
       options = list(
         columnDefs = list(list(className = "dt-center", targets = "_all")),
-        bFilter = FALSE, bPaginate = FALSE, scrollX = TRUE
+        bFilter = FALSE, bPaginate = FALSE # , scrollX = TRUE # Causes a flicker when switching to perc data so commented out
       ),
       rownames = FALSE
     )
@@ -327,34 +434,55 @@ server <- function(input, output, session) {
       reshape2::melt()
   })
 
+  output$percentage_chart <- renderPlot({
+    req(input$format == "Percentage data")
+    ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
+      geom_bar(stat = "identity", fill = "#407291", colour = "black") +
+      xlab("Grades") +
+      scale_y_continuous(
+        name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
+        expand = c(0, 0)
+      ) +
+      theme(
+        # set size and spacing of axis tick labels
+        axis.text = element_text(size = 16),
+        # set size, colour and spacing of axis labels
+        axis.title = element_text(size = 20),
+        # sorting out the background colour, grid lines, and axis lines
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black")
+      )
+  })
 
-  output$percentage_chart <- renderPlot(
-    {
-      req(input$format == "Percentage data")
-      ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
-        geom_bar(stat = "identity", fill = "#407291", colour = "black") +
-        xlab("Grades") +
-        scale_y_continuous(
-          name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
-          expand = c(0, 0)
-        ) +
-        theme(
-          # set size and spacing of axis tick labels
-          axis.text.x = element_text(size = 15, vjust = 0.5),
-          axis.text.y = element_text(size = 15, vjust = 0.5),
-          # set size, colour and spacing of axis labels
-          axis.title.x = element_text(size = 20, vjust = -0.5),
-          axis.title.y = element_text(size = 20, vjust = 2.0),
-          # sorting out the background colour, grid lines, and axis lines
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(fill = "transparent"),
-          plot.background = element_rect(fill = "transparent", color = NA),
-          axis.line = element_line(colour = "black")
-        )
-    },
-    bg = "transparent"
-  )
+  # output$percentage_chart <- renderPlot(
+  #   {
+  #     req(input$format == "Percentage data")
+  #     ggplot(percentage_chart_data(), aes(x = variable, y = value)) +
+  #       geom_bar(stat = "identity", fill = "#407291", colour = "black") +
+  #       xlab("Grades") +
+  #       scale_y_continuous(
+  #         name = paste("Percentage within", input$chart_band, "band achieving grade", sep = " "),
+  #         expand = c(0, 0)
+  #       ) +
+  #       theme(
+  #         # set size and spacing of axis tick labels
+  #         axis.text.x = element_text(size = 15, vjust = 0.5),
+  #         axis.text.y = element_text(size = 15, vjust = 0.5),
+  #         # set size, colour and spacing of axis labels
+  #         axis.title.x = element_text(size = 20, vjust = -0.5),
+  #         axis.title.y = element_text(size = 20, vjust = 1.5),
+  #         # sorting out the background colour, grid lines, and axis lines
+  #         panel.grid.major = element_blank(),
+  #         panel.grid.minor = element_blank(),
+  #         panel.background = element_blank(),
+  #         plot.background = element_blank(),
+  #         axis.line = element_line(colour = "black")
+  #       )
+  #   },
+  #   bg = "transparent"
+  # )
 
 
   # -----------------------------------------------------------------------------------------------------------------------------
@@ -401,6 +529,52 @@ server <- function(input, output, session) {
     }
   })
 
+  # Wrap a plot with a larger spinner
+  with_gov_spinner <- function(
+    ui_element,
+    spinner_type = 6,
+    size = 1,
+    color = "#1d70b8"
+  ) {
+    shinycssloaders::withSpinner(
+      ui_element,
+      type = spinner_type,
+      color = color,
+      size = size,
+      proxy.height = paste0(250 * size, "px")
+    )
+  }
+
+  # navigation link within text --------------------------------------------
+  observeEvent(input$nav_link, {
+    shiny::updateTabsetPanel(session, "navlistPanel", selected = input$nav_link)
+  })
+
+  # Dynamic label showing custom selections -----------------------------------
+  output$dropdown_label <- renderText({
+    paste0("Current selections: ", input$selectPhase, ", ", input$selectArea)
+  })
+
+  ## Footer links -------------------------------------------------------------
+  observeEvent(input$dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$support, nav_select("pages", "support"))
+  observeEvent(
+    input$accessibility_statement,
+    nav_select("pages", "accessibility_statement")
+  )
+  observeEvent(
+    input$cookies_statement,
+    nav_select("pages", "cookies_statement")
+  )
+
+  ## Back links to main dashboard ---------------------------------------------
+  observeEvent(input$footnotes_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$support_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$cookies_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(
+    input$accessibility_to_dashboard,
+    nav_select("pages", "dashboard")
+  )
 
   # Stop app ---------------------------------------------------------------------------------
 

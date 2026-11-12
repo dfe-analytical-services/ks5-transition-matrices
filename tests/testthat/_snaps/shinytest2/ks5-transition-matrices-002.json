@@ -1,6 +1,6 @@
 {
   "input": {
-    "ReportYr_select": "2025",
+    "ReportYr_select": "2026",
     "accessibility_statement": 0,
     "accessibility_to_dashboard": 0,
     "cookies": [
@@ -152,7 +152,6 @@
     "link_to_app_content_tab": 0,
     "navlistPanel": "Homepage",
     "pages": "support",
-    "parent_publication": 0,
     "qual_select": "GCE A level",
     "size_select": "1",
     "subj_select": "Mathematics",

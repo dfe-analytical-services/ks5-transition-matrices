@@ -23,8 +23,8 @@ source("./background_scripts/data_processing_func.R")
 # ---- Things to change between runs ----
 # -----------------------------------------------------------------------------------------------------------------------------
 
-ancillary_save_path <- "//lonnetapp01/DSGA2/!!Secure Data/SFR/2025/KS5/02_february_2026/10_ancillary/"
-current_year <- "2025A"
+ancillary_save_path <- "//lonnetapp01/dsga2/!!Secure Data/SFR/2026/KS5/01_november_2026/10_ancillary/"
+current_year <- "2026U"
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ---- Thing to add - Reading in the data from SQL tables and running function ----
@@ -39,6 +39,7 @@ con <- DBI::dbConnect(odbc::databricks(),
 
 
 # Select data from SQL tables - need to add the current year for unamended run and change from U to A for the amended run
+tm_data_raw_2026 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2026.tm_data_2026u")) %>% collect()
 tm_data_raw_2025 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2025.tm_data_2025a")) %>% collect()
 tm_data_raw_2024 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2024.tm_data_2024a")) %>% collect()
 tm_data_raw_2023 <- tbl(con, sql("select * from catalog_40_copper_ks5_statistics_restricted.tm_2024.tm_data_2023a")) %>% collect()
@@ -51,6 +52,7 @@ DBI::dbDisconnect(con)
 # add current year to the function call to produce the processed data - only needs updating for unamended runs as
 # the SQL update above deals with version
 
+processed_data_2026 <- TM_data_prod_func(tm_data_raw_2026, 2026)
 processed_data_2025 <- TM_data_prod_func(tm_data_raw_2025, 2025)
 processed_data_2024 <- TM_data_prod_func(tm_data_raw_2024, 2024)
 processed_data_2023 <- TM_data_prod_func(tm_data_raw_2023, 2023)
@@ -60,7 +62,7 @@ processed_data_2022 <- TM_data_prod_func(tm_data_raw_2022, 2022)
 # This needs updating to make sure it is the current year data as it is used to produce the ancillary data
 # should only need updating for unamended run as with the above
 
-current_year_data <- processed_data_2025
+current_year_data <- processed_data_2026
 
 
 # -----------------------------------------------------------------------------------------------------------------------------

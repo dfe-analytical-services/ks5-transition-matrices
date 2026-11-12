@@ -33,11 +33,7 @@ homepage_panel <- function() {
               actionLink("link_to_app_content_tab", "16 to 19 Transition Matrices tool")
             ),
             gov_text(
-              "A level and other 16 to 19 results data are now all available on the statistics platform, ",
-              actionLink(
-                "parent_publication",
-                "Explore Education Statistics (EES)"
-              )
+              "Further data can be found in the ", external_link(parent_publication, "16 to 19 performance"), " statistical release."
             )
           )
         ),
@@ -57,9 +53,7 @@ homepage_panel <- function() {
             ),
             gov_text("A graphical representaion of the percentage data can also be viewed when the 'Percentage Data' option has been selected,
               and an additional dropdown box is available to select the required KS4 prior attainment band."),
-            gov_text("All underlying data can be downloaded in csv format using the download buttons at the bottom of the TM tool page.
-              Smaller filtered tables, built within the dashboard, can also be downloaded in csv format using the
-              download button also at the bottom of the TM tool page.")
+            gov_text("All underlying data can be downloaded in csv format using the download buttons at the bottom of the TM tool page.")
           )
         )
       ),

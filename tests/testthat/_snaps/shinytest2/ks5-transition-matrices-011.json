@@ -1,6 +1,6 @@
 {
   "input": {
-    "ReportYr_select": "2025",
+    "ReportYr_select": "2026",
     "accessibility_statement": 1,
     "accessibility_to_dashboard": 0,
     "chart_band": "All",
@@ -153,7 +153,6 @@
     "link_to_app_content_tab": 0,
     "navlistPanel": "dashboard",
     "pages": "dashboard",
-    "parent_publication": 0,
     "qual_select": "VRQ Level 3",
     "size_select": "3.25",
     "subj_select": "Health Studies",
@@ -455,7 +454,7 @@
       ]
     },
     "percentage_chart": {
-      "src": "[image data hash: fbcaae01cfdbc681b48573111749897b]",
+      "src": "[image data hash: a1828054fc153ba1f757556f21919276]",
       "width": 811.328125,
       "height": 604.71875,
       "alt": "Plot object",
@@ -476,7 +475,7 @@
               "left": 0.4,
               "right": 5.6,
               "bottom": 0,
-              "top": 28.61,
+              "top": 28.83,
               "discrete_limits": {
                 "x": [
                   "D",

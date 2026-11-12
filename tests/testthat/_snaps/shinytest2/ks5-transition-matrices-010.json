@@ -1,6 +1,6 @@
 {
   "input": {
-    "ReportYr_select": "2025",
+    "ReportYr_select": "2026",
     "accessibility_statement": 1,
     "accessibility_to_dashboard": 0,
     "chart_band": "1-<2",
@@ -153,7 +153,6 @@
     "link_to_app_content_tab": 0,
     "navlistPanel": "dashboard",
     "pages": "dashboard",
-    "parent_publication": 0,
     "qual_select": "VRQ Level 3",
     "size_select": "3.25",
     "subj_select": "Health Studies",

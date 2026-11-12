@@ -18,10 +18,16 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
       is.na(SUBJ)
     ) %>%
     group_by(Subject) %>%
-    mutate(SUBJ = sample(100:900, 1))
+    mutate(
+      SUBJ = sample(100:900, 1),
+      total_students = as.integer(total_students)
+    )
 
   tm_data <- sql_data %>%
-    mutate(PRIOR_BAND = replace_na(PRIOR_BAND, "Unknown prior")) %>%
+    mutate(
+      PRIOR_BAND = replace_na(PRIOR_BAND, "Unknown prior"),
+      total_students = as.integer(total_students)
+    ) %>%
     filter(
       # !(is.na(PRIOR_BAND)),
       !(is.na(SUBJ))
@@ -60,7 +66,6 @@ TM_data_prod_func <- function(sql_data, ReportYear) {
     mutate(across(c(everything(), -total_students), ~ as.character(.))) %>%
     arrange(ROW_ID, .locale = "en") %>%
     pivot_wider(names_from = GRADE, values_from = total_students)
-
 
   student_percentages <- student_numbers %>%
     janitor::adorn_percentages() %>%

@@ -116,7 +116,7 @@ ui <- function(input, output, session) {
       ),
 
       # Beta banner -------------------------------------------------------------
-      shinyGovstyle::banner(
+      shinyGovstyle::phase_banner(
         "beta banner",
         "beta",
         paste0(
@@ -160,8 +160,8 @@ ui <- function(input, output, session) {
                 date_prepared = "17th August 2026",
                 date_reviewed = "17th August 2026",
                 issues_contact = "attainment.statistics@education.gov.uk",
-                publication_name = "A level and other 16 to 18 results",
-                publication_slug = "a-level-and-other-16-to-18-results",
+                publication_name = "16 to 19 performance",
+                publication_slug = "16-to-19-performance",
                 non_accessible_components = c(
                   "Some features are unavailable for keyboard only users.",
                   "Some navigation elements are not announced correctly by screen readers.",
@@ -210,7 +210,7 @@ ui <- function(input, output, session) {
                 team_email = "attainment.statistics@education.gov.uk",
                 repo_name = "https://github.com/dfe-analytical-services/ks5-transition-matrices/",
                 publication_name = parent_pub_name,
-                # publication_slug = "a-level-and-other-16-to-18-results",
+                publication_slug = "16-to-19-performance",
                 form_url = "https://forms.office.com/e/Sa4ULADzx4"
               )
             )

@@ -116,7 +116,7 @@ ui <- function(input, output, session) {
       ),
 
       # Beta banner -------------------------------------------------------------
-      shinyGovstyle::banner(
+      shinyGovstyle::phase_banner(
         "beta banner",
         "beta",
         paste0(
